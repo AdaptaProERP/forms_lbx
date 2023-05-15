@@ -1,0 +1,123 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :=Seleccionar {oDp:xDPSUCURSAL} (Activas)
+TABLE     :=DPSUCURSAL
+SELECT    :=SUC_CODIGO,SUC_DESCRI,SUC_FCHINI,SUC_FCHFIN
+WHERE     :=SUC_ACTIVO=1
+ORDER BY  :=SUC_CODIGO
+GROUP BY  :=
+WIDTH     :=614
+HEIGHT    :=349
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+
+STYLE     :=0
+
+COLORPANE1:=16775408
+COLORPANE2:=16771797
+
+FREEZE    :=1
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=RUN.BMP
+BTN01_ACTION :=SCRRUN("DPRUNSUC",oCursor:SUC_CODIGO)
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Seleccionar
+BTN01_MESSAGE:=Seleccionar Almacén
+BTN01_TYPE   :=OPEN
+
+
+// Buscar
+BTN05_BMP    :=xFIND.BMP
+BTN05_ACTION :=oDpLbx:Find()
+BTN05_WHEN   :=.T.
+BTN05_TOOLTIP:=Buscar Registro
+BTN05_MESSAGE:=Buscar Registro
+BTN05_TYPE   :=FIND
+
+BTN06_BMP    :=FILTRAR.BMP
+BTN06_ACTION :=oDpLbx:SetFilter()
+BTN06_WHEN   :=!oCursor:Eof()
+BTN06_TOOLTIP:=Filtrar Registros
+BTN06_MESSAGE:=Filtrar Registros
+BTN06_TYPE   :=FILTER
+
+
+// Ejecutar Query
+BTN07_BMP    :=QUERY.BMP
+BTN07_ACTION :=oDpLbx:Query()
+BTN07_WHEN   :=.T.
+BTN07_TOOLTIP:=Ejecutar Query de Búsqueda
+BTN07_MESSAGE:=Ejecutar Query de Búsqueda
+BTN07_TYPE   :=QUERY
+
+// Ejecutar Query
+BTN08_BMP    :=xPRINT.BMP
+BTN08_ACTION :=REPORTE("DPSUCURSAL")
+BTN08_WHEN   :=!oCursor:Eof()
+BTN08_TOOLTIP:=Ejecutar de Reporte
+BTN08_MESSAGE:=Ejecutar de Reporte
+BTN08_TYPE   :=QUERY
+
+// Acceso
+BTN10_BMP    :=MENU.BMP
+BTN10_ACTION :=EJECUTAR("DPSUCMNU",NIL,oCursor:SUC_CODIGO)
+BTN10_WHEN   :=ISTABMOD("DPSUCURSAL") .AND. oDp:nVersion>=6
+BTN10_TOOLTIP:=Menú de Opciones
+BTN10_MESSAGE:=Menú de Opciones
+BTN10_TYPE   :=OTHER  
+
+
+// Ir Final final del Archivo
+BTN11_BMP    :=xTOP.BMP
+BTN11_ACTION :=oBrw:GoTop()
+BTN11_WHEN   :=!oCursor:Eof()
+BTN11_TOOLTIP:=Primer Registro
+BTN11_TYPE   :=TOP
+
+// Avance de Pagina
+BTN12_BMP    :=xSIG.BMP
+BTN12_ACTION :=oBrw:PageDown()
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Avance de Página
+BTN12_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN13_BMP    :=xANT.BMP
+BTN13_ACTION :=oBrw:PageUp()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Avance de Página
+BTN13_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN14_BMP    :=xFIN.BMP
+BTN14_ACTION :=oBrw:GoBottom()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Ultimo Registro
+BTN14_TYPE   :=BOTTOM
+
+//
+BTN15_BMP    :=xSALIR.BMP
+BTN15_ACTION :=oWnd:End()
+BTN15_WHEN   :=.T.
+BTN15_TOOLTIP:=Cerrar
+BTN15_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Sucursal
+COL02_HEADER:=Descripción
+COL03_HEADER:=Fecha;Inicio
+COL04_HEADER:=Fecha;Cierre

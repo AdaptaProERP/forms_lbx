@@ -1,0 +1,162 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :={oDp:DPCODINTEGRA}
+TABLE     :=DPCODINTEGRA
+SELECT    :=CIN_CODIGO,CIN_DESCRI,CIC_CUENTA,CTA_DESCRI,CIN_ABREVI,CIN_ASIABR,CIN_ACTIVO
+INNER     :="LEFT JOIN DPCODINTEGRA_CTA ON CIC_CODIGO=CIN_CODIGO LEFT JOIN DPCTA ON CTA_CODIGO=CIC_CUENTA AND CIC_CTAMOD"+GetWhere("=",oDp:cCtaMod)
+WHERE     :=
+ORDER BY  :=CIN_CODIGO
+GROUP BY  :=CIN_CODIGO
+WIDTH :=939
+HEIGHT:=740
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+LFULLHIGHT:=.T.
+
+STYLE     :=0
+COLORPANE1:=16774636
+COLORPANE2:=16770764
+FREEZE    :=0
+
+
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPCODINTEGRA",1,IIF(oCursor:Eof(),NIL,oCursor:CIN_CODIGO))
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=SCRRUN("DPCODINTEGRACON",NIL,oCursor:CIN_CODIGO)
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPCODINTEGRA",3,oCursor:CIN_CODIGO)
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+
+BTN05_BMP    :=FILTRAR.BMP
+BTN05_ACTION :=oDpLbx:SetFilter()
+BTN05_WHEN   :=!oCursor:Eof()
+BTN05_TOOLTIP:=Filtrar Registros
+BTN05_MESSAGE:=Filtrar Registros
+BTN05_TYPE   :=FILTER
+
+
+// Buscar
+BTN07_BMP    :=xFIND.BMP
+BTN07_ACTION :=oDpLbx:Find()
+BTN07_WHEN   :=.T.
+BTN07_TOOLTIP:=Buscar Registro
+BTN07_MESSAGE:=Buscar Registro
+BTN07_TYPE   :=FIND
+
+// Ejecutar Query
+BTN08_BMP    :=QUERY.BMP
+BTN08_ACTION :=oDpLbx:Query()
+BTN08_WHEN   :=.T.
+BTN08_TOOLTIP:=Ejecutar Query de Búsqueda
+BTN08_MESSAGE:=Ejecutar Query de Búsqueda
+BTN08_TYPE   :=QUERY
+
+// Ejecutar Query
+BTN09_BMP    :=xPRINT.BMP
+BTN09_ACTION :=REPORTE("DPCODINTEGRA")
+BTN09_WHEN   :=!oCursor:Eof()
+BTN09_TOOLTIP:=Ejecutar de Reporte
+BTN09_MESSAGE:=Ejecutar de Reporte
+BTN09_TYPE   :=QUERY
+
+// Excel
+BTN10_BMP    :=EXCEL.BMP
+BTN10_ACTION :=EJECUTAR("LBXTOEXCEL",oDpLbx,oDp:cEmpresa,oDpLbx:cTitle)
+BTN10_WHEN   :=!oCursor:Eof()
+BTN10_TOOLTIP:=Exporar hacia EXCEL
+BTN10_MESSAGE:=Exporar hacia EXCEL
+BTN10_TYPE   :=OTHER
+
+
+// Ir Final final del Archivo
+BTN12_BMP    :=xTOP.BMP
+BTN12_ACTION :=oBrw:GoTop()
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Primer Registro
+BTN12_TYPE   :=TOP
+
+// Avance de Pagina
+BTN13_BMP    :=xSIG.BMP
+BTN13_ACTION :=oBrw:PageDown()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Avance de Página
+BTN13_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN14_BMP    :=xANT.BMP
+BTN14_ACTION :=oBrw:PageUp()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Avance de Página
+BTN14_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN15_BMP    :=xFIN.BMP
+BTN15_ACTION :=oBrw:GoBottom()
+BTN15_WHEN   :=!oCursor:Eof()
+BTN15_TOOLTIP:=Ultimo Registro
+BTN15_TYPE   :=BOTTOM
+
+//
+BTN16_BMP    :=xSALIR.BMP
+BTN16_ACTION :=oWnd:End()
+BTN16_WHEN   :=.T.
+BTN16_TOOLTIP:=Cerrar
+BTN16_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Código;Integración
+COL02_HEADER:=Descripción
+COL03_HEADER:=Cuenta;Contable
+COL04_HEADER:=Nombre de la Cuenta
+COL04_WIDTH :=210
+
+COL05_HEADER:=Abreviatura;para el Asiento Contable
+COL05_WIDTH :=200
+
+COL06_HEADER:=Asiento;+Abrv.
+COL06_WIDTH :=50
+COL06_VIEW  :=4
+
+COL07_HEADER:=Reg.;Activo
+COL07_WIDTH :=50
+COL07_VIEW  :=4

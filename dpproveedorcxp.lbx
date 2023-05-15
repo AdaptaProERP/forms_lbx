@@ -1,0 +1,160 @@
+//
+// TABLAS DE DATAOS  HAVING SALDO<>0
+//
+TITLE     :={oDp:DPPROVEEDOR} con Saldos por Pagar
+TABLE     :=DPPROVEEDOR
+SELECT    :=PRO_CODIGO,PRO_NOMBRE,PRO_RIF,SUM(CXP_SALDO) AS SALDO,PRO_TIPO,PRO_CODMON,(LEFT(PRO_ENOTRA,1)="S") AS LOGICO
+INNER     :=INNER JOIN VIEW_CXPPROXTIPDOC ON PRO_CODIGO=CXP_CODIGO
+WHERE     :="CXP_CODSUC"+GetWhere("=",oDp:cSucursal)
+GROUP BY  :=PRO_CODIGO,PRO_NOMBRE,PRO_RIF
+ORDER BY  :=PRO_CODIGO
+WIDTH :=780
+HEIGHT:=555
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+LFULLHIGHT:=.T.
+
+//STYLE     :=1
+//COLORPANE1:=0
+//COLORPANE2:=0
+FREEZE    :=0
+
+COLORPANE1:=16775408
+COLORPANE2:=16771797
+STYLE     :=0
+
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPPROVEEDOR",1,IIF(oCursor:Eof(),NIL,oCursor:PRO_CODIGO))
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=SCRRUN("DPPROVEEDOR",2,IIF(oCursor:Eof(),NIL,oCursor:PRO_CODIGO))
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPPROVEEDOR",3,oCursor:PRO_CODIGO)
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=.F.
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+// Buscar
+BTN06_BMP    :=xFIND.BMP
+BTN06_ACTION :=oDpLbx:Find()
+BTN06_WHEN   :=.T.
+BTN06_TOOLTIP:=Buscar Registro
+BTN06_MESSAGE:=Buscar Registro
+BTN06_TYPE   :=FIND
+
+
+// Buscar
+BTN07_BMP    :=FILTRAR.BMP
+BTN07_ACTION :=oDpLbx:SetFilter()
+BTN07_WHEN   :=!oCursor:Eof()
+BTN07_TOOLTIP:=Filtrar Registros
+BTN07_MESSAGE:=Filtrar Registros
+BTN07_TYPE   :=OTHER
+
+
+// Ejecutar Query
+BTN08_BMP    :=QUERY.BMP
+BTN08_ACTION :=oDpLbx:Query()
+BTN08_WHEN   :=.T.
+BTN08_TOOLTIP:=Ejecutar Query de Búsqueda
+BTN08_MESSAGE:=Ejecutar Query de Búsqueda
+BTN08_TYPE   :=QUERY
+
+// Ejecutar Query
+BTN09_BMP    :=xPRINT.BMP
+BTN09_ACTION :=REPORTE("DPPROVEEDOR")
+BTN09_WHEN   :=!oCursor:Eof()
+BTN09_TOOLTIP:=Ejecutar de Reporte
+BTN09_MESSAGE:=Ejecutar de Reporte
+BTN09_TYPE   :=QUERY
+
+// Ir Final final del Archivo
+BTN11_BMP    :=xTOP.BMP
+BTN11_ACTION :=oBrw:GoTop()
+BTN11_WHEN   :=!oCursor:Eof()
+BTN11_TOOLTIP:=Primer Registro
+BTN11_TYPE   :=TOP
+
+// Avance de Pagina
+BTN12_BMP    :=xSIG.BMP
+BTN12_ACTION :=oBrw:PageDown()
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Avance de Página
+BTN12_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN13_BMP    :=xANT.BMP
+BTN13_ACTION :=oBrw:PageUp()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Avance de Página
+BTN13_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN14_BMP    :=xFIN.BMP
+BTN14_ACTION :=oBrw:GoBottom()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Ultimo Registro
+BTN14_TYPE   :=BOTTOM
+
+//
+BTN15_BMP    :=xSALIR.BMP
+BTN15_ACTION :=oWnd:End()
+BTN15_WHEN   :=.T.
+BTN15_TOOLTIP:=Cerrar
+BTN15_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER :=Código
+COL02_HEADER :=Nombre
+COL02_WIDTH  :=410
+COL03_HEADER :=RIF
+COL03_WIDTH  :=095
+COL04_HEADER :=Saldo;Por Pagar
+COL04_PICTURE:=999,999,999,999.99
+COL04_WIDTH  :=130
+
+COL05_HEADER :=Tipo
+
+COL06_HEADER :=Código;Moneda
+
+COL07_WIDTH  :=40
+
+COL07_HEADER :=CxP;Divisa
+COL07_VIEW:=4
+
+

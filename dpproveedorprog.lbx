@@ -1,0 +1,173 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :={oDp:DPPROVEEDORPROG}
+TABLE     :=DPPROVEEDORPROG
+SELECT    :=PGC_NUMERO,PGC_DESDE ,PGC_HASTA ,PGC_REFERE , PGC_PERIOD , PGC_DIAS , PGC_TIPDOC, TDC_DESCRI ,PGC_NUMDOC,PGC_CODSUC,PGC_TIPORG,PGC_DOCORG
+INNER     :=LEFT JOIN DPTIPDOCPRO ON PGC_TIPDOC=TDC_TIPO
+WHERE     :=
+ORDER BY  :=PGC_NUMERO
+GROUP BY  :=
+WIDTH :=1138
+HEIGHT:=541
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+LFULLHIGHT:=.T.
+LHSCROLL  :=.T.
+
+STYLE     :=0
+COLORPANE1:=16775408
+COLORPANE2:=16771538
+FREEZE    :=0
+
+
+// Tama?o de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPPROVEEDORPROG",1,oCursor:PGC_NUMERO,oDpLbx:uValue1)
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=SCRRUN("DPPROVEEDORPROG",2,oCursor:PGC_NUMERO,oDpLbx:uValue1)
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPPROVEEDORPROG",3,oCursor:PGC_NUMERO,oDpLbx:uValue1)
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+
+// Eliminar
+BTN05_BMP    :=RUN.BMP
+BTN05_ACTION :=EJECUTAR("BRPLAFINXREG",NIL,NIL,oDp:nIndefinida,NIL,NIL,NIL,oDpLbx:uValue1,oCursor:PGC_NUMERO,oCursor:PGC_REFERE)
+BTN05_WHEN   :=!oCursor:Eof()
+BTN05_TOOLTIP:=Ejecutar Documentos
+BTN05_MESSAGE:=Ejecutar Documentos
+BTN05_TYPE   :=RUN
+
+// Formulario
+BTN06_BMP    :=FORM.BMP
+// BTN06_ACTION :=EJECUTAR("VERDOCPRO",oCursor:PGC_CODSUC,oCursor:PGC_TIPDOC,oDpLbx:uValue1,oCursor:PGC_NUMDOC)
+BTN06_ACTION :=EJECUTAR("VERDOCPRO",oCursor:PGC_CODSUC,oCursor:PGC_TIPORG,oDpLbx:uValue1,oCursor:PGC_DOCORG)
+BTN06_WHEN   :=!oCursor:Eof()
+BTN06_TOOLTIP:=Documento de Origen
+BTN06_MESSAGE:=Documento de Origen
+BTN06_TYPE   :=OTHER
+
+// Buscar
+BTN07_BMP    :=xFIND.BMP
+BTN07_ACTION :=oDpLbx:Find()
+BTN07_WHEN   :=.T.
+BTN07_TOOLTIP:=Buscar Registro
+BTN07_MESSAGE:=Buscar Registro
+BTN07_TYPE   :=FIND
+
+// Ejecutar Query
+BTN08_BMP    :=QUERY.BMP
+BTN08_ACTION :=oDpLbx:Query()
+BTN08_WHEN   :=.T.
+BTN08_TOOLTIP:=Ejecutar Query de B?squeda
+BTN08_MESSAGE:=Ejecutar Query de B?squeda
+BTN08_TYPE   :=QUERY
+
+// Ejecutar Query
+BTN09_BMP    :=xPRINT.BMP
+BTN09_ACTION :=REPORTE("DPPROVEEDORPROG")
+BTN09_WHEN   :=!oCursor:Eof()
+BTN09_TOOLTIP:=Ejecutar de Reporte
+BTN09_MESSAGE:=Ejecutar de Reporte
+BTN09_TYPE   :=QUERY
+
+// Ir Final final del Archivo
+BTN12_BMP    :=xTOP.BMP
+BTN12_ACTION :=oBrw:GoTop()
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Primer Registro
+BTN12_TYPE   :=TOP
+
+// Avance de Pagina
+BTN13_BMP    :=xSIG.BMP
+BTN13_ACTION :=oBrw:PageDown()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Avance de P?gina
+BTN13_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN14_BMP    :=xANT.BMP
+BTN14_ACTION :=oBrw:PageUp()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Avance de P?gina
+BTN14_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN15_BMP    :=xFIN.BMP
+BTN15_ACTION :=oBrw:GoBottom()
+BTN15_WHEN   :=!oCursor:Eof()
+BTN15_TOOLTIP:=Ultimo Registro
+BTN15_TYPE   :=BOTTOM
+
+//
+BTN16_BMP    :=xSALIR.BMP
+BTN16_ACTION :=oWnd:End()
+BTN16_WHEN   :=.T.
+BTN16_TOOLTIP:=Cerrar
+BTN16_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Número
+COL02_HEADER:=Desde
+COL03_HEADER:=Hasta
+COL04_HEADER:=Referencia
+COL05_HEADER:=Periodo
+COL05_DATA  :=oCursor:PGC_PERIOD 
+COL05_WIDTH :=140
+COL06_HEADER:=Días
+COL07_HEADER:=Tipo
+COL07_WIDTH :=40
+COL08_HEADER:=Descripción
+COL08_WIDTH :=260
+COL09_HEADER:=Número;Documento
+COL09_WIDTH :=80
+
+COL10_HEADER:=Cod.;Suc
+COL10_WIDTH :=60
+
+COL11_HEADER:=Tipo;Org.
+COL11_WIDTH :=60
+
+COL12_HEADER:=Número;Org.
+COL12_WIDTH :=60
+
+
+
+

@@ -1,0 +1,228 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :=Prestadores de Servicios
+TABLE     :=DPPROVEEDOR
+SELECT    :=PRO_CODIGO,PRO_NOMBRE,PRO_RIF,PRO_TIPPER,PRO_CONESP,PRO_RETIVA,PRO_RESIDE,PRO_CREFIS,PRO_CODRET,PRO_PORRET,SUM(IF(PGC_CODIGO=PRO_CODIGO,1,0)) AS CANT
+INNER     :=LEFT JOIN dpproveedorprog ON PRO_CODIGO=PGC_CODIGO
+WHERE     :=PRO_TIPO="Prestador de Servicios" 
+ORDER BY  :=PRO_CODIGO
+GROUP BY  :=PRO_CODIGO
+WIDTH :=980
+HEIGHT:=570
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+INIGET    :=EJECUTAR("LBXINIGET","DPPROVEEDOR","PRO_NOMBRE","PRO_SITUAC='A' ")
+
+
+//STYLE     :=1
+//COLORPANE1:=0
+//COLORPANE2:=0
+FREEZE    :=1
+COLFIND   :=2
+
+COLORPANE1:=16775666
+COLORPANE2:=16771022
+STYLE     :=0
+
+
+// Tama?o de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPPROVEEDOR",1,IIF(oCursor:Eof(),NIL,oCursor:PRO_CODIGO),NIL,oDpLbx:cTitle)
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=SCRRUN("DPPROVEEDOR",2,IIF(oCursor:Eof(),NIL,oCursor:PRO_CODIGO),NIL,oDpLbx:cTitle)
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPPROVEEDOR",3,oCursor:PRO_CODIGO,NIL,oDpLbx:cTitle)
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+
+// Eliminar
+BTN05_BMP    :=BUG.BMP
+BTN05_ACTION :=EJECUTAR("BRTIPPROVEE",NIL,NIL,oCursor:PRO_CODIGO)
+BTN05_WHEN   :=!oCursor:Eof()
+BTN05_TOOLTIP:=Cambiar Tipo
+BTN05_MESSAGE:=Cambiar Tipo
+BTN05_TYPE   :=OTHER
+
+
+// Eliminar
+BTN06_BMP    :=BUG.BMP
+BTN06_ACTION :=EJECUTAR("BRTIPPROVEE",NIL,NIL,oCursor:PRO_CODIGO)
+BTN06_WHEN   :=!oCursor:Eof()
+BTN06_TOOLTIP:=Cambiar Tipo
+BTN06_MESSAGE:=Cambiar Tipo
+BTN06_TYPE   :=OTHER
+
+// PROGRAMAR
+BTN07_BMP    :=PROVEEDORPROG.BMP
+BTN07_ACTION :=EJECUTAR("DPPROVPROGLBX" ,NIL,oCursor:PRO_CODIGO)
+BTN07_WHEN   :=!oCursor:Eof()
+BTN07_TOOLTIP:=Registro de Planificación
+BTN07_MESSAGE:=Registro de Planificación
+BTN07_TYPE   :=OTHER
+
+// Antes de Borrar
+[BOTONES]
+BTN08_BMP    :=MENU.BMP
+BTN08_ACTION :=SCRRUN("DPPROVEEDORMNU",NIL,oCursor:PRO_CODIGO)
+BTN08_WHEN   :=
+BTN08_TOOLTIP:=Menu
+BTN08_MESSAGE:=Menu
+BTN08_TYPE   :=MNU
+
+
+// Buscar
+BTN09_BMP    :=xFIND.BMP
+BTN09_ACTION :=oDpLbx:Find()
+BTN09_WHEN   :=.T.
+BTN09_TOOLTIP:=Buscar Registro
+BTN09_MESSAGE:=Buscar Registro
+BTN09_TYPE   :=FIND
+
+// Buscar
+BTN10_BMP    :=FILTRAR.BMP
+BTN10_ACTION :=oDpLbx:SetFilter()
+BTN10_WHEN   :=!oCursor:Eof()
+BTN10_TOOLTIP:=Filtrar Registros
+BTN10_MESSAGE:=Filtrar Registros
+BTN10_TYPE   :=FILTER
+
+
+// Ejecutar Query
+BTN11_BMP    :=QUERY.BMP
+BTN11_ACTION :=oDpLbx:Query()
+BTN11_WHEN   :=.T.
+BTN11_TOOLTIP:=Ejecutar Query de B?squeda
+BTN11_MESSAGE:=Ejecutar Query de B?squeda
+BTN11_TYPE   :=QUERY
+
+// Ejecutar Query
+BTN12_BMP    :=xPRINT.BMP
+BTN12_ACTION :=REPORTE("DPPROVEEDOR")
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Ejecutar de Reporte
+BTN12_MESSAGE:=Ejecutar de Reporte
+BTN12_TYPE   :=QUERY
+
+//filtro
+BTN13_BMP    :=actividadesdelexpediente2.bmp
+BTN13_ACTION :=EJECUTAR("BRPROXCLAE",oDpLbx)
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Filtrar Registros por Actividad Econ?mica 
+BTN13_MESSAGE:=Filtrar Registros por Actividad Econ?mica 
+BTN13_TYPE   :=OTHER
+
+//filtro
+BTN14_BMP    :=clasificaproveedor2.bmp
+BTN14_ACTION :=EJECUTAR("BRPROXCLA",oDpLbx)
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Filtrar Registros por Clasificaci?n 
+BTN14_MESSAGE:=Filtrar Registros por Clasificaci?n 
+BTN14_TYPE   :=OTHER
+
+
+// Ejecutar Query
+BTN15_BMP    :=TIPO_PROVEEDOR.BMP
+BTN15_ACTION :=EJECUTAR("BRTIPPROVEE",NIL,NIL,oCursor:PRO_CODIGO)
+BTN15_WHEN   :=!oCursor:Eof()
+BTN15_TOOLTIP:=Asignar Tipo de Proveedor
+BTN15_MESSAGE:=Asignar Tipo de Proveedor
+BTN15_TYPE   :=OTHER
+
+
+
+
+// Ir Final final del Archivo
+BTN16_BMP    :=xTOP.BMP
+BTN16_ACTION :=oBrw:GoTop()
+BTN16_WHEN   :=!oCursor:Eof()
+BTN16_TOOLTIP:=Primer Registro
+BTN16_TYPE   :=TOP
+
+// Avance de Pagina
+BTN17_BMP    :=xSIG.BMP
+BTN17_ACTION :=oBrw:PageDown()
+BTN17_WHEN   :=!oCursor:Eof()
+BTN17_TOOLTIP:=Avance de P?gina
+BTN17_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN18_BMP    :=xANT.BMP
+BTN18_ACTION :=oBrw:PageUp()
+BTN18_WHEN   :=!oCursor:Eof()
+BTN18_TOOLTIP:=Avance de P?gina
+BTN18_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN19_BMP    :=xFIN.BMP
+BTN19_ACTION :=oBrw:GoBottom()
+BTN19_WHEN   :=!oCursor:Eof()
+BTN19_TOOLTIP:=Ultimo Registro
+BTN19_TYPE   :=BOTTOM
+
+//
+BTN20_BMP    :=xSALIR.BMP
+BTN20_ACTION :=oWnd:End()
+BTN20_WHEN   :=.T.
+BTN20_TOOLTIP:=Cerrar
+BTN20_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Código
+COL02_HEADER:=Nombre
+COL02_WIDTH :=330
+COL03_HEADER:=RIF
+COL04_HEADER:=Persona
+COL04_WIDTH :=80
+COL05_HEADER:=Especial
+COL05_WIDTH :=60
+COL06_HEADER:=%Ret.;IVA
+COL06_WIDTH :=50
+COL07_HEADER:=Reside
+COL07_WIDTH :=48
+COL08_HEADER:=Cr?d.;Fiscal
+COL08_WIDTH :=45
+COL09_HEADER:=Cod.;ISLR
+COL09_WIDTH :=45
+COL10_HEADER:=%;ISLR
+COL10_WIDTH :=35
+COL11_HEADER:=Reg.;Planf
+COL11_WIDTH :=35
+
+

@@ -1,0 +1,187 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :={oDp:DPCORREOS+ "  ("+LSTR(MYCOUNT("DPCORREOS"))+") Registros "} 
+TABLE     :=DPCORREOS
+SELECT    :=EML_EMAIL,EML_EMPRES,EML_PERSON,EML_RIF,EML_CODACT,EML_CODCLA,EML_LOTE,EML_FCHCRE,EML_USUARI,EML_ACTIVO
+WHERE     :=
+ORDER BY  :=EML_EMAIL 
+GROUP BY  :=
+WIDTH     :=833
+HEIGHT    :=320
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+HSCROLL   :=.T.
+STYLE     :=0
+
+COLORPANE1:=16775408
+COLORPANE2:=16771797
+
+FREEZE    :=0
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPCORREOS",1,IIF(oCursor:Eof(),NIL,oCursor:EML_EMAIL ))
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=SCRRUN("DPCORREOS",2,IIF(oCursor:Eof(),NIL,oCursor:EML_EMAIL ))
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPCORREOS",3,oCursor:EML_EMAIL )
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+
+// Eliminar
+BTN05_BMP    :=CALENDAR.BMP
+BTN05_ACTION :=EJECUTAR("BRCORREOSXFCH")
+BTN05_WHEN   :=!oCursor:Eof()
+BTN05_TOOLTIP:=Resumen de Registros por Fechas
+BTN05_MESSAGE:=Resumen de Registros por Fechas
+BTN05_TYPE   :=OTHER
+
+BTN06_BMP    :=FILTRAR.BMP
+BTN06_ACTION :=EJECUTAR("LBXSETFILTER",oDpLbx)
+BTN06_WHEN   :=!oCursor:Eof()
+BTN06_TOOLTIP:=Filtrar Registros
+BTN06_MESSAGE:=Filtrar Registros
+BTN06_TYPE   :=OTHER
+
+// Eliminar
+BTN07_BMP    :=IMPORTAR.BMP
+BTN07_ACTION :=EJECUTAR("DPIMPEMAIL")
+BTN07_TOOLTIP:=Importar Cuentas desde Archivos TXT
+BTN07_MESSAGE:=Importar Cuentas desde Archivos TXT
+BTN07_TYPE   :=OTHER
+
+// Eliminar
+BTN08_BMP    :=IMPORTS.BMP
+BTN08_ACTION :=EJECUTAR("LINKEDIN_CSV")
+BTN08_TOOLTIP:=Importar Cuentas desde Linked-In CSV
+BTN08_MESSAGE:=Importar Cuentas desde Linked-In CSV
+BTN08_TYPE   :=OTHER
+
+// Eliminar
+BTN09_BMP    :=EXPORTS.BMP
+BTN09_ACTION :=EJECUTAR("DPEXPEMAIL")
+BTN09_TOOLTIP:=Exportar Hacia TXT
+BTN09_MESSAGE:=Exportar Hacia TXT
+BTN09_TYPE   :=OTHER
+
+// Buscar
+BTN10_BMP    :=xFIND.BMP
+BTN10_ACTION :=oDpLbx:Find()
+BTN10_WHEN   :=.T.
+BTN10_TOOLTIP:=Buscar Registro
+BTN10_MESSAGE:=Buscar Registro
+BTN10_TYPE   :=FIND
+
+// Ejecutar Query
+BTN11_BMP    :=QUERY.BMP
+BTN11_ACTION :=oDpLbx:Query()
+BTN11_WHEN   :=.T.
+BTN11_TOOLTIP:=Ejecutar Query de Búsqueda
+BTN11_MESSAGE:=Ejecutar Query de Búsqueda
+BTN11_TYPE   :=QUERY
+
+
+//filtro
+BTN12_BMP    :=HTML.BMP
+BTN12_ACTION :=EJECUTAR("LBXTOHTML",oDpLbx)
+BTN12_WHEN   :=!oCursor:Eof() .AND. oDp:nVersion>=5.1
+BTN12_TOOLTIP:=Exportar HTML
+BTN12_MESSAGE:=Exportar HTML
+BTN12_TYPE   :=HTML
+
+// Ejecutar Query
+BTN13_BMP    :=EMAIL.BMP
+BTN13_ACTION :=EJECUTAR("BLAT",NIL,NIL,NIL,NIL,NIL,NIL,NIL,"DPCORREOS")
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Ejecutar de Reporte
+BTN13_MESSAGE:=Ejecutar de Reporte
+BTN13_TYPE   :=OTHER
+
+
+// Ir Final final del Archivo
+BTN15_BMP    :=xTOP.BMP
+BTN15_ACTION :=oBrw:GoTop()
+BTN15_WHEN   :=!oCursor:Eof()
+BTN15_TOOLTIP:=Primer Registro
+BTN15_TYPE   :=TOP
+
+// Avance de Pagina
+BTN16_BMP    :=xSIG.BMP
+BTN16_ACTION :=oBrw:PageDown()
+BTN16_WHEN   :=!oCursor:Eof()
+BTN16_TOOLTIP:=Avance de Página
+BTN16_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN17_BMP    :=xANT.BMP
+BTN17_ACTION :=oBrw:PageUp()
+BTN17_WHEN   :=!oCursor:Eof()
+BTN17_TOOLTIP:=Avance de Página
+BTN17_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN18_BMP    :=xFIN.BMP
+BTN18_ACTION :=oBrw:GoBottom()
+BTN18_WHEN   :=!oCursor:Eof()
+BTN18_TOOLTIP:=Ultimo Registro
+BTN18_TYPE   :=BOTTOM
+
+//
+BTN19_BMP    :=xSALIR.BMP
+BTN19_ACTION :=oWnd:End()
+BTN19_WHEN   :=.T.
+BTN19_TOOLTIP:=Cerrar
+BTN19_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Cuenta de Correo
+COL02_HEADER:=Nombre de la Empresa
+COL02_WIDTH :=200
+COL03_HEADER:=Persona;Contacto
+COL03_WIDTH :=200
+
+COL04_HEADER:=Cargo
+COL05_HEADER:=Actividad
+COL06_HEADER:=Clasificación
+COL07_HEADER:=Lote
+COL08_HEADER:=Fecha;Registro
+COL09_HEADER:=Usuario
+COL10_HEADER:=Activo
+COL10_VIEW:=4

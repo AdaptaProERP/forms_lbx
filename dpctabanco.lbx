@@ -1,0 +1,188 @@
+//
+// TABLAS DE DATOS
+//
+TITLE     :={oDp:DPCTABANCO}
+TABLE     :=DPCTABANCO
+SELECT    :=DPCTABANCO.BCO_CODIGO, DPBANCOS.BAN_NOMBRE, DPCTABANCO.BCO_CTABAN,BCO_TIPCTA, DPCTABANCO.BCO_CODMON,MON_DESCRI,BCO_IDB,IF(BCO_IDB,MON_PORITF,0) AS MON_PORITF,CIC_CUENTA,BCO_FCHCON,IF(BAN_DEFXLS<>'',1,2) AS LOGICO,BCO_CONDIG,BCO_ACTIVA
+INNER     :="INNER JOIN DPBANCOS ON DPBANCOS.BAN_CODIGO = DPCTABANCO.BCO_CODIGO LEFT JOIN DPCTABANCO_CTA ON CIC_CODIGO=DPCTABANCO.BCO_CODIGO AND CIC_COD2=DPCTABANCO.BCO_CTABAN AND CIC_CTAMOD"+GetWhere("=",oDp:cCtaMod)
+INNER2    :=LEFT JOIN DPTABMON ON BCO_CODMON=MON_CODIGO
+WHERE     :="(BCO_CODSUC"+GetWhere("=",oDp:cSucursal)+ " OR BCO_FILSUC=0)"
+ORDER BY  :=BCO_CODIGO,BCO_CTABAN
+GROUP BY  :=DPCTABANCO.BCO_CODIGO,DPCTABANCO.BCO_CTABAN
+
+WIDTH :=885
+HEIGHT:=320
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+
+STYLE     :=0
+COLORPANE1:=16775408
+COLORPANE2:=16771797
+FREEZE    :=0
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Incluir
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPCTABANCO",1,oCursor:BCO_CODIGO,oCursor:BCO_CTABAN)
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=EJECUTAR("DPCTABANCOCON",NIL,oCursor:BCO_CTABAN,oCursor:BAN_NOMBRE,oCursor:BCO_CODIGO )
+BTN02_WHEN   :=!oCursor:Eof() .AND. oDp:cType="SGE"
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPCTABANCO",3,oCursor:BCO_CODIGO,oCursor:BCO_CTABAN)
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+// Buscar
+BTN05_BMP    :=xFIND.BMP
+BTN05_ACTION :=oDpLbx:Find()
+BTN05_WHEN   :=.T.
+BTN05_TOOLTIP:=Buscar Registro
+BTN05_MESSAGE:=Buscar Registro
+BTN05_TYPE   :=FIND
+
+// Menú de Opciones
+BTN06_BMP    :=MENU.bmp
+BTN06_ACTION :=EJECUTAR("DPCTABANCOMNU",oCursor:BCO_CODIGO, oCursor:BCO_CTABAN,oCursor:BAN_NOMBRE)
+BTN06_WHEN   :=!oCursor:Eof() .AND. oDp:cType="SGE"
+
+BTN06_TOOLTIP:=Menú de Opciones
+BTN06_MESSAGE:=Menú de Opciones
+BTN06_TYPE   :=MENU
+
+// Ejecutar Query
+BTN07_BMP    :=QUERY.BMP
+BTN07_ACTION :=oDpLbx:Query()
+BTN07_WHEN   :=.T.
+BTN07_TOOLTIP:=Ejecutar Query de Búsqueda
+BTN07_MESSAGE:=Ejecutar Query de Búsqueda
+BTN07_TYPE   :=QUERY
+
+// Ejecutar Query
+BTN08_BMP    :=xPRINT.BMP
+BTN08_ACTION :=REPORTE("DPCTABANCO")
+BTN08_WHEN   :=!oCursor:Eof()
+BTN08_TOOLTIP:=Ejecutar Reporte(Cuentas Bancarias)
+BTN08_MESSAGE:=Ejecutar Reporte(Cuentas Bancarias)
+BTN08_TYPE   :=PRINT
+
+// Ejecutar Query
+//BTN09_BMP    :=xPRINT.BMP
+//BTN09_ACTION :=EJECUTAR("DPPOSBANCARIOCT",oCursor:BCO_CODIGO,oCursor:BCO_CTABAN)
+//BTN09_WHEN   :=!oCursor:Eof()
+//BTN09_TOOLTIP:=Punto de Venta por Cuenta Bancaria
+
+//BTN09_MESSAGE:=Punto de Venta por Cuenta Bancaria
+//BTN09_TYPE   :=QUERY
+
+//filtro
+BTN10_BMP    :=FILTRAR.BMP
+BTN10_ACTION :=EJECUTAR("LBXSETFILTER",oDpLbx)
+BTN10_WHEN   :=!oCursor:Eof()
+BTN10_TOOLTIP:=Filtrar Registros
+BTN10_MESSAGE:=Filtrar Registros
+BTN10_TYPE   :=OTHER
+
+
+// Ir al Primer Registro
+BTN11_BMP    :=xTOP.BMP
+BTN11_ACTION :=oBrw:GoTop()
+BTN11_WHEN   :=!oCursor:Eof()
+BTN11_TOOLTIP:=Primer Registro
+BTN11_TYPE   :=TOP
+
+// Registro Siguiente
+BTN12_BMP    :=xANT.BMP
+BTN12_ACTION :=oBrw:PageUp()
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Registro Anterior
+BTN12_TYPE   :=REWIND
+
+// Registro Anterior
+BTN13_BMP    :=xSIG.BMP
+BTN13_ACTION :=oBrw:PageDown()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Registro Anterior
+BTN13_TYPE   :=FORWARD
+
+// Ir al Ultimo Registro
+BTN14_BMP    :=xFIN.BMP
+BTN14_ACTION :=oBrw:GoBottom()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Ultimo Registro
+BTN14_TYPE   :=BOTTOM
+
+// Salir
+BTN15_BMP    :=xSALIR.BMP
+BTN15_ACTION :=oWnd:End()
+BTN15_WHEN   :=.T.
+BTN15_TOOLTIP:=Cerrar
+BTN15_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+[COLUMNAS]
+COL01_HEADER:=Código
+COL02_HEADER:=Nombre del Banco
+COL03_HEADER:=Cuenta;Bancaria
+COL04_HEADER:=Tipo;Cuenta
+
+COL05_HEADER:=Moneda
+COL06_HEADER:=Descripción;Moneda
+COL07_HEADER:=Aplica;IGTF
+COL07_WIDTH :=60
+
+COL07_VIEW  :=4
+
+
+COL08_HEADER:=%;IGTF
+
+;Moneda
+
+COL09_HEADER:=Cuenta;Contable
+
+COL10_HEADER:=Fecha;Conciliación
+
+
+COL11_HEADER:=Def.;XLS
+COL11_WIDTH :=90
+COL11_VIEW  :=4
+
+COL12_HEADER:=Conciliación;Digital
+COL12_WIDTH :=60
+
+COL12_VIEW  :=4
+
+COL13_HEADER:=Activo
+COL13_WIDTH :=60
+
+COL13_VIEW  :=4
+

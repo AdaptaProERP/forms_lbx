@@ -1,0 +1,162 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :={oDp:DPASIENTOSTIP}
+TABLE     :=DPASIENTOSTIP
+SELECT    :=AST_APLORG,AST_CLRGRA,AST_CODINT,AST_DESCRI,AST_ID,AST_TIPDOC,AST_TIPO,AST_TIPTRA
+WHERE     :=
+ORDER BY  :=AST_APLORG          
+GROUP BY  :=
+WIDTH     :=650
+HEIGHT    :=320
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+LHSCROLL  :=.T.
+STYLE     :=0
+COLORPANE1:=16775408COLORPANE2:=16771797FREEZE    :=1
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPASIENTOSTIP",1,IIF(oCursor:Eof(),NIL,oCursor:AST_APLORG          ))
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=EJECUTAR("DPASIENTOSTIPCON",oCursor:AST_APLORG          )
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPASIENTOSTIP",3,oCursor:AST_APLORG          )
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+// Menu
+BTN05_BMP    :=MENU.BMP
+BTN05_ACTION :=EJECUTAR("DPASIENTOSTIPMNU",oCursor:AST_APLORG          )
+BTN05_WHEN   :=!oCursor:Eof()
+BTN05_TOOLTIP:=Menú de Opciones
+BTN05_MESSAGE:=Menú de Opciones
+BTN05_TYPE   :=MENU
+
+// Buscar
+BTN06_BMP    :=xFIND.BMP
+BTN06_ACTION :=oDpLbx:Find()
+BTN06_WHEN   :=.T.
+BTN06_TOOLTIP:=Buscar Registro
+BTN06_MESSAGE:=Buscar Registro
+BTN06_TYPE   :=FIND
+
+// Ejecutar Query
+BTN07_BMP    :=QUERY.BMP
+BTN07_ACTION :=oDpLbx:Query()
+BTN07_WHEN   :=.T.
+BTN07_TOOLTIP:=Ejecutar Query de Búsqueda
+BTN07_MESSAGE:=Ejecutar Query de Búsqueda
+BTN07_TYPE   :=QUERY
+
+// Ejecutar Print
+BTN08_BMP    :=xPRINT.BMP
+BTN08_ACTION :=oDpLbx:PRINT()
+BTN08_WHEN   :=!oCursor:Eof()
+BTN08_TOOLTIP:=Ejecutar de Reporte
+BTN08_MESSAGE:=Ejecutar de Reporte
+BTN08_TYPE   :=QUERY
+
+// Ejecutar Print
+BTN09_BMP    :=Preview.BMP
+BTN09_ACTION :=oDpLbx:Preview()
+BTN09_WHEN   :=!oCursor:Eof()
+BTN09_TOOLTIP:=Previsualizar
+BTN09_MESSAGE:=Previsualizar
+BTN09_TYPE   :=PREVIEW
+
+// Options
+BTN10_BMP    :=OPTIONS.BMP
+BTN10_ACTION :=EJECUTAR("LBXSETOPTIONS",oDpLbx)
+BTN10_WHEN   :=.T.
+BTN10_TOOLTIP:=Opciones de Contenidos Comunes
+BTN10_MESSAGE:=Opciones de Contenidos Comunes
+BTN10_TYPE   :=OTHER
+
+// Filtros
+BTN11_BMP    :=FILTRAR.BMP
+BTN11_ACTION :=EJECUTAR("LBXSETFILTER",oDpLbx)
+BTN11_WHEN   :=!oCursor:Eof()
+BTN11_TOOLTIP:=Filtrar Registros
+BTN11_MESSAGE:=Filtrar Registros
+BTN11_TYPE   :=OTHER
+
+// Ir Final final del Archivo
+BTN16_BMP    :=xTOP.BMP
+BTN16_ACTION :=oBrw:GoTop()
+BTN16_WHEN   :=!oCursor:Eof()
+BTN16_TOOLTIP:=Primer Registro
+BTN16_TYPE   :=TOP
+
+// Avance de Pagina
+BTN17_BMP    :=xSIG.BMP
+BTN17_ACTION :=oBrw:PageDown()
+BTN17_WHEN   :=!oCursor:Eof()
+BTN17_TOOLTIP:=Avance de Página
+BTN17_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN18_BMP    :=xANT.BMP
+BTN18_ACTION :=oBrw:PageUp()
+BTN18_WHEN   :=!oCursor:Eof()
+BTN18_TOOLTIP:=Avance de Página
+BTN18_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN19_BMP    :=xFIN.BMP
+BTN19_ACTION :=oBrw:GoBottom()
+BTN19_WHEN   :=!oCursor:Eof()
+BTN19_TOOLTIP:=Ultimo Registro
+BTN19_TYPE   :=BOTTOM
+
+//
+BTN20_BMP    :=xSALIR.BMP
+BTN20_ACTION :=oWnd:End()
+BTN20_WHEN   :=.T.
+BTN20_TOOLTIP:=Cerrar
+BTN20_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Origen
+COL02_HEADER:=Color para Gráficas
+COL03_HEADER:=Código de Integración
+COL04_HEADER:=Nombre
+COL05_HEADER:=ID
+COL06_HEADER:=Tipo de Documento
+COL07_HEADER:=Tipo
+COL08_HEADER:=Tipo de Transacción

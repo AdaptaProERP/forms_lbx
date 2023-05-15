@@ -1,0 +1,158 @@
+//
+// TABLAS DE DATOS
+//
+TITLE     :={oDp:NMOTRASNM}
+TABLE     :=NMOTRASNM
+SELECT    :=OTR_TIPO,OTR_CODIGO,OTR_DESCRI,OTR_FIN,OTR_INICIO,OTR_CODCTA,OTR_CODMON,OTR_PERIOD,OTR_PLAFIN,OTR_ACTIVO
+WHERE     :=
+ORDER BY  :=OTR_TIPO,OTR_CODIGO
+PRIMARYKEY:=OTR_TIPO,OTR_CODIGO
+GROUP BY  :=
+WIDTH     :=573
+HEIGHT    :=320
+APLICACION:=
+
+STYLE     :=0
+
+COLORPANE1:=16775408
+COLORPANE2:=16771797
+FREEZE    :=0
+
+FREEZE    :=0
+STYLE     :=0
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=EJECUTAR("NMOTRASNM",1,oCursor:OTR_TIPO,oCursor:OTR_CODIGO)
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=EJECUTAR("NMOTRASNM",2,oCursor:OTR_TIPO,oCursor:OTR_CODIGO)
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=EJECUTAR("NMOTRASNM",3,oCursor:OTR_TIPO,oCursor:OTR_CODIGO)
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+// Buscar
+BTN06_BMP    :=xFIND.BMP
+BTN06_ACTION :=oDpLbx:Find()
+BTN06_WHEN   :=.T.
+BTN06_TOOLTIP:=Buscar Registro
+BTN06_MESSAGE:=Buscar Registro
+BTN06_TYPE   :=FIND
+
+// Ejecutar Query
+BTN07_BMP    :=QUERY.BMP
+BTN07_ACTION :=oDpLbx:Query()
+BTN07_WHEN   :=.T.
+BTN07_TOOLTIP:=Ejecutar Query de Búsqueda
+BTN07_MESSAGE:=Ejecutar Query de Búsqueda
+BTN07_TYPE   :=QUERY
+
+// Ejecutar Query
+BTN08_BMP    :=xPRINT.BMP
+BTN08_ACTION :=REPORTE("NMOTRASNM")
+BTN08_WHEN   :=!oCursor:Eof()
+BTN08_TOOLTIP:=Ejecutar de Reporte
+BTN08_MESSAGE:=Ejecutar de Reporte
+BTN08_TYPE   :=QUERY
+
+// Acceso
+BTN09_BMP    :=xunlock.BMP
+BTN09_ACTION :=EJECUTAR("NMTABXUSU",oCursor:OTR_CODIGO,oCursor:OTR_DESCRI,"NMOTRASNM","Usuarios Permitidos para Seleccionar "+GetFromVar("NMOTRASNM"))
+BTN09_WHEN   :=!oCursor:Eof()
+BTN09_TOOLTIP:=Usuarios Autorizados
+BTN09_MESSAGE:=Usuarios Autorizados
+BTN09_TYPE   :=OTHER  
+
+//Filtro
+BTN10_BMP    :=FILTRAR.BMP
+BTN10_ACTION :=oDpLbx:SetFilter()
+BTN10_WHEN   :=!oCursor:Eof()
+BTN10_TOOLTIP:=Filtrar Registros
+BTN10_MESSAGE:=Filtrar Registros
+BTN10_TYPE   :=OTHER
+
+// Ir al Inicio del Archivo
+BTN11_BMP    :=xTOP.BMP
+BTN11_ACTION :=oBrw:GoTop()
+BTN11_WHEN   :=!oCursor:Eof()
+BTN11_TOOLTIP:=Primer Registro
+BTN11_TYPE   :=TOP
+
+// Retroceder una Pagina
+BTN12_BMP    :=xANT.BMP
+BTN12_ACTION :=oBrw:PageUp()
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Anterior
+BTN12_TYPE   :=REWIND
+
+// Avanzar una Pagina
+BTN13_BMP    :=xSIG.BMP
+BTN13_ACTION :=oBrw:PageDown()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Siguiente
+BTN13_TYPE   :=FORWARD
+
+// Ir al Final del Archivo
+BTN14_BMP    :=xFIN.BMP
+BTN14_ACTION :=oBrw:GoBottom()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Ultimo Registro
+BTN14_TYPE   :=BOTTOM
+
+// Salir
+BTN15_BMP    :=xSALIR.BMP
+BTN15_ACTION :=oWnd:End()
+BTN15_WHEN   :=.T.
+BTN15_TOOLTIP:=Cerrar
+BTN15_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Tipo
+COL02_HEADER:=Código
+COL03_HEADER:=Descripción
+COL04_HEADER:=Inicio
+COL05_HEADER:=Fin
+COL06_HEADER:=Cuenta;Contable CxP
+COL07_HEADER:=Código;Moneda
+COL08_HEADER:=Periodo
+
+COL09_HEADER:=Planificación;Financiera
+COL09_WIDTH :=090
+COL09_VIEW  :=4
+
+COL10_HEADER:=Activo
+COL10_WIDTH :=065
+COL10_VIEW  :=4

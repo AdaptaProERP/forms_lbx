@@ -1,0 +1,168 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :={oDp:DPIPC}
+TABLE     :=DPIPC
+SELECT    :=IPC_ANO,IPC_MES,IPC_MES AS IPC_MESC,IPC_TASA,IPC_INPC
+,IPC_INPCE
+WHERE     :=
+ORDER BY  :=IPC_ANO,IPC_MES   
+GROUP BY  :=
+WIDTH :=705
+HEIGHT:=572
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+
+STYLE     :=0
+COLORPANE1:=16775408
+COLORPANE2:=16771797
+FREEZE    :=0
+GOBOTTOM  :=.T.
+ 
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPIPC",1,oCursor:IPC_ANO,oCursor:IPC_MES)
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=SCRRUN("DPIPC",2,oCursor:IPC_ANO,oCursor:IPC_MES)
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPIPC",3,oCursor:IPC_ANO,oCursor:IPC_MES)
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+// Buscar
+BTN06_BMP    :=xFIND.BMP
+BTN06_ACTION :=oDpLbx:Find()
+BTN06_WHEN   :=.T.
+BTN06_TOOLTIP:=Buscar Registro
+BTN06_MESSAGE:=Buscar Registro
+BTN06_TYPE   :=FIND
+
+
+// Ejecutar Query
+BTN07_BMP    :=xPRINT.BMP
+BTN07_ACTION :=REPORTE("DPIPC")
+BTN07_WHEN   :=!oCursor:Eof()
+BTN07_TOOLTIP:=Ejecutar de Reporte
+BTN07_MESSAGE:=Ejecutar de Reporte
+BTN07_TYPE   :=QUERY
+
+// Ejecutar Query
+BTN08_BMP    :=LOGOCONTADORES.BMP
+BTN08_ACTION :=EJECUTAR("INPCBAVENNIF")    
+BTN08_WHEN   :=.T.
+BTN08_TOOLTIP:=Importar INPC de BANVENIIF
+BTN08_MESSAGE:=Importar INPC de BANVENIIF
+BTN08_TYPE   :=OTHER
+
+
+// Ejecutar Query
+BTN09_BMP    :=IPC.BMP
+BTN09_ACTION :=EJECUTAR("BCVINPC",.T.)
+BTN09_WHEN   :=!oCursor:Eof()
+BTN09_TOOLTIP:=Importar IPC desde BCV
+BTN09_MESSAGE:=Importar IPC desde BCV
+BTN09_TYPE   :=OTHER
+
+// Ejecutar Query
+BTN10_BMP    :=INPC.BMP
+BTN10_ACTION :=EJECUTAR("BCVINPC",.F.)
+BTN10_WHEN   :=!oCursor:Eof()
+BTN10_TOOLTIP:=Importar INPC desde BCV
+BTN10_MESSAGE:=Importar INPC desde BCV
+BTN10_TYPE   :=OTHER
+
+
+//filtro
+BTN11_BMP    :=FILTRAR.BMP
+BTN11_ACTION :=EJECUTAR("LBXSETFILTER",oDpLbx)
+BTN11_WHEN   :=!oCursor:Eof()
+BTN11_TOOLTIP:=Filtrar Registros
+BTN11_MESSAGE:=Filtrar Registros
+BTN11_TYPE   :=OTHER
+
+
+// Ir Final final del Archivo
+BTN12_BMP    :=xTOP.BMP
+BTN12_ACTION :=oBrw:GoTop()
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Primer Registro
+BTN12_TYPE   :=TOP
+
+// Avance de Pagina
+BTN13_BMP    :=xSIG.BMP
+BTN13_ACTION :=oBrw:PageDown()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Avance de Página
+BTN13_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN14_BMP    :=xANT.BMP
+BTN14_ACTION :=oBrw:PageUp()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Avance de Página
+BTN14_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN15_BMP    :=xFIN.BMP
+BTN15_ACTION :=oBrw:GoBottom()
+BTN15_WHEN   :=!oCursor:Eof()
+BTN15_TOOLTIP:=Ultimo Registro
+BTN15_TYPE   :=BOTTOM
+
+//
+BTN16_BMP    :=xSALIR.BMP
+BTN16_ACTION :=oWnd:End()
+BTN16_WHEN   :=.T.
+BTN16_TOOLTIP:=Cerrar
+BTN16_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL03_DATA  :=CMES(oCursor:IPC_MES  )
+COL04_DATA  :=TRAN(oCursor:IPC_TASA ,"99,999,999,999,999.999")
+COL05_DATA  :=TRAN(oCursor:IPC_INPC ,"99,999,999,999,999.999")
+//COL06_DATA  :=TRAN(oCursor:IPC_INPCE,"99,999,999,999,999.999")
+
+COL01_WIDTH :=80
+COL02_WIDTH :=200
+COL03_WIDTH :=150
+COL01_HEADER:=Año
+COL02_HEADER:=#Mes
+COL03_HEADER:=Mes
+COL04_HEADER:=%VAR;IPC
+COL05_HEADER:=Valor INPC
+//COL06_HEADER:=INPC;Estimado

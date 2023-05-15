@@ -1,0 +1,166 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :={oDp:DPBANCOTIP}
+TABLE     :=DPBANCOTIP
+SELECT    :=TDB_CODIGO,TDB_NOMBRE,TDB_CODMON,TDB_SIGNO,TDB_ITF,TDB_INGRES,TDB_PAGOS,TDB_ACTIVO
+WHERE     :=
+ORDER BY  :=TDB_CODIGO
+GROUP BY  :=
+WIDTH :=668
+HEIGHT:=920
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+LFULLHIGHT:=.T.
+
+FILTER_LOG :=DPBANCOTIP.TDB_ACTIVO
+FILTER_TEXT:=Activos
+
+STYLE     :=0
+COLORPANE1:=16775408
+COLORPANE2:=16771797
+FREEZE    :=0
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPBANCOTIP",1,IIF(oCursor:Eof(),NIL,oCursor:TDB_CODIGO))
+BTN01_WHEN   :=(oDp:cIdApl="9")
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+//BTN02_BMP    :=VIEW.BMP
+//BTN02_ACTION :=SCRRUN("DPBANCOTIP",2,IIF(oCursor:Eof(),NIL,oCursor:TDB_CODIGO))
+//BTN02_WHEN   :=!oCursor:Eof()
+//BTN02_TOOLTIP:=Consultar
+//BTN02_MESSAGE:=Consultar
+//BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPBANCOTIP",3,oCursor:TDB_CODIGO)
+BTN03_WHEN   :=
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+// Buscar
+BTN06_BMP    :=xFIND.BMP
+BTN06_ACTION :=oDpLbx:Find()
+BTN06_WHEN   :=.T.
+BTN06_TOOLTIP:=Buscar Registro
+BTN06_MESSAGE:=Buscar Registro
+BTN06_TYPE   :=FIND
+
+// Ejecutar Query
+BTN07_BMP    :=variacion.bmp
+BTN07_ACTION :=scrrun("MODIMPINTBAN",oCursor:TDB_CODIGO)
+BTN07_WHEN   :=.T.
+BTN07_TOOLTIP:=Modelo de Implantación
+BTN07_MESSAGE:=Modelo de Implantación
+BTN07_TYPE   :=MODIMP
+
+// Ejecutar Query
+BTN08_BMP    :=xPRINT.BMP
+BTN08_ACTION :=REPORTE("DPBANCOTIP")
+BTN08_WHEN   :=!oCursor:Eof()
+BTN08_TOOLTIP:=Ejecutar de Reporte
+BTN08_MESSAGE:=Ejecutar de Reporte
+BTN08_TYPE   :=QUERY
+
+//filtro
+BTN10_BMP    :=FILTRAR.BMP
+BTN10_ACTION :=EJECUTAR("LBXSETFILTER",oDpLbx)
+BTN10_WHEN   :=!oCursor:Eof()
+BTN10_TOOLTIP:=Filtrar Registros
+BTN10_MESSAGE:=Filtrar Registros
+BTN10_TYPE   :=OTHER
+
+// Ir Final final del Archivo
+BTN11_BMP    :=xTOP.BMP
+BTN11_ACTION :=oBrw:GoTop()
+BTN11_WHEN   :=!oCursor:Eof()
+BTN11_TOOLTIP:=Primer Registro
+BTN11_TYPE   :=TOP
+
+// Avance de Pagina
+BTN12_BMP    :=xSIG.BMP
+BTN12_ACTION :=oBrw:PageDown()
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Avance de Página
+BTN12_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN13_BMP    :=xANT.BMP
+BTN13_ACTION :=oBrw:PageUp()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Avance de Página
+BTN13_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN14_BMP    :=xFIN.BMP
+BTN14_ACTION :=oBrw:GoBottom()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Ultimo Registro
+BTN14_TYPE   :=BOTTOM
+
+//
+BTN15_BMP    :=xSALIR.BMP
+BTN15_ACTION :=oWnd:End()
+BTN15_WHEN   :=.T.
+BTN15_TOOLTIP:=Cerrar
+BTN15_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Código
+COL02_HEADER:=Nombre
+COL02_WIDTH :=300
+
+COL03_HEADER:=Código;Moneda
+COL03_WIDTH :=080
+
+COL04_HEADER:=Signo
+COL04_DATA  :=IIF(oCursor:TDB_SIGNO=1,'+','-')
+
+COL05_HEADER:=Aplica;ITF
+COL05_WIDTH :=50
+COL05_VIEW  :=4
+COL05_EDIT  :=.T.
+
+COL06_HEADER:=Recibos;Ingreso
+COL06_WIDTH :=55
+COL06_VIEW  :=4
+COL06_EDIT  :=.T.
+
+COL07_HEADER:=Cbte;Pago
+COL07_WIDTH :=55
+COL07_VIEW  :=4
+COL07_EDIT  :=.T.
+
+COL08_HEADER:=Activo
+COL08_WIDTH :=50
+COL08_VIEW  :=4
+COL08_EDIT  :=.T.
+

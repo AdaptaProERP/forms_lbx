@@ -1,0 +1,176 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :={oDp:DPINVTRAN}
+TABLE     :=DPINVTRAN
+SELECT    :=TAB_CODIGO,TAB_DESCRI,CIC_CUENTA,CTA_DESCRI,TAB_VALEXI,TAB_ACTIVO
+INNER     :="LEFT JOIN DPINVTRAN_CTA ON TAB_CODIGO=CIC_CODIGO AND CIC_CTAMOD"+GetWhere("=",oDp:cCtaMod)
+INNER2    :=LEFT JOIN DPCTA ON CIC_CUENTA=CTA_CODIGO AND CIC_CTAMOD=CTA_CODMOD
+WHERE     :=
+ORDER BY  :=TAB_CODIGO
+GROUP BY  :=TAB_CODIGO
+WIDTH :=883
+HEIGHT:=320
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+LFULLHIGHT :=.T.
+
+STYLE     :=0
+COLORPANE1:=16775408
+COLORPANE2:=16771797
+FREEZE    :=0
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPINVTRAN",1,IIF(oCursor:Eof(),NIL,oCursor:TAB_CODIGO))
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=SCRRUN("DPINVTRANCON",NIL,oCursor:TAB_CODIGO)
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPINVTRAN",3,oCursor:TAB_CODIGO)
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+// UNIR
+BTN05_BMP    :=xUnir.BMP
+BTN05_ACTION :=SCRRUN("DPCHANGECOD","DPINVTRAN","TAB_CODIGO","TAB_DESCRI",oCursor:TAB_CODIGO)
+BTN05_WHEN   :=!oCursor:Eof()
+BTN05_TOOLTIP:=Unir Grupos
+BTN05_MESSAGE:=Unir Grupos
+BTN05_TYPE   :=OTHER
+
+
+// Importar
+BTN06_BMP    :=MENU.BMP
+BTN06_ACTION :=EJECUTAR("DPINVTRANMNU",oCursor:TAB_CODIGO,oCursor:TAB_DESCRI)
+BTN06_WHEN   :=!oCursor:Eof() .AND. ISTABMOD("DPINVTRANMNU")
+BTN06_TOOLTIP:=Menú de Opciones
+BTN06_MESSAGE:=Menú de Opciones
+BTN06_TYPE   :=MENU
+
+
+// Buscar
+BTN07_BMP    :=xFIND.BMP
+BTN07_ACTION :=oDpLbx:Find()
+BTN07_WHEN   :=.T.
+BTN07_TOOLTIP:=Buscar Registro
+BTN07_MESSAGE:=Buscar Registro
+BTN07_TYPE   :=FIND
+
+// Ejecutar Query
+BTN08_BMP    :=QUERY.BMP
+BTN08_ACTION :=oDpLbx:Query()
+BTN08_WHEN   :=.T.
+BTN08_TOOLTIP:=Ejecutar Query de Búsqueda
+BTN08_MESSAGE:=Ejecutar Query de Búsqueda
+BTN08_TYPE   :=QUERY
+
+// Ejecutar Query
+BTN09_BMP    :=xPRINT.BMP
+BTN09_ACTION :=REPORTE("DPINVTRAN")
+BTN09_WHEN   :=!oCursor:Eof()
+BTN09_TOOLTIP:=Ejecutar de Reporte
+BTN09_MESSAGE:=Ejecutar de Reporte
+BTN09_TYPE   :=QUERY
+
+/ Acceso
+BTN10_BMP    :=xunlock.BMP
+BTN10_ACTION :=EJECUTAR("DPTABXUSU",oCursor:TAB_CODIGO,oCursor:TAB_DESCRI,"DPINVTRAN","Usuarios por "+GetFromVar("DPINVTRAN"))
+BTN10_WHEN   :=oDp:lPermisos
+BTN10_TOOLTIP:=Usuarios Autorizados
+BTN10_MESSAGE:=Usuarios Autorizados
+BTN10_TYPE   :=OTHER  
+
+//filtro
+BTN11_BMP    :=FILTRAR.BMP
+BTN11_ACTION :=EJECUTAR("LBXSETFILTER",oDpLbx)
+BTN11_WHEN   :=!oCursor:Eof()
+BTN11_TOOLTIP:=Filtrar Registros
+BTN11_MESSAGE:=Filtrar Registros
+BTN11_TYPE   :=OTHER
+
+// Ir Final final del Archivo
+BTN12_BMP    :=xTOP.BMP
+BTN12_ACTION :=oBrw:GoTop()
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Primer Registro
+BTN12_TYPE   :=TOP
+
+// Avance de Pagina
+BTN13_BMP    :=xSIG.BMP
+BTN13_ACTION :=oBrw:PageDown()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Siguiente
+BTN13_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN14_BMP    :=xANT.BMP
+BTN14_ACTION :=oBrw:PageUp()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Anterior
+BTN14_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN15_BMP    :=xFIN.BMP
+BTN15_ACTION :=oBrw:GoBottom()
+BTN15_WHEN   :=!oCursor:Eof()
+BTN15_TOOLTIP:=Ultimo Registro
+BTN15_TYPE   :=BOTTOM
+
+//
+BTN16_BMP    :=xSALIR.BMP
+BTN16_ACTION :=oWnd:End()
+BTN16_WHEN   :=.T.
+BTN16_TOOLTIP:=Cerrar
+BTN16_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Código
+COL02_HEADER:=Descripción
+COL02_WIDTH :=280
+COL03_HEADER:=Cuenta;Contable
+COL04_HEADER:=Nombre de la Cuenta
+COL04_WIDTH :=280
+
+COL05_HEADER:=Valida;Exist.
+COL05_WIDTH :=44
+COL05_VIEW  :=4
+
+COL06_HEADER:=Activo
+COL06_WIDTH :=44
+COL06_VIEW  :=4
+
+

@@ -1,0 +1,189 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :={oDp:DPCLIENTES}
+TABLE     :=DPCLIENTES
+SELECT    :=CLI_CODIGO,CLI_NOMBRE,CLI_RIF,CLI_TIPPER,SLD_SALDO,SLD_CXCDIV,(CLI_ENOTRA="S") AS LOGICO,CLI_CODMON,CLI_LISTA
+INNER     :="LEFT JOIN DPCLISLD ON SLD_CODSUC"+GetWhere("=",oDp:cSucursal)+" AND CLI_CODIGO=SLD_CODIGO "  
+WHERE     :=CLI_CATEGO="INQUILINOS" AND (LEFT(CLI_SITUAC,1)='A' OR LEFT(CLI_SITUAC,1)='C')
+ORDER BY  :=CLI_CODIGO
+GROUP BY  :=CLI_CODIGO
+WIDTH :=969
+HEIGHT:=625
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+INIGET    :=EJECUTAR("LBXINIGET","DPCLIENTES","CLI_NOMBRE","CLI_SITUAC='A' OR CLI_SITUAC='C'")
+COLFIND   :=2 
+LFULLHIGHT:=.T.
+FREEZE    :=1
+HEADERLINES:=3
+
+COLORPANE1:=16775408
+COLORPANE2:=16771797
+STYLE     :=0
+
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPCLIENTES",1,IIF(oCursor:Eof(),NIL,oCursor:CLI_CODIGO),oDpLbx:oDb,2,"INQUILINOS")
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=SCRRUN("DPCLIENTESCON",NIL,oCursor:CLI_CODIGO,oDpLbx:oDb,2,"INQUILINOS")
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+
+/BTN03_BMP    :=CLIENTE.BMP
+/BTN03_ACTION :=EJECUTAR("DPCREACLI")
+/BTN03_WHEN   :=!oCursor:Eof()
+/BTN03_TOOLTIP:=Creación Rápida del Cliente
+/BTN03_MESSAGE:=Creación Rápida del Cliente
+/BTN03_TYPE   :=OTHER
+
+// Modificar
+BTN04_BMP    :=xEDIT.BMP
+BTN04_ACTION :=SCRRUN("DPCLIENTES",3,oCursor:CLI_CODIGO,oDpLbx:oDb,2,"INQUILINOS")
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Modificar
+BTN04_MESSAGE:=Modificar
+BTN04_TYPE   :=OPEN
+
+
+// Eliminar
+BTN05_BMP    :=xDELETE.BMP
+BTN05_ACTION :=oDpLbx:Delete()
+BTN05_WHEN   :=!oCursor:Eof()
+BTN05_TOOLTIP:=Eliminar
+BTN05_MESSAGE:=Eliminar Registro
+BTN05_TYPE   :=DELETE
+
+
+// Menú
+BTN06_BMP    :=MENU.BMP
+BTN06_ACTION :=EJECUTAR("DPCLIENTESMNU",oCursor:CLI_CODIGO,oDpLbx:oDb )
+BTN06_WHEN   :=!oCursor:Eof()
+BTN06_TOOLTIP:=Menú de Opciones
+BTN06_MESSAGE:=Menú de Opciones
+BTN06_TYPE   :=OTHER
+
+// Buscar
+BTN07_BMP    :=xFIND.BMP
+BTN07_ACTION :=EJECUTAR("LBXFIND",oDpLbx)        
+BTN07_WHEN   :=.T.
+BTN07_TOOLTIP:=Buscar Registro
+BTN07_MESSAGE:=Buscar Registro
+BTN07_TYPE   :=FIND
+
+// Buscar por datos personales
+BTN08_BMP    :=XPERSONAL.BMP
+BTN08_ACTION :=EJECUTAR("DPCLIFINDXPER",NIL,oDpLbx)
+BTN08_WHEN   :=.T.
+BTN08_TOOLTIP:=Buscar por Datos Personales
+BTN08_MESSAGE:=Buscar por Datos Personales
+BTN08_TYPE   :=OTHER
+// Ejecutar Query
+BTN09_BMP    :=QUERY.BMP
+BTN09_ACTION :=oDpLbx:Query()
+BTN09_WHEN   :=.T.
+BTN09_TOOLTIP:=Ejecutar Query de Búsqueda
+BTN09_MESSAGE:=Ejecutar Query de Búsqueda
+BTN09_TYPE   :=QUERY
+
+// Ejecutar Query
+BTN10_BMP    :=xPRINT.BMP
+BTN10_ACTION :=REPORTE("DPCLIENTES")
+BTN10_WHEN   :=!oCursor:Eof()
+BTN10_TOOLTIP:=Ejecutar de Reporte
+BTN10_MESSAGE:=Ejecutar de Reporte
+BTN10_TYPE   :=QUERY
+
+// Ejecutar Query
+BTN11_BMP    :=FILTRAR.BMP
+BTN11_ACTION :=EJECUTAR("LBXSETFILTER",oDpLbx)
+BTN11_WHEN   :=!oCursor:Eof()
+BTN11_TOOLTIP:=Filtrar
+BTN11_MESSAGE:=Filtrar
+BTN11_TYPE   :=FILTER
+
+// Ir Final final del Archivo
+BTN12_BMP    :=xTOP.BMP
+BTN12_ACTION :=oBrw:GoTop()
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Primer Registro
+BTN12_TYPE   :=TOP
+
+// Avance de Pagina
+BTN13_BMP    :=xSIG.BMP
+BTN13_ACTION :=oBrw:PageDown()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Avance de Página
+BTN13_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN14_BMP    :=xANT.BMP
+BTN14_ACTION :=oBrw:PageUp()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Avance de Página
+BTN14_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN15_BMP    :=xFIN.BMP
+BTN15_ACTION :=oBrw:GoBottom()
+BTN15_WHEN   :=!oCursor:Eof()
+BTN15_TOOLTIP:=Ultimo Registro
+BTN15_TYPE   :=BOTTOM
+
+//
+BTN16_BMP    :=xSALIR.BMP
+BTN16_ACTION :=oWnd:End()
+BTN16_WHEN   :=.T.
+BTN16_TOOLTIP:=Cerrar
+BTN16_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Código
+
+COL02_HEADER:=Nombre
+COL02_WIDTH :=380
+
+COL03_HEADER:=RIF
+COL04_HEADER:=Tipo;Jurídico
+
+COL05_HEADER :=Cuenta;por Cobrar;Bs
+COL05_WIDTH  :=120
+COL05_PICTURE:="999,999,999,999,999.99"
+
+COL06_HEADER :=Cuenta;por Cobrar;Divisa
+COL06_WIDTH  :=120
+COL06_PICTURE:="999,999,999,999,999.99"
+
+COL07_WIDTH  :=70
+COL07_HEADER:=CxC en;Divisa
+COL07_VIEW  :=4
+
+COL08_WIDTH  :=70
+COL08_HEADER:=Cód.;Moneda
+COL08_VIEW  :=2
+
+COL09_WIDTH  :=40
+COL09_HEADER :=Lista
+

@@ -1,0 +1,167 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :={oDp:DPCTA}
+TABLE     :=DPCTA
+SELECT    :=CTA_CODIGO,CTA_DESCRI
+// ,SUM(PLP_MTODIV) AS PLP_MTODIV
+WHERE     :="CTA_CODMOD=&oDp:cCtaMod"
+// INNER     :=LEFT JOIN DPPROVEEDORPROGCTA ON CTA_CODMOD=PPC_CTAMOD AND CTA_CODIGO=PPC_CODCTA LEFT JOIN dpproveedorprog   ON PPC_CODSUC=PGC_CODSUC AND PPC_CODIGO=PGC_CODIGO AND PPC_TIPDOC=PGC_TIPDOC AND PPC_REFERE=PGC_REFERE AND PPC_NUMERO=PGC_NUMERO   
+// INNER2    :=LEFT JOIN dpdocproprog       ON  PLP_CODSUC=PGC_CODSUC AND PLP_CODIGO=PGC_CODIGO AND PLP_TIPDOC=PGC_TIPDOC AND PLP_REFERE=PGC_REFERE AND PLP_NUMERO=PGC_NUMERO AND PLP_TIPTRA='D'   
+ORDER BY  :=CTA_CODIGO
+GROUP BY  :=CTA_CODIGO
+WIDTH :=599
+HEIGHT:=320
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+INIGET    :=EJECUTAR("LBXINIGET","DPCTA","CTA_DESCRI")
+
+COLORTEXT :=0
+//COLORPANE1:=14155775
+//COLORPANE2:=9240575
+STYLE     :=0
+FREEZE    :=2
+
+LFULLHIGHT :=.T.
+STYLE     :=0
+//COLORPANE1:=16772055
+//COLORPANE2:=16765606
+COLORPANE1:=16775408
+COLORPANE2:=16771797
+FREEZE    :=0
+
+
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPCTA",1,IIF(oCursor:Eof(),NIL,oCursor:CTA_CODIGO))
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=SCRRUN("DPCTACON",oCursor:CTA_CODIGO)
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPCTA",3,oCursor:CTA_CODIGO)
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTIONX:=oDpLbx:Delete()
+BTN04_ACTION :=SCRRUN("DPCTAELI",oCursor:CTA_CODIGO,oDpLbx)
+
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+// Centro de Costos
+BTN05_BMP    :=centrodecosto.BMP
+BTN05_ACTION :=EJECUTAR("DPPLACOS",oCursor:CTA_CODIGO)
+BTN05_WHEN   :=!oCursor:Eof()
+BTN05_TOOLTIP:=Planificar Centros de Costos
+BTN05_MESSAGE:=Planificar Centros de Costos
+BTN05_TYPE   :=OTHER
+
+
+
+// Buscar
+BTN06_BMP    :=xFIND.BMP
+BTN06_ACTION :=oDpLbx:Find()
+BTN06_WHEN   :=.T.
+BTN06_TOOLTIP:=Buscar Registro
+BTN06_MESSAGE:=Buscar Registro
+BTN06_TYPE   :=FIND
+
+// Ejecutar Query
+BTN07_BMP    :=QUERY.BMP
+BTN07_ACTION :=oDpLbx:Query()
+BTN07_WHEN   :=.T.
+BTN07_TOOLTIP:=Ejecutar Query de Búsqueda
+BTN07_MESSAGE:=Ejecutar Query de Búsqueda
+BTN07_TYPE   :=QUERY
+
+// Ejecutar Query
+BTN08_BMP    :=xPRINT.BMP
+BTN08_ACTION :=REPORTE("DPCTA")
+BTN08_WHEN   :=!oCursor:Eof()
+BTN08_TOOLTIP:=Ejecutar de Reporte
+BTN08_MESSAGE:=Ejecutar de Reporte
+BTN08_TYPE   :=QUERY
+
+
+BTN09_BMP    :=FILTRAR.BMP
+BTN09_ACTION :=oDpLbx:SetFilter()
+BTN09_WHEN   :=!oCursor:Eof()
+BTN09_TOOLTIP:=Filtrar Registros
+BTN09_MESSAGE:=Filtrar Registros
+BTN09_TYPE   :=OTHER
+
+// Ir Final final del Archivo
+BTN11_BMP    :=xTOP.BMP
+BTN11_ACTION :=oBrw:GoTop()
+BTN11_WHEN   :=!oCursor:Eof()
+BTN11_TOOLTIP:=Primer Registro
+BTN11_TYPE   :=TOP
+
+// Avance de Pagina
+BTN12_BMP    :=xSIG.BMP
+BTN12_ACTION :=oBrw:PageDown()
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Avance de Página
+BTN12_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN13_BMP    :=xANT.BMP
+BTN13_ACTION :=oBrw:PageUp()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Avance de Página
+BTN13_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN14_BMP    :=xFIN.BMP
+BTN14_ACTION :=oBrw:GoBottom()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Ultimo Registro
+BTN14_TYPE   :=BOTTOM
+
+//
+BTN15_BMP    :=xSALIR.BMP
+BTN15_ACTION :=oWnd:End()
+BTN15_WHEN   :=.T.
+BTN15_TOOLTIP:=Cerrar
+BTN15_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Código
+COL02_HEADER:=Descripción
+COL02_WIDTH :=380
+
+COL03_HEADER:=Total Divisa;Planificación
+COL03_WIDTH :=90
+
+

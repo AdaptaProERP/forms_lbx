@@ -1,0 +1,187 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :={oDp:DPMARCAS}
+TABLE     :=DPMARCAS
+SELECT    :=MAR_CODIGO,MAR_DESCRI,MAR_DIRWEB,IF(INV_CODMAR<>'',COUNT(*),0) AS CUANTOS,MAR_ACTIVO
+INNER     :=LEFT JOIN DPINV ON MAR_CODIGO=INV_CODMAR OR INV_CODMAR IS NULL
+WHERE     :=
+ORDER BY  :=MAR_CODIGO
+GROUP BY  :=MAR_CODIGO,MAR_DESCRI,MAR_DIRWEB,INV_CODMAR
+WIDTH :=759
+HEIGHT:=320
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+DELETECOL :=INV_CODMAR
+
+
+STYLE     :=0
+
+COLORPANE1:=16775408
+COLORPANE2:=16771797
+
+FREEZE    :=0
+
+
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPMARCAS",1,IIF(oCursor:Eof(),NIL,oCursor:MAR_CODIGO))
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=EJECUTAR("DPMARCASCON",NIL,oCursor:MAR_CODIGO,oCursor:MAR_DESCRI)
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPMARCAS",3,oCursor:MAR_CODIGO)
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+// UNIR
+BTN05_BMP    :=xUnir.BMP
+BTN05_ACTION :=SCRRUN("DPCHANGECOD","DPMARCAS","MAR_CODIGO","MAR_DESCRI",oCursor:MAR_CODIGO)
+BTN05_WHEN   :=!oCursor:Eof()
+BTN05_TOOLTIP:=Unir Marcas
+BTN05_MESSAGE:=Unir Marcas
+BTN05_TYPE   :=OTHER
+
+// Buscar
+BTN06_BMP    :=xFIND.BMP
+BTN06_ACTION :=oDpLbx:Find()
+BTN06_WHEN   :=.T.
+BTN06_TOOLTIP:=Buscar Registro
+BTN06_MESSAGE:=Buscar Registro
+BTN06_TYPE   :=FIND
+
+// Ejecutar Query
+BTN07_BMP    :=QUERY.BMP
+BTN07_ACTION :=oDpLbx:Query()
+BTN07_WHEN   :=.T.
+BTN07_TOOLTIP:=Ejecutar Query de Búsqueda
+BTN07_MESSAGE:=Ejecutar Query de Búsqueda
+BTN07_TYPE   :=QUERY
+
+// Ejecutar Query
+BTN08_BMP    :=xPRINT.BMP
+BTN08_ACTION :=REPORTE("DPMARCAS")
+BTN08_WHEN   :=!oCursor:Eof()
+BTN08_TOOLTIP:=Ejecutar de Reporte
+BTN08_MESSAGE:=Ejecutar de Reporte
+BTN08_TYPE   :=QUERY
+
+// Acceso
+BTN09_BMP    :=xunlock.BMP
+BTN09_ACTION :=EJECUTAR("DPTABXUSU",oCursor:MAR_CODIGO,oCursor:MAR_DESCRI,"DPMARCAS","Usuarios por "+GetFromVar("DPMARCAS"))
+BTN09_WHEN   :=oDp:lPermisos
+BTN09_TOOLTIP:=Usuarios Autorizados
+BTN09_MESSAGE:=Usuarios Autorizados
+BTN09_TYPE   :=OTHER  
+
+// Productos Asociados
+BTN10_BMP    :=producto.BMP 
+BTN10_ACTION :=DPLBX("DPINV.LBX",oDp:DPINV+","+oDp:xDPMARCAS+":"+oCursor:MAR_CODIGO+" "+ALLTRIM(oCursor:MAR_DESCRI),"INV_CODMAR"+GetWhere("=",oCursor:MAR_CODIGO))
+BTN10_WHEN   :=.T.
+BTN10_TOOLTIP:=Productos
+BTN10_MESSAGE:=Productos
+BTN10_TYPE   :=OTHER
+
+// Abastecimiento
+BTN11_BMP    :=ACTIVOS.BMP
+BTN11_ACTION :=EJECUTAR("DPINVPLAABASTG","INV_CODMAR"+GetWhere("=",oCursor:MAR_CODIGO),"DPMARCAS",oCursor:MAR_CODIGO,oCursor:MAR_DESCRI)
+BTN11_WHEN   :=oDp:P_LDpAbastec
+BTN11_TOOLTIP:=Planificar Abastecimiento
+BTN11_MESSAGE:=Planificar Abastecimiento
+BTN11_TYPE   :=OTHER  
+
+BTN12_BMP    :=FILTRAR.BMP
+BTN12_ACTION :=EJECUTAR("LBXSETFILTER",oDpLbx)
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Filtrar Registros
+BTN12_MESSAGE:=Filtrar Registros
+BTN12_TYPE   :=OTHER
+
+BTN13_BMP    :=MENU.BMP
+BTN13_ACTION :=EJECUTAR("DPMARCASMNU",oCursor:MAR_CODIGO)
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Menú de Opciones
+BTN13_MESSAGE:=Menú de Opciones
+BTN13_TYPE   :=MENU
+
+// Ir Final final del Archivo
+BTN13_BMP    :=xTOP.BMP
+BTN13_ACTION :=oBrw:GoTop()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Primer Registro
+BTN13_TYPE   :=TOP
+
+// Avance de Pagina
+BTN14_BMP    :=xSIG.BMP
+BTN14_ACTION :=oBrw:PageDown()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Siguiente
+BTN14_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN15_BMP    :=xANT.BMP
+BTN15_ACTION :=oBrw:PageUp()
+BTN15_WHEN   :=!oCursor:Eof()
+BTN15_TOOLTIP:=Anterior
+BTN15_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN16_BMP    :=xFIN.BMP
+BTN16_ACTION :=oBrw:GoBottom()
+BTN16_WHEN   :=!oCursor:Eof()
+BTN16_TOOLTIP:=Ultimo Registro
+BTN16_TYPE   :=BOTTOM
+
+//
+BTN17_BMP    :=xSALIR.BMP
+BTN17_ACTION :=oWnd:End()
+BTN17_WHEN   :=.T.
+BTN17_TOOLTIP:=Cerrar
+BTN17_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Código
+COL02_HEADER:=Descripción de la Marca
+COL03_HEADER:=Página Web
+
+COL04_HEADER:=Productos
+COL04_WIDTH :=075
+COL04_DATA  :=TRAN(oCursor:CUANTOS,"999999")
+COL04_ALING :=1
+COL05_HEADER:=Activo
+COL05_VIEW  :=4
+COL05_EDIT  :=.T.

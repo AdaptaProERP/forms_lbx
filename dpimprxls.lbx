@@ -1,0 +1,168 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :={oDp:DPIMPRXLS}
+TABLE     :=DPIMPRXLS
+SELECT    :=IXL_CODIGO,IXL_DESCRI,IXL_TABLA,IXL_FECHA,IXL_HORA,IXL_ACTIVO
+WHERE     :=
+ORDER BY  :=IXL_CODIGO
+GROUP BY  :=
+WIDTH :=987
+HEIGHT:=502
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+
+STYLE     :=0
+COLORPANE1:=16775408
+COLORPANE2:=16772313
+FREEZE    :=0
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPIMPRXLS",1,IIF(oCursor:Eof(),NIL,oCursor:IXL_CODIGO))
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=SCRRUN("DPIMPRXLS",2,IIF(oCursor:Eof(),NIL,oCursor:IXL_CODIGO))
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPIMPRXLS",3,oCursor:IXL_CODIGO)
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+
+// Eliminar
+BTN05_BMP    :=importar.BMP
+BTN05_ACTION :=EJECUTAR("DPIMPRXIMPORT")
+BTN05_WHEN   :=!oCursor:Eof()
+BTN05_TOOLTIP:=Importar Definiciones de Excel
+BTN05_MESSAGE:=Importar Definiciones de Excel
+BTN05_TYPE   :=DELETE
+
+// Consultar
+BTN06_BMP    :=RUN.BMP
+BTN06_ACTION :=SCRRUN("DPIMPRXLSRUN",oCursor:IXL_CODIGO)
+BTN06_WHEN   :=!oCursor:Eof()
+BTN06_TOOLTIP:=Ejecutar Importación
+BTN06_MESSAGE:=Ejecutar Importación
+BTN06_TYPE   :=OTHER
+
+
+// Buscar
+BTN07_BMP    :=xFIND.BMP
+BTN07_ACTION :=oDpLbx:Find()
+BTN07_WHEN   :=.T.
+BTN07_TOOLTIP:=Buscar Registro
+BTN07_MESSAGE:=Buscar Registro
+BTN07_TYPE   :=FIND
+
+// Ejecutar Query
+BTN08_BMP    :=QUERY.BMP
+BTN08_ACTION :=oDpLbx:Query()
+BTN08_WHEN   :=.T.
+BTN08_TOOLTIP:=Ejecutar Query de Búsqueda
+BTN08_MESSAGE:=Ejecutar Query de Búsqueda
+BTN08_TYPE   :=QUERY
+
+// Ejecutar Query
+BTN09_BMP    :=xPRINT.BMP
+BTN09_ACTION :=REPORTE("DPIMPRXLS")
+BTN09_WHEN   :=!oCursor:Eof()
+BTN09_TOOLTIP:=Ejecutar de Reporte
+BTN09_MESSAGE:=Ejecutar de Reporte
+BTN09_TYPE   :=QUERY
+
+// Configuración
+BTN10_BMP    :=CONFIGURA.BMP
+BTN10_ACTION :=EJECUTAR("DPIMPRXLSDEF",oCursor:IXL_CODIGO)
+BTN10_WHEN   :=!oCursor:Eof() .AND. ISTABMOD("DPIMPRXLS")
+BTN10_TOOLTIP:=Configuración
+BTN10_MESSAGE:=Configuración
+BTN10_TYPE   :=OTHER
+
+//filtro
+BTN11_BMP    :=FILTRAR.BMP
+BTN11_ACTION :=EJECUTAR("LBXSETFILTER",oDpLbx)
+BTN11_WHEN   :=!oCursor:Eof()
+BTN11_TOOLTIP:=Filtrar Registros
+BTN11_MESSAGE:=Filtrar Registros
+BTN11_TYPE   :=OTHER
+
+
+// Ir Final final del Archivo
+BTN12_BMP    :=xTOP.BMP
+BTN12_ACTION :=oBrw:GoTop()
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Primer Registro
+BTN12_TYPE   :=TOP
+
+// Avance de Pagina
+BTN13_BMP    :=xSIG.BMP
+BTN13_ACTION :=oBrw:PageDown()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Avance de Página
+BTN13_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN14_BMP    :=xANT.BMP
+BTN14_ACTION :=oBrw:PageUp()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Avance de Página
+BTN14_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN15_BMP    :=xFIN.BMP
+BTN15_ACTION :=oBrw:GoBottom()
+BTN15_WHEN   :=!oCursor:Eof()
+BTN15_TOOLTIP:=Ultimo Registro
+BTN15_TYPE   :=BOTTOM
+
+//
+BTN16_BMP    :=xSALIR.BMP
+BTN16_ACTION :=oWnd:End()
+BTN16_WHEN   :=.T.
+BTN16_TOOLTIP:=Cerrar
+BTN16_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL06_VIEW:=4
+COL01_HEADER:=Código
+COL01_WIDTH :=200:
+COL02_HEADER:=Descripción
+COL02_WIDTH :=400:
+COL03_HEADER:=Tabla
+COL04_HEADER:=Fecha
+COL05_HEADER:=Hora
+COL06_HEADER:=Activo

@@ -1,0 +1,245 @@
+//
+// TABLAS DE DATOS
+//
+TITLE     :={oDp:DPTABMON}
+TABLE     :=DPTABMON
+SELECT    :=MON_CODIGO,MON_DESCRI,MON_APLICA,MAX_DESDE,MAX_FECHA,MAX_CANTID,HMN_VALOR,MON_PORITF,MON_CODEQI,MON_URL,MON_FILURL,MON_CODPRC,MON_RECING,MON_CBTPAG,MON_ACTIVO
+INNER     :=LEFT JOIN VIEW_NMHISMONMAXFCH ON MON_CODIGO=MAX_CODIGO LEFT JOIN DPHISMON ON MON_CODIGO=HMN_CODIGO AND MAX_FECHA=HMN_FECHA LEFT JOIN VIEW_TABMONXCLI ON MON_CODIGO=CLI_CODMON
+WHERE     :=
+ORDER BY  :=MON_CODIGO
+GROUP BY  :=MON_CODIGO
+WIDTH :=940
+HEIGHT:=371
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+
+COLORPANE1:=16773862
+COLORPANE2:=16767927
+//9240575
+STYLE     :=0
+FREEZE    :=0
+
+
+// Tama?o de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPTABMON",1,IIF(oCursor:Eof(),NIL,oCursor:MON_CODIGO))
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=SCRRUN("DPTABMON",2,IIF(oCursor:Eof(),NIL,oCursor:MON_CODIGO))
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPTABMON",3,oCursor:MON_CODIGO)
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+
+// Eliminar
+BTN05_BMP    :=MENU.BMP
+BTN05_ACTION :=EJECUTAR("DPTABMONMNU",oCursor:MON_CODIGO)
+BTN05_WHEN   :=!oCursor:Eof()
+BTN05_TOOLTIP:=Menú
+BTN05_MESSAGE:=Menú de Opciones
+BTN05_TYPE   :=MENU
+
+// Browse
+BTN06_BMP    :=XBROWSE.BMP
+BTN06_ACTION :=DPLBX("DPHISMON.LBX",NIL,"HMN_CODIGO"+GetWhere("=",oCursor:MON_CODIGO))
+BTN06_WHEN   :=!oCursor:Eof()
+BTN06_TOOLTIP:=Histórico de Divisa
+BTN06_MESSAGE:=Histórico de Divisa
+BTN06_TYPE   :=OTHER
+
+// Buscar
+BTN07_BMP    :=xFIND.BMP
+BTN07_ACTION :=oDpLbx:Find()
+BTN07_WHEN   :=.T.
+BTN07_TOOLTIP:=Buscar Registro
+BTN07_MESSAGE:=Buscar Registro
+BTN07_TYPE   :=FIND
+
+// Ejecutar Query
+BTN08_BMP    :=QUERY.BMP
+BTN08_ACTION :=oDpLbx:Query()
+BTN08_WHEN   :=.T.
+BTN08_TOOLTIP:=Ejecutar Query de Búsqueda
+BTN08_MESSAGE:=Ejecutar Query de Búsqueda
+BTN08_TYPE   :=QUERY
+
+// Ejecutar Query
+BTN09_BMP    :=xPRINT.BMP
+BTN09_ACTION :=REPORTE("DPTABMON")
+BTN09_WHEN   :=!oCursor:Eof()
+BTN09_TOOLTIP:=Ejecutar de Reporte
+BTN09_MESSAGE:=Ejecutar de Reporte
+BTN09_TYPE   :=QUERY
+
+// Acceso
+BTN10_BMP    :=xunlock.BMP
+BTN10_ACTION :=EJECUTAR("DPTABXUSU",oCursor:MON_CODIGO,oCursor:MON_DESCRI,"DPTABMON","Usuarios por "+GetFromVar("DPTABMON"))
+BTN10_WHEN   :=oDp:lPermisos
+BTN10_TOOLTIP:=Usuarios Autorizados
+BTN10_MESSAGE:=Usuarios Autorizados
+BTN10_TYPE   :=OTHER  
+
+// Acceso
+BTN11_BMP    :=run.BMP
+BTN11_ACTION :=EJECUTAR("DPPROCESOSRUN",oCursor:MON_CODPRC)
+//BTN11_WHEN   :=oDp:lPermisos
+BTN11_TOOLTIP:=Ejecutar Proceso Automático
+BTN11_MESSAGE:=Ejecutar Proceso Automático
+BTN11_TYPE   :=OTHER  
+//filtro
+BTN12_BMP    :=FILTRAR.BMP
+BTN12_ACTION :=EJECUTAR("LBXSETFILTER",oDpLbx)
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Filtrar Registros
+BTN12_MESSAGE:=Filtrar Registros
+BTN12_TYPE   :=OTHER
+
+// Ejecutar Query
+BTN13_BMP    :=explorer.BMP
+BTN13_ACTION :=EJECUTAR("WEBRUN",oCursor:MON_URL,.F.)
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Ejecutar Sitio
+BTN13_MESSAGE:=Ejecutar Sitio
+BTN13_TYPE   :=OTHER
+// Ejecutar Query
+BTN14_BMP    :=DOWNLOAD.BMP
+BTN14_ACTION :=(EJECUTAR("WEBRUN",oCursor:MON_FILURL,.F.),DPLBX("DPHISMON.LBX",NIL,"HMN_CODIGO"+GetWhere("=",oCursor:MON_CODIGO)))
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Descargar desde Sitio
+BTN14_MESSAGE:=Descargar desde Sitio
+BTN14_TYPE   :=OTHER
+
+
+// Ejecutar Query
+BTN15_BMP    :=IMPORTS.BMP
+BTN15_ACTION :=EJECUTAR("BRHISMONIMP")
+BTN15_WHEN   :=!oCursor:Eof()
+BTN15_TOOLTIP:=Importar Histórico de Divisas
+BTN15_MESSAGE:=Importar Histórico de Divisas
+BTN15_TYPE   :=OTHER// Ejecutar Query
+BTN16_BMP    :=EXPORTS.BMP
+BTN16_ACTION :=EJECUTAR("BRHISMONEXP","HMN_CODIGO"+GetWhere("=",oCursor:MON_CODIGO))
+BTN16_WHEN   :=!oCursor:Eof()
+BTN16_TOOLTIP:=Exportar Histórico de Divisas
+BTN16_MESSAGE:=Exportar Histórico de Divisas
+BTN16_TYPE   :=OTHER
+// Ir Final final del Archivo
+
+BTN17_BMP    :=xTOP.BMP
+BTN17_ACTION :=oBrw:GoTop()
+BTN17_WHEN   :=!oCursor:Eof()
+BTN17_TOOLTIP:=Primer Registro
+BTN17_TYPE   :=TOP
+
+// Avance de Pagina
+BTN18_BMP    :=xSIG.BMP
+BTN18_ACTION :=oBrw:PageDown()
+BTN18_WHEN   :=!oCursor:Eof()
+BTN18_TOOLTIP:=Avance de P?gina
+BTN18_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN19_BMP    :=xANT.BMP
+BTN19_ACTION :=oBrw:PageUp()
+BTN19_WHEN   :=!oCursor:Eof()
+BTN19_TOOLTIP:=Avance de P?gina
+BTN19_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN20_BMP    :=xFIN.BMP
+BTN20_ACTION :=oBrw:GoBottom()
+BTN20_WHEN   :=!oCursor:Eof()
+BTN20_TOOLTIP:=Ultimo Registro
+BTN20_TYPE   :=BOTTOM
+
+//
+BTN21_BMP    :=xSALIR.BMP
+BTN21_ACTION :=oWnd:End()
+BTN21_WHEN   :=.T.
+BTN21_TOOLTIP:=Cerrar
+BTN21_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Cód.
+COL01_WIDTH :=040
+
+COL02_HEADER:=Descripción
+COL02_WIDTH :=200
+COL03_HEADER:=Aplicación
+COL03_WIDTH :=120
+
+COL04_HEADER:=Desde
+COL05_HEADER:=Hasta
+
+COL06_HEADER:=Cant.;Reg.
+COL06_WIDTH :=80
+COL06_DATA  :=TRAN(oCursor:MAX_CANTID,"9,999,999")
+
+COL07_HEADER:=Valor
+COL07_WIDTH :=80
+COL07_DATA  :=TRAN(oCursor:HMN_VALOR,"9,999,999.999999")
+
+COL08_HEADER:=%;ITF
+COL08_WIDTH :=80
+COL08_DATA  :=TRAN(oCursor:MON_PORITF,"9.99")
+
+
+COL09_HEADER:=Moneda;Equiv.
+COL09_WIDTH :=060
+COL09_HEADER:=Descripción
+
+COL10_HEADER:=Dirección;URL del Valor
+COL10_WIDTH :=120
+
+COL11_HEADER:=Dirección;URL Archivo
+COL11_WIDTH :=120
+COL12_HEADER:=Proceso;Automático
+COL12_WIDTH :=120
+
+COL13_HEADER:=Ingreso
+COL13_WIDTH :=045
+COL13_VIEW  :=4
+
+COL14_HEADER:=Pagos
+COL14_WIDTH :=045
+COL14_VIEW  :=4
+
+COL15_HEADER:=Activo
+COL15_WIDTH :=045
+COL15_VIEW  :=4
+

@@ -1,0 +1,157 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :={oDp:DPIVATIP}
+TABLE     :=DPIVATIP
+SELECT    :=TIP_CODIGO,TIP_DESCRI,TCC_CTACRE,TCC_DESCRI,TCD_CTADEB,TCD_DESCRI,TIP_VENTA,TIP_COMPRA,TIP_ACTIVO
+INNER     :="LEFT JOIN VIEW_DPIVATIPCTAVTA  ON TCD_CODIGO=TIP_CODIGO AND TCD_CTAMOD"+GetWhere("=",oDp:cCtaMod)+" LEFT JOIN VIEW_DPIVATIPCTACOM ON TCC_CODIGO=TIP_CODIGO AND TCC_CTAMOD"+GetWhere("=",oDp:cCtaMod)  
+WHERE     :=
+ORDER BY  :=TIP_CODIGO
+GROUP BY  :=TIP_CODIGO
+WIDTH     :=1111
+HEIGHT    :=271
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+FILTER_LOG :=TIP_ACTIVO
+FILTER_TEXT:=Activos
+
+STYLE     :=0
+COLORPANE1:=16772829
+COLORPANE2:=16767411
+FREEZE    :=0
+
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPIVATIP",1,IIF(oCursor:Eof(),NIL,oCursor:TIP_CODIGO))
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=SCRRUN("DPIVATIP",2,IIF(oCursor:Eof(),NIL,oCursor:TIP_CODIGO))
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPIVATIP",3,oCursor:TIP_CODIGO)
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+// Buscar
+BTN06_BMP    :=xFIND.BMP
+BTN06_ACTION :=oDpLbx:Find()
+BTN06_WHEN   :=.T.
+BTN06_TOOLTIP:=Buscar Registro
+BTN06_MESSAGE:=Buscar Registro
+BTN06_TYPE   :=FIND
+
+// Ejecutar Query
+//BTN07_BMP    :=QUERY.BMP
+//BTN07_ACTION :=oDpLbx:Query()
+//BTN07_WHEN   :=.T.
+//BTN07_TOOLTIP:=Ejecutar Query de Búsqueda
+//BTN07_MESSAGE:=Ejecutar Query de Búsqueda
+//BTN07_TYPE   :=QUERY
+
+// Ejecutar Query
+BTN08_BMP    :=xPRINT.BMP
+BTN08_ACTION :=REPORTE("DPIVATIP")
+BTN08_WHEN   :=!oCursor:Eof()
+BTN08_TOOLTIP:=Ejecutar de Reporte
+BTN08_MESSAGE:=Ejecutar de Reporte
+BTN08_TYPE   :=QUERY
+
+// Ir Final final del Archivo
+BTN11_BMP    :=xTOP.BMP
+BTN11_ACTION :=oBrw:GoTop()
+BTN11_WHEN   :=!oCursor:Eof()
+BTN11_TOOLTIP:=Primer Registro
+BTN11_TYPE   :=TOP
+
+// Avance de Pagina
+BTN12_BMP    :=xSIG.BMP
+BTN12_ACTION :=oBrw:PageDown()
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Avance de Página
+BTN12_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN13_BMP    :=xANT.BMP
+BTN13_ACTION :=oBrw:PageUp()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Avance de Página
+BTN13_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN14_BMP    :=xFIN.BMP
+BTN14_ACTION :=oBrw:GoBottom()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Ultimo Registro
+BTN14_TYPE   :=BOTTOM
+
+//
+BTN15_BMP    :=xSALIR.BMP
+BTN15_ACTION :=oWnd:End()
+BTN15_WHEN   :=.T.
+BTN15_TOOLTIP:=Cerrar
+BTN15_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_WIDTH :=40
+
+
+COL01_HEADER:=Tipo;IVA
+COL02_HEADER:=Descripción
+COL02_WIDTH :=200
+
+COL03_HEADER:=Cuenta;Compra
+COL03_WIDTH :=100
+
+COL04_HEADER:=Descripción;Cuenta de Compra
+COL04_WIDTH :=280
+
+COL05_HEADER:=Cuenta;Venta
+COL05_WIDTH :=200
+
+COL06_HEADER:=Descripción;Cuenta de Venta
+COL06_WIDTH :=280
+
+COL07_HEADER:=Ventas
+COL07_WIDTH :=065
+COL07_VIEW  :=4
+
+COL08_HEADER:=Compras
+COL08_WIDTH :=065
+COL08_VIEW  :=4
+
+COL09_HEADER:=Activo
+COL09_VIEW  :=4

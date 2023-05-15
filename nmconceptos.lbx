@@ -1,0 +1,223 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :={oDp:NMCONCEPTOS}
+TABLE     :=NMCONCEPTOS
+SELECT    :=CON_CODIGO,CON_DESCRI,CON_TIPNOM,CON_ACTIVO,CON_FECHA ,CON_ALTER , CON_ACUM01,CON_ACUM02,CON_ACUM03,CON_ACUM04,CIC_CUENTA,CON_COLUMN,IF(CYC_CODCON<>'',COUNT(*),0) AS CUANTOS
+INNER     :="LEFT JOIN NMCLAXCON ON CYC_CODCON=CON_CODIGO  OR CYC_CODCON IS NULL LEFT JOIN NMCONCEPTOS_CTA ON CIC_CODIGO=NMCONCEPTOS.CON_CODIGO AND CIC_CODINT"+GetWhere("=","CUENTA")+" AND CIC_CTAMOD"+GetWhere("=",oDp:cCtaMod)
+
+ORDER BY  :=CON_CODIGO
+GROUP BY  :=CON_CODIGO
+WIDTH :=1186
+HEIGHT:=920
+APLICACION:=
+LFULLHIGHT:=.T.
+
+STYLE     :=0
+COLORPANE1:=16775408
+COLORPANE2:=16771797
+FREEZE    :=0
+
+// Tamaño de los BotonesX
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("NMCONCEPTOS",1,IIF(oCursor:Eof(),NIL,oCursor:CON_CODIGO))
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=SCRRUN("NMCONCEPTOSCON",oCursor:CON_CODIGO)
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("NMCONCEPTOS",3,oCursor:CON_CODIGO)
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Buscar Registro
+BTN04_TYPE   :=DELETE
+
+// Seleccionar
+BTN05_BMP    :=SELECT.BMP
+BTN05_ACTION :=EJECUTAR("NMCONXCLA",oCursor:CON_CODIGO,oCursor:CON_DESCRI)
+BTN05_WHEN   :=!oCursor:Eof()
+BTN05_TOOLTIP:=Clasificación de Conceptos
+BTN05_MESSAGE:=Clasificar Conceptos
+BTN05_TYPE   :=OTHER  
+
+
+// Buscar
+BTN06_BMP    :=xFIND.BMP
+BTN06_ACTION :=oDpLbx:Find()
+BTN06_WHEN   :=.T.
+BTN06_TOOLTIP:=Buscar Registro
+BTN06_MESSAGE:=Buscar Registro
+BTN06_TYPE   :=FIND
+
+// Ejecutar Query
+BTN07_BMP    :=QUERY.BMP
+BTN07_ACTION :=oDpLbx:Query()
+BTN07_WHEN   :=.T.
+BTN07_TOOLTIP:=Ejecutar Query de Búsqueda
+BTN07_MESSAGE:=Ejecutar Query de Búsqueda
+BTN07_TYPE   :=QUERY
+
+// Ejecutar Query
+BTN08_BMP    :=xPRINT.BMP
+BTN08_ACTION :=REPORTE("NMCONCEPTO")
+BTN08_WHEN   :=!oCursor:Eof()
+BTN08_TOOLTIP:=Ejecutar de Reporte
+BTN08_MESSAGE:=Ejecutar de Reporte
+BTN08_TYPE   :=QUERY
+
+// Buscar Enlaces
+BTN09_BMP    :=LINK.BMP
+BTN09_ACTION :=EJECUTAR("NMCONLINK",oCursor:CON_CODIGO,.T.,oCursor:CON_DESCRI)
+BTN09_WHEN   :=!oCursor:Eof()
+BTN09_TOOLTIP:=Ubicar Participación del Concepto
+BTN09_MESSAGE:=Ubicar Participación del Concepto
+BTN09_TYPE   :=OTHER
+
+//Filtro
+BTN10_BMP    :=FILTRAR.BMP
+BTN10_ACTION :=oDpLbx:SetFilter()
+BTN10_WHEN   :=!oCursor:Eof()
+BTN10_TOOLTIP:=Filtrar Registros
+BTN10_MESSAGE:=Filtrar Registros
+BTN10_TYPE   :=OTHER
+
+BTN11_BMP    :=CONTABILIDAD.BMP
+BTN11_ACTION :=SCRRUN("NMCTAXCON",oCursor:CON_CODIGO)
+BTN11_WHEN   :=oDp:lCtaCon
+BTN11_TOOLTIP:=Cuentas Contables
+BTN11_TYPE   :=EXIT
+
+
+BTN13_BMP    :=UPLOAD.BMP
+BTN13_ACTION :=EJECUTAR("NOMINAUPPERSONALIZA")
+BTN13_WHEN   :=oDp:nVersion>=6
+BTN13_TOOLTIP:=Alojar Adaptaciones en AdaptaPro Server
+BTN13_TYPE   :=OTHER
+
+
+// Acceso
+BTN14_BMP    :=xunlock.BMP
+BTN14_ACTION :=EJECUTAR("NMTABXUSU",oCursor:CON_CODIGO,oCursor:CON_DESCRI,"NMCONCEPTOS","Usuarios para Cargar Variaciones ")
+BTN14_WHEN   :=!oCursor:Eof() .AND. oDp:nVersion>=5
+BTN14_TOOLTIP:=Usuarios Autorizados
+BTN14_MESSAGE:=Usuarios Autorizados
+BTN14_TYPE   :=OTHER
+
+
+// Filtrar
+BTN15_BMP    :=PASTE.BMP
+BTN15_ACTION :=EJECUTAR("NMCONCEPTOSRECOVER",oCursor:CON_CODIGO)
+BTN15_WHEN   :=!oCursor:Eof()
+BTN15_TOOLTIP:=Recuperar desde Auditoria
+BTN15_MESSAGE:=Recuperar desde Auditoria
+BTN15_TYPE   :=OTHER
+
+
+
+// Ir Final final del Archivo
+BTN16_BMP    :=xTOP.BMP
+BTN16_ACTION :=oBrw:GoTop()
+BTN16_WHEN   :=!oCursor:Eof()
+BTN16_TOOLTIP:=Primer Registro
+BTN16_TYPE   :=TOP
+
+// Avance de Pagina
+BTN17_BMP    :=xSIG.BMP
+BTN17_ACTION :=oBrw:PageDown()
+BTN17_WHEN   :=!oCursor:Eof()
+BTN17_TOOLTIP:=Avance de Página
+BTN17_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN18_BMP    :=xANT.BMP
+BTN18_ACTION :=oBrw:PageUp()
+BTN18_WHEN   :=!oCursor:Eof()
+BTN18_TOOLTIP:=Avance de Página
+BTN18_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN19_BMP    :=xFIN.BMP
+BTN19_ACTION :=oBrw:GoBottom()
+BTN19_WHEN   :=!oCursor:Eof()
+BTN19_TOOLTIP:=Ultimo Registro
+BTN19_TYPE   :=BOTTOM
+
+//
+BTN20_BMP    :=xSALIR.BMP
+BTN20_ACTION :=oWnd:End()
+BTN20_WHEN   :=.T.
+BTN20_TOOLTIP:=Cuentas Contables
+BTN20_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Código
+COL02_HEADER:=Descripción
+COL02_WIDTH :=355
+
+COL03_HEADER:=Tipo
+COL03_WIDTH :=45
+COL04_HEADER:=Activo
+COL04_VIEW:=4
+COL05_HEADER:=Fecha;Actlz.
+COL05_VIEW:=4
+COL06_HEADER:=Mod
+COL06_VIEW:=4
+
+COL07_HEADER:=Salario;&oDp:cTipSel1
+COL07_VIEW:=4
+COL07_WIDTH:=75
+
+COL08_HEADER:=Salario;&oDp:cTipSel2
+COL08_VIEW:=4
+COL08_WIDTH:=75
+
+COL09_HEADER:=Salario;&oDp:cTipSel3
+COL09_VIEW:=4
+COL09_WIDTH:=75
+
+COL10_HEADER:=Salario;&oDp:cTipSel4
+COL10_VIEW:=4
+COL10_WIDTH:=75
+
+COL11_HEADER:=Cuenta;Contable
+COL11_WIDTH :=80
+
+COL12_HEADER:=Col.;Vertic.
+COL12_WIDTH:=120
+
+
+COL13_HEADER:=Clasifi-;caciones
+COL13_WIDTH :=060
+COL13_DATA  :=TRAN(oCursor:CUANTOS,"999999")
+COL13_ALING :=1
+

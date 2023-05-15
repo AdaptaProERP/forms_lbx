@@ -1,0 +1,181 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :=Proveedores Ocasionales
+TABLE     :=DPPROVEEDOR
+SELECT    :=PRO_CODIGO,PRO_NOMBRE,PRO_RIF,PRO_TIPPER,PRO_CONESP,PRO_RETIVA,PRO_CREFIS  
+WHERE     :=LEFT(PRO_TIPO,1)="O"
+ORDER BY  :=PRO_CODIGO
+GROUP BY  :=
+WIDTH :=908
+HEIGHT:=484
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+INIGET    :=EJECUTAR("LBXINIGET","DPPROVEEDOR","PRO_NOMBRE","PRO_SITUAC='A' ")
+
+
+//STYLE     :=1
+//COLORPANE1:=0
+//COLORPANE2:=0
+FREEZE    :=1
+COLFIND   :=2
+
+COLORPANE1:=16775408
+COLORPANE2:=16771797
+STYLE     :=0
+
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPPROVEEDOR_EXPOR",1,IIF(oCursor:Eof(),NIL,oCursor:PRO_CODIGO),NIL,"Ocasional")
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=SCRRUN("DPPROVEEDOR_EXPOR",2,IIF(oCursor:Eof(),NIL,oCursor:PRO_CODIGO),NIL,"Ocasional")
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPPROVEEDOR_EXPOR",3,oCursor:PRO_CODIGO,NIL,"Ocasional")
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+
+// Eliminar
+//BTN05_BMP    :=PROVEEDORES.BMP
+//BTN05_ACTION :=oDpLbx:oWnd:End(),EJECUTAR("DPCREAPROVEE",oDpLbx:oGet,"Servicios Públicos")
+//BTN05_WHEN   :=!oCursor:Eof()
+//BTN05_TOOLTIP:=Eliminar
+//BTN05_MESSAGE:=Creación Rápida de Proveedor
+//BTN05_TYPE   :=NEW
+
+// Buscar
+BTN06_BMP    :=xFIND.BMP
+BTN06_ACTION :=oDpLbx:Find()
+BTN06_WHEN   :=.T.
+BTN06_TOOLTIP:=Buscar Registro
+BTN06_MESSAGE:=Buscar Registro
+BTN06_TYPE   :=FIND
+
+// Buscar
+BTN07_BMP    :=FILTRAR.BMP
+BTN07_ACTION :=oDpLbx:SetFilter()
+BTN07_WHEN   :=!oCursor:Eof()
+BTN07_TOOLTIP:=Filtrar Registros
+BTN07_MESSAGE:=Filtrar Registros
+BTN07_TYPE   :=FILTER
+
+
+// Ejecutar Query
+BTN09_BMP    :=QUERY.BMP
+BTN09_ACTION :=oDpLbx:Query()
+BTN09_WHEN   :=.T.
+BTN09_TOOLTIP:=Ejecutar Query de Búsqueda
+BTN09_MESSAGE:=Ejecutar Query de Búsqueda
+BTN09_TYPE   :=QUERY
+
+// Ejecutar Query
+BTN10_BMP    :=xPRINT.BMP
+BTN10_ACTION :=REPORTE("DPPROVEEDOR")
+BTN10_WHEN   :=!oCursor:Eof()
+BTN10_TOOLTIP:=Ejecutar de Reporte
+BTN10_MESSAGE:=Ejecutar de Reporte
+BTN10_TYPE   :=QUERY
+
+//filtro
+BTN11_BMP    :=actividadesdelexpediente2.bmp
+BTN11_ACTION :=EJECUTAR("BRPROXCLAE",oDpLbx)
+BTN11_WHEN   :=!oCursor:Eof()
+BTN11_TOOLTIP:=Filtrar Registros por Actividad Económica 
+BTN11_MESSAGE:=Filtrar Registros por Actividad Económica 
+BTN11_TYPE   :=OTHER
+
+//filtro
+BTN12_BMP    :=clasificaproveedor2.bmp
+BTN12_ACTION :=EJECUTAR("BRPROXCLA",oDpLbx)
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Filtrar Registros por Clasificación 
+BTN12_MESSAGE:=Filtrar Registros por Clasificación 
+BTN12_TYPE   :=OTHER
+
+
+// Ir Final final del Archivo
+BTN13_BMP    :=xTOP.BMP
+BTN13_ACTION :=oBrw:GoTop()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Primer Registro
+BTN13_TYPE   :=TOP
+
+// Avance de Pagina
+BTN14_BMP    :=xSIG.BMP
+BTN14_ACTION :=oBrw:PageDown()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Avance de Página
+BTN14_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN15_BMP    :=xANT.BMP
+BTN15_ACTION :=oBrw:PageUp()
+BTN15_WHEN   :=!oCursor:Eof()
+BTN15_TOOLTIP:=Avance de Página
+BTN15_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN16_BMP    :=xFIN.BMP
+BTN16_ACTION :=oBrw:GoBottom()
+BTN16_WHEN   :=!oCursor:Eof()
+BTN16_TOOLTIP:=Ultimo Registro
+BTN16_TYPE   :=BOTTOM
+
+//
+BTN17_BMP    :=xSALIR.BMP
+BTN17_ACTION :=oWnd:End()
+BTN17_WHEN   :=.T.
+BTN17_TOOLTIP:=Cerrar
+BTN17_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Código
+COL02_HEADER:=Nombre
+COL02_WIDTH :=330
+COL03_HEADER:=RIF
+COL03_WIDTH :=100
+COL04_HEADER:=Persona
+COL04_WIDTH :=110
+COL05_HEADER:=Tipo;Especial
+COL05_WIDTH :=60
+COL06_HEADER:=%Ret.
+COL06_WIDTH :=55
+COL07_HEADER:=Crédito;Fiscal
+COL07_WIDTH :=48
+

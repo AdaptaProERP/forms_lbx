@@ -1,0 +1,207 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :={oDp:DPPROCESOS}
+TABLE     :=DPPROCESOS
+SELECT    :=PRC_CODIGO,PRC_DESCRI,PRC_FECHA,PRC_AUTOM,PRC_ALLUSE,PRC_INICIA,PRC_FIN,PRC_CLASIF,PRC_CODADD,PRC_SPEAK,PRC_ALTER,PRC_ACTIVO
+WHERE      :=
+ORDER BY   :=PRC_CODIGO
+GROUP BY   :=
+WIDTH :=992
+HEIGHT:=562
+HEADERLINES:=2
+APLICACION :=
+TOPIC      :=
+FILECHM   :=
+LFULLSIZE:=.T.
+LHSCROLL:=.T.
+
+STYLE     :=0
+COLORPANE1:=16774636
+COLORPANE2:=16771797
+FREEZE    :=0
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPPROCESOS",1,IIF(oCursor:Eof(),NIL,oCursor:PRC_CODIGO))
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=SCRRUN("DPPROCESOS",2,IIF(oCursor:Eof(),NIL,oCursor:PRC_CODIGO))
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPPROCESOS",3,oCursor:PRC_CODIGO)
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+BTN05_BMP    :=OPTIONS.BMP
+BTN05_ACTION :=EJECUTAR("LBXSETOPTIONS",oDpLbx)
+BTN05_WHEN   :=.T.
+BTN05_TOOLTIP:=Opciones de Contenidos Comunes
+BTN05_MESSAGE:=Opciones de Contenidos Comunes
+BTN05_TYPE   :=OTHER
+
+
+// Seleccionar
+BTN06_BMP    :=xunlock.BMP
+BTN06_ACTION :=EJECUTAR("DPUSUXEMP",oCursor:PRC_CODIGO,oCursor:PRC_DESCRI,"DPPROCESOS","Procesos por Usuario")
+BTN06_WHEN   :=!oCursor:Eof()
+BTN06_TOOLTIP:=Usuarios Autorizados
+BTN06_MESSAGE:=Usuarios Autorizados
+BTN06_TYPE   :=OTHER  
+
+
+// Eliminar
+BTN07_BMP    :=RUN.BMP
+BTN07_ACTION :=EJECUTAR("PRCRUN",oCursor:PRC_CODIGO,.T.)
+BTN07_WHEN   :=!oCursor:Eof()
+BTN07_TOOLTIP:=Ejecutar
+BTN07_MESSAGE:=Ejecutar
+BTN07_TYPE   :=OTHER
+
+
+
+//filtro
+BTN08_BMP    :=HTML.BMP
+BTN08_ACTION :=EJECUTAR("LBXTOHTML",oDpLbx)
+BTN08_WHEN   :=!oCursor:Eof() .AND. oDp:nVersion>=5.1
+BTN08_TOOLTIP:=Exportar HTML
+BTN08_MESSAGE:=Exportar HTML
+BTN08_TYPE   :=OTHER
+
+
+// Buscar
+BTN09_BMP    :=xFIND.BMP
+BTN09_ACTION :=oDpLbx:Find()
+BTN09_WHEN   :=.T.
+BTN09_TOOLTIP:=Buscar Registro
+BTN09_MESSAGE:=Buscar Registro
+BTN09_TYPE   :=FIND
+
+// Ejecutar Query
+BTN10_BMP    :=XPERSONAL.BMP
+BTN10_ACTION :=EJECUTAR("DPNOTEMPYTAR",NIL,oCursor:PRC_CODIGO,oCursor:PRC_DESCRI,"DPPROCESOS",NIL)
+BTN10_WHEN   :=.T.
+BTN10_TOOLTIP:=Definir Notificación
+BTN10_MESSAGE:=Definir Notificación
+BTN10_TYPE   :=OTHER
+
+// Ejecutar Query
+BTN11_BMP    :=xPRINT.BMP
+BTN11_ACTION :=REPORTE("DPPROCESOS")
+BTN11_WHEN   :=!oCursor:Eof()
+BTN11_TOOLTIP:=Ejecutar de Reporte
+BTN11_MESSAGE:=Ejecutar de Reporte
+BTN11_TYPE   :=QUERY
+
+//filtro
+BTN12_BMP    :=FILTRAR.BMP
+BTN12_ACTION :=EJECUTAR("LBXSETFILTER",oDpLbx)
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Filtrar Registros
+BTN12_MESSAGE:=Filtrar Registros
+BTN12_TYPE   :=OTHER
+
+// Ir Final final del Archivo
+BTN13_BMP    :=xTOP.BMP
+BTN13_ACTION :=oBrw:GoTop()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Primer Registro
+BTN13_TYPE   :=TOP
+
+// Avance de Pagina
+BTN14_BMP    :=xSIG.BMP
+BTN14_ACTION :=oBrw:PageDown()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Avance de Página
+BTN14_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN15_BMP    :=xANT.BMP
+BTN15_ACTION :=oBrw:PageUp()
+BTN15_WHEN   :=!oCursor:Eof()
+BTN15_TOOLTIP:=Avance de Página
+BTN15_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN16_BMP    :=xFIN.BMP
+BTN16_ACTION :=oBrw:GoBottom()
+BTN16_WHEN   :=!oCursor:Eof()
+BTN16_TOOLTIP:=Ultimo Registro
+BTN16_TYPE   :=BOTTOM
+
+//
+BTN17_BMP    :=xSALIR.BMP
+BTN17_ACTION :=oWnd:End()
+BTN17_WHEN   :=.T.
+BTN17_TOOLTIP:=Cerrar
+BTN17_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL04_VIEW:=4
+COL05_VIEW:=4
+COL10_VIEW:=4
+COL11_VIEW:=4
+COL12_VIEW:=4
+
+COL04_EDIT  :=.T.
+COL05_EDIT  :=.T.
+COL10_EDIT  :=.T.
+COL11_EDIT  :=.T.
+COL12_EDIT  :=.T.
+
+COL01_HEADER:=Código
+COL01_WIDTH :=180
+COL02_HEADER:=Descripción
+COL03_HEADER:=Fecha
+COL04_HEADER:=Automático
+COL05_HEADER:=Todos;Usuarios
+COL05_WIDTH :=90
+COL06_HEADER:=Inicio
+COL06_WIDTH :=50
+COL06_VIEW  :=4
+COL06_EDIT  :=.T.
+
+COL07_HEADER:=Cerró
+COL07_WIDTH :=50
+COL07_VIEW  :=4
+COL07_EDIT  :=.T.
+
+COL08_HEADER:=Clasificación
+COL08_WIDTH :=120
+COL09_HEADER:=Cod;Add
+COL09_WIDTH :=50
+COL10_HEADER:=Speak
+COL11_HEADER:=Perso;nalizado
+COL12_HEADER:=Activo

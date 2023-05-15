@@ -1,0 +1,152 @@
+//
+// TABLAS DE DATOS
+//
+TITLE     :={oDp:DPCTA}
+TABLE     :=DPCTA
+SELECT    :=CTA_CODIGO,CTA_DESCRI,CTA_ACTIVO
+WHERE     :="CTA_CODMOD=&oDp:cCtaMod AND CTA_ACTIVO=1"
+ORDER BY  :=CTA_CODIGO
+GROUP BY  :=CTA_CODIGO
+WIDTH :=600
+HEIGHT:=675
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+INIGET    :=EJECUTAR("LBXINIGET","DPCTA","CTA_DESCRI")
+
+COLORTEXT :=0
+COLORPANE1:=16775408
+COLORPANE2:=16771797
+STYLE     :=0
+FREEZE    :=2
+
+
+// Tama?o de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPCTA",1,IIF(oCursor:Eof(),NIL,oCursor:CTA_CODIGO))
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=SCRRUN("DPCTACON",oCursor:CTA_CODIGO)
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPCTA",3,oCursor:CTA_CODIGO)
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+// Modificar
+BTN04_BMP    :=FILTRAR.BMP
+BTN04_ACTION :=oDpLbx:SetFilter()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Filtrar Registros
+BTN04_MESSAGE:=Filtrar Registros
+BTN04_TYPE   :=FILTER
+
+// Eliminar
+BTN05_BMP    :=xDELETE.BMP
+BTN05_ACTIONX:=oDpLbx:Delete()
+BTN05_ACTION :=SCRRUN("DPCTAELI",oCursor:CTA_CODIGO,oDpLbx)
+BTN05_WHEN   :=!oCursor:Eof()
+BTN05_TOOLTIP:=Eliminar
+BTN05_MESSAGE:=Eliminar Registro
+BTN05_TYPE   :=DELETE
+
+// Centro de Costos
+BTN06_BMP    :=centrodecosto.BMP
+BTN06_ACTION :=EJECUTAR("DPPLACOS",oCursor:CTA_CODIGO)
+BTN06_WHEN   :=!oCursor:Eof()
+BTN06_TOOLTIP:=Planificar Centros de Costos
+BTN06_MESSAGE:=Planificar Centros de Costos
+BTN06_TYPE   :=OTHER
+
+
+
+// Buscar
+BTN08_BMP    :=xFIND.BMP
+BTN08_ACTION :=oDpLbx:Find()
+BTN08_WHEN   :=.T.
+BTN08_TOOLTIP:=Buscar Registro
+BTN08_MESSAGE:=Buscar Registro
+BTN08_TYPE   :=FIND
+
+// Ejecutar Query
+BTN09_BMP    :=QUERY.BMP
+BTN09_ACTION :=oDpLbx:Query()
+BTN09_WHEN   :=.T.
+BTN09_TOOLTIP:=Ejecutar Query de B?squeda
+BTN09_MESSAGE:=Ejecutar Query de B?squeda
+BTN09_TYPE   :=QUERY
+
+// Ejecutar Query
+BTN10_BMP    :=xPRINT.BMP
+BTN10_ACTION :=REPORTE("DPCTA")
+BTN10_WHEN   :=!oCursor:Eof()
+BTN10_TOOLTIP:=Ejecutar de Reporte
+BTN10_MESSAGE:=Ejecutar de Reporte
+BTN10_TYPE   :=QUERY
+
+// Ir Final final del Archivo
+BTN13_BMP    :=xTOP.BMP
+BTN13_ACTION :=oBrw:GoTop()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Primer Registro
+BTN13_TYPE   :=TOP
+
+// Avance de Pagina
+BTN14_BMP    :=xSIG.BMP
+BTN14_ACTION :=oBrw:PageDown()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Avance de P?gina
+BTN14_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN15_BMP    :=xANT.BMP
+BTN15_ACTION :=oBrw:PageUp()
+BTN15_WHEN   :=!oCursor:Eof()
+BTN15_TOOLTIP:=Avance de P?gina
+BTN15_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN16_BMP    :=xFIN.BMP
+BTN16_ACTION :=oBrw:GoBottom()
+BTN16_WHEN   :=!oCursor:Eof()
+BTN16_TOOLTIP:=Ultimo Registro
+BTN16_TYPE   :=BOTTOM
+
+//
+BTN17_BMP    :=xSALIR.BMP
+BTN17_ACTION :=oWnd:End()
+BTN17_WHEN   :=.T.
+BTN17_TOOLTIP:=Cerrar
+BTN17_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Código
+COL02_HEADER:=Descripción
+COL02_WIDTH :=345
+COL03_HEADER:=Activa
+COL03_WIDTH :=42
+COL03_VIEW  :=4
+

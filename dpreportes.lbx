@@ -1,0 +1,204 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :={oDp:DPREPORTES}
+TABLE     :=DPREPORTES
+SELECT    :=REP_CODIGO,REP_DESCRI,REP_FECHA,REP_TABLA,REP_APLICA,REP_GRUPO,GRR_DESCRI,REP_CODADD
+INNER     :=LEFT JOIN DPGRUREP ON GRR_CODIGO=REP_GRUPO 
+WHERE     :=
+ORDER BY  :=REP_CODIGO
+GROUP BY  :=
+WIDTH :=911
+HEIGHT:=611
+APLICACION:=
+
+STYLE     :=0
+COLORPANE1:=15990760
+COLORPANE2:=16515067
+FREEZE    :=0
+LFULLHIGHT:=.T.
+
+
+// Tamaño de los Botones
+BTNHEIGHT :=42
+BTNWITH   :=40
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPREPORTES",1,IIF(oCursor:Eof(),NIL,oCursor:REP_CODIGO))
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPREPORTES",3,oCursor:REP_CODIGO)
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+//BTN04_ACTION :=oDpLbx:Delete("Borrar Reporte "+oCursor:REP_CODIGO,.T.,1)
+BTN04_ACTION :=SCRRUN("DPREPORTES",4,oCursor:REP_CODIGO)
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Buscar Registro
+BTN04_TYPE   :=DELETE
+
+// Seleccionar
+BTN05_BMP    :=xunlock.BMP
+BTN05_ACTION :=EJECUTAR("DPUSUXEMP",oCursor:REP_CODIGO,oCursor:REP_DESCRI,"DPREPORTES","Usuarios por Reporte")
+BTN05_WHEN   :=!oCursor:Eof()
+BTN05_TOOLTIP:=Usuarios Autorizados
+BTN05_MESSAGE:=Usuarios Autorizados
+BTN05_TYPE   :=OTHER  
+
+// Seleccionar
+BTN06_BMP    :=xCOPY.BMP
+BTN06_ACTION :=SCRRUN("DPREPORTES",5,oCursor:REP_CODIGO)
+BTN06_WHEN   :=!oCursor:Eof()
+BTN06_TOOLTIP:=Duplicar Reporte
+BTN06_MESSAGE:=Duplicar Reporte
+BTN06_TYPE   :=OTHER  
+
+// Ejecutar Query
+BTN07_BMP    :=QUERY.BMP
+BTN07_ACTION :=oDpLbx:Query()
+BTN07_WHEN   :=.T.
+BTN07_TOOLTIP:=Ejecutar Query de Búsqueda
+BTN07_MESSAGE:=Ejecutar Query de Búsqueda
+BTN07_TYPE   :=QUERY
+
+// Buscar
+BTN08_BMP    :=xFIND.BMP
+BTN08_ACTION :=oDpLbx:Find()
+BTN08_WHEN   :=.T.
+BTN08_TOOLTIP:=Buscar Registro
+BTN08_MESSAGE:=Buscar Registro
+BTN08_TYPE   :=FIND
+
+// Ejecutar Query
+BTN09_BMP    :=QUERY.BMP
+BTN09_ACTION :=oDpLbx:Query()
+BTN09_WHEN   :=.T.
+BTN09_TOOLTIP:=Ejecutar Query de Búsqueda
+BTN09_MESSAGE:=Ejecutar Query de Búsqueda
+BTN09_TYPE   :=QUERY
+
+//Filtro
+BTN10_BMP    :=FILTRAR.BMP
+BTN10_ACTION :=EJECUTAR("LBXSETFILTER",oDpLbx)
+BTN10_WHEN   :=!oCursor:Eof()
+BTN10_TOOLTIP:=Filtrar Registros
+BTN10_MESSAGE:=Filtrar Registros
+BTN10_TYPE   :=OTHER
+
+// Ejecutar Query
+BTN11_BMP    :=xPRINT.BMP
+BTN11_ACTION :=Reporte("DPREPORTES")
+BTN11_WHEN   :=!oCursor:Eof()
+BTN11_TOOLTIP:=Listar Reportes
+BTN11_MESSAGE:=Listar Reportes
+BTN11_TYPE   :=QUERY
+
+// Parámetros Crystal
+BTN12_BMP    :=CRYSTAL.BMP
+BTN12_ACTION :=EJECUTAR("REPDEFCRYSTALPDF",oCursor:REP_CODIGO)
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Definiciones para Crystal Report
+BTN12_MESSAGE:=Definiciones para Crystal Report
+BTN12_TYPE   :=OTHER
+
+// Ejecutar Programa
+BTN13_BMP    :=RUN.BMP
+BTN13_ACTION :=Ejecutar("DPREPORTES",0,ALLTRIM(oCursor:REP_CODIGO))
+BTN13_WHEN   :=.T.
+BTN13_TOOLTIP:=Ejecutar Reporte
+BTN13_MESSAGE:=Ejecutar Reporte
+
+// Filtrar
+BTN15_BMP    :=PASTE.BMP
+BTN15_ACTION :=EJECUTAR("DPREPORTRECOVER",oCursor:REP_CODIGO)
+BTN15_WHEN   :=!oCursor:Eof()
+BTN15_TOOLTIP:=Recuperar Programas y Parámetros de registro de Auditoría
+BTN15_MESSAGE:=Recuperar Programas y Parámetros de registro de Auditoría
+BTN15_TYPE   :=OTHER
+
+
+// Exportar
+BTN15_BMP    :=EXPORTS.BMP
+BTN15_ACTION :=EJECUTAR("LBXREPEXPORT",oDpLbx)
+BTN15_WHEN   :=!oCursor:Eof()
+BTN15_TOOLTIP:=Exportar Reporte
+BTN15_MESSAGE:=Exportar Reporte
+BTN15_TYPE   :=OTHER
+
+BTN16_BMP    :=OPTIONS.BMP
+BTN16_ACTION :=EJECUTAR("LBXSETOPTIONS",oDpLbx)
+BTN16_WHEN   :=.T.
+BTN16_TOOLTIP:=Opciones de Contenidos Comunes
+BTN16_MESSAGE:=Opciones de Contenidos Comunes
+BTN16_TYPE   :=OTHER
+
+
+// Ir Final final del Archivo
+BTN17_BMP    :=xTOP.BMP
+BTN17_ACTION :=oBrw:GoTop()
+BTN17_WHEN   :=!oCursor:Eof()
+BTN17_TOOLTIP:=Primer Registro
+BTN17_TYPE   :=TOP
+
+// Avance de Pagina
+BTN18_BMP    :=xSIG.BMP
+BTN18_ACTION :=oBrw:PageDown()
+BTN18_WHEN   :=!oCursor:Eof()
+BTN18_TOOLTIP:=Avance de Página
+BTN18_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN19_BMP    :=xANT.BMP
+BTN19_ACTION :=oBrw:PageUp()
+BTN19_WHEN   :=!oCursor:Eof()
+BTN19_TOOLTIP:=Avance de Página
+BTN19_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN20_BMP    :=xFIN.BMP
+BTN20_ACTION :=oBrw:GoBottom()
+BTN20_WHEN   :=!oCursor:Eof()
+BTN20_TOOLTIP:=Ultimo Registro
+BTN20_TYPE   :=BOTTOM
+
+//
+BTN21_BMP    :=xSALIR.BMP
+BTN21_ACTION :=oWnd:End()
+BTN21_WHEN   :=.T.
+BTN21_TOOLTIP:=Cerrar
+BTN21_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Código
+COL01_WIDTH :=120
+COL02_HEADER:=Descripción
+COL02_WIDTH :=380
+COL03_HEADER:=Fecha
+COL04_HEADER:=Tabla
+COL05_HEADER:=Apl
+COL06_HEADER:=Grupo
+COL07_HEADER:=Descripción del Grupo
+COL08_HEADER:=Add-On
+

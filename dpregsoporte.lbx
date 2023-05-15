@@ -1,0 +1,207 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :={oDp:DPREGSOPORTE}
+TABLE     :=DPREGSOPORTE
+SELECT    :=RSP_NUMERO,RSP_DESCRI,RSP_PRIORID,RSP_FECHA,RSP_HORA,RSP_ACTIVO,RSP_ESTADO,RSP_ENVIAD,RSP_CODUSU,RSP_CODEMP,RSP_FILMAI,RSP_RIF,RSP_AUTOID
+WHERE     :=
+ORDER BY  :=RSP_NUMERO,RSP_RIF          
+GROUP BY  :=
+WIDTH :=1092
+HEIGHT:=320
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+LFULLSIZE :=.T.
+GOBOTTOM  :=.T.
+
+STYLE     :=0
+COLORPANE1:=16775408
+COLORPANE2:=16771797
+FREEZE    :=1
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPREGSOPORTE",1,oCursor:RSP_NUMERO,oDpLbx:aParam)
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=EJECUTAR("DPREGSOPORTECON",oCursor:RSP_NUMERO,oDpLbx:aParam)
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPREGSOPORTE",3,oCursor:RSP_NUMERO,oDpLbx:aParam)
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+
+// Eliminar
+BTN05_BMP    :=EXCEL.BMP
+BTN05_ACTION :=SCRRUN("LBXTOEXCEL",oDpLbx)
+BTN05_WHEN   :=!oCursor:Eof()
+BTN05_TOOLTIP:=Exportar hacia Excel
+BTN05_MESSAGE:=Exportar hacia Excel
+BTN05_TYPE   :=EXCEL
+
+
+// HTML
+BTN06_BMP    :=HTML.BMP
+BTN06_ACTION :=SCRRUN("LBXTOHTML",oDpLbx)
+BTN06_WHEN   :=!oCursor:Eof()
+BTN06_TOOLTIP:=Exportar hacia HTML
+BTN06_MESSAGE:=Exportar hacia HTMLl
+BTN06_TYPE   :=HTML
+
+// Eliminar
+BTN07_BMP    :=UPLOAD.BMP
+BTN07_ACTION :=EJECUTAR("DPREGSOPORTEUP")
+BTN07_WHEN   :=!oCursor:Eof()
+BTN07_TOOLTIP:=Eliminar
+BTN07_MESSAGE:=Eliminar Registro
+BTN07_TYPE   :=DELETE
+
+
+// Menu
+BTN08_BMP    :=MENU.BMP
+BTN08_ACTION :=EJECUTAR("DPREGSOPORTEMNU",oCursor:RSP_NUMERO)
+BTN08_WHEN   :=!oCursor:Eof()
+BTN08_TOOLTIP:=Menú de Opciones
+BTN08_MESSAGE:=Menú de Opciones
+BTN08_TYPE   :=MENU
+
+// Buscar
+BTN09_BMP    :=xFIND.BMP
+BTN09_ACTION :=oDpLbx:Find()
+BTN09_WHEN   :=.T.
+BTN09_TOOLTIP:=Buscar Registro
+BTN09_MESSAGE:=Buscar Registro
+BTN09_TYPE   :=FIND
+
+// Ejecutar Query
+BTN10_BMP    :=QUERY.BMP
+BTN10_ACTION :=oDpLbx:Query()
+BTN10_WHEN   :=.T.
+BTN10_TOOLTIP:=Ejecutar Query de Búsqueda
+BTN10_MESSAGE:=Ejecutar Query de Búsqueda
+BTN10_TYPE   :=QUERY
+
+// Ejecutar Print
+BTN11_BMP    :=xPRINT.BMP
+BTN11_ACTION :=oDpLbx:PRINT()
+BTN11_WHEN   :=!oCursor:Eof()
+BTN11_TOOLTIP:=Ejecutar de Reporte
+BTN11_MESSAGE:=Ejecutar de Reporte
+BTN11_TYPE   :=QUERY
+
+// Ejecutar Print
+BTN12_BMP    :=Preview.BMP
+BTN12_ACTION :=oDpLbx:Preview()
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Previsualizar
+BTN12_MESSAGE:=Previsualizar
+BTN12_TYPE   :=PREVIEW
+
+// Options
+BTN13_BMP    :=OPTIONS.BMP
+BTN13_ACTION :=EJECUTAR("LBXSETOPTIONS",oDpLbx)
+BTN13_WHEN   :=.T.
+BTN13_TOOLTIP:=Opciones de Contenidos Comunes
+BTN13_MESSAGE:=Opciones de Contenidos Comunes
+BTN13_TYPE   :=OTHER
+
+// Filtros
+BTN14_BMP    :=FILTRAR.BMP
+BTN14_ACTION :=EJECUTAR("LBXSETFILTER",oDpLbx)
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Filtrar Registros
+BTN14_MESSAGE:=Filtrar Registros
+BTN14_TYPE   :=OTHER
+
+// Ir Final final del Archivo
+BTN19_BMP    :=xTOP.BMP
+BTN19_ACTION :=oBrw:GoTop()
+BTN19_WHEN   :=!oCursor:Eof()
+BTN19_TOOLTIP:=Primer Registro
+BTN19_TYPE   :=TOP
+
+// Avance de Pagina
+BTN20_BMP    :=xSIG.BMP
+BTN20_ACTION :=oBrw:PageDown()
+BTN20_WHEN   :=!oCursor:Eof()
+BTN20_TOOLTIP:=Avance de Página
+BTN20_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN21_BMP    :=xANT.BMP
+BTN21_ACTION :=oBrw:PageUp()
+BTN21_WHEN   :=!oCursor:Eof()
+BTN21_TOOLTIP:=Avance de Página
+BTN21_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN22_BMP    :=xFIN.BMP
+BTN22_ACTION :=oBrw:GoBottom()
+BTN22_WHEN   :=!oCursor:Eof()
+BTN22_TOOLTIP:=Ultimo Registro
+BTN22_TYPE   :=BOTTOM
+
+//
+BTN23_BMP    :=xSALIR.BMP
+BTN23_ACTION :=oWnd:End()
+BTN23_WHEN   :=.T.
+BTN23_TOOLTIP:=Cerrar
+BTN23_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Número
+COL02_HEADER:=Descripción
+COL02_WIDTH :=380
+COL03_HEADER:=Prioridad
+COL04_HEADER:=Fecha
+COL05_HEADER:=Hora
+COL06_HEADER:=Registro;Activo
+COL06_VIEW:=4
+COL06_WIDTH :=60
+COL07_HEADER:=Estado
+COL08_HEADER:=Enviado
+COL08_VIEW:=4
+COL09_HEADER:=Cód.;Usuario
+COL09_WIDTH :=60
+COL10_HEADER:=Cód.;Empresa
+COL10_WIDTH :=64
+COL11_HEADER:=Reg.;Doc
+COL11_WIDTH :=50
+COL12_HEADER:=RIF
+COL12_WIDTH :=90
+COL13_HEADER:=ID;Server
+COL13_WIDTH :=50

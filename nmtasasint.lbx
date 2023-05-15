@@ -1,0 +1,130 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :={oDp:NMTASASINT}
+TABLE     :=NMTASASINT
+SELECT    :=INT_HASTA ,INT_TASA  ,INT_BANCA ,INT_PRESTA,INT_OTRO  
+ORDER BY  :=INT_HASTA
+WHERE     :=
+GROUP BY  :=
+WIDTH :=470
+HEIGHT:=419
+APLICACION:=
+
+STYLE     :=0
+COLORPANE1:=16775408
+COLORPANE2:=16771797
+FREEZE    :=0
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("NMTASASINT",1,IIF(oCursor:Eof(),NIL,oCursor:INT_HASTA))
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("NMTASASINT",3,oCursor:INT_HASTA)
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+// Buscar
+BTN06_BMP    :=xFIND.BMP
+BTN06_ACTION :=oDpLbx:Find()
+BTN06_WHEN   :=.T.
+BTN06_TOOLTIP:=Buscar Registro
+BTN06_MESSAGE:=Buscar Registro
+BTN06_TYPE   :=FIND
+
+
+// Explorer
+BTN08_BMP    :=explorer.BMP
+BTN08_ACTION :=EJECUTAR("NMVERTASASINT")
+BTN08_WHEN   :=!oCursor:Eof()
+BTN08_TOOLTIP:=Verificar Tasas de Interés
+BTN08_MESSAGE:=Verificar Tasas de Interés
+
+//BTN08_TYPE   :=QUERY
+
+// Ejecutar Query
+BTN09_BMP    :=xPRINT.BMP
+BTN09_ACTION :=REPORTE("NMTASASINT")
+BTN09_WHEN   :=!oCursor:Eof()
+BTN09_TOOLTIP:=Ejecutar de Reporte
+BTN09_MESSAGE:=Ejecutar de Reporte
+BTN09_TYPE   :=QUERY
+
+//Filtro
+BTN10_BMP    :=FILTRAR.BMP
+BTN10_ACTION :=oDpLbx:SetFilter()
+BTN10_WHEN   :=!oCursor:Eof()
+BTN10_TOOLTIP:=Filtrar Registros
+BTN10_MESSAGE:=Filtrar Registros
+BTN10_TYPE   :=OTHER
+
+//Filtro
+BTN11_BMP    :=%.BMP
+BTN11_ACTION :=EJECUTAR("BCVTASAINTFORM")
+BTN11_WHEN   :=!oCursor:Eof()
+BTN11_TOOLTIP:=Importar Tasas de Interés BCV
+BTN11_MESSAGE:=Importar Tasas de Interés BCV
+BTN11_TYPE   :=OTHER
+
+
+// Ir Final final del Archivo
+BTN13_BMP    :=xTOP.BMP
+BTN13_ACTION :=oBrw:GoTop()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Primer Registro
+BTN13_TYPE   :=TOP
+
+// Ir Final final del Archivo
+BTN14_BMP    :=xFIN.BMP
+BTN14_ACTION :=oBrw:GoBottom()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Ultimo Registro
+BTN14_TYPE   :=BOTTOM
+
+//
+BTN15_BMP    :=xSALIR.BMP
+BTN15_ACTION :=oWnd:End()
+BTN15_WHEN   :=.T.
+BTN15_TOOLTIP:=Cerrar
+BTN15_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Fecha
+COL01_WIDTH :=120
+COL02_HEADER:=Prestaciones
+COL02_DATA  :=TRAN(oCursor:INT_TASA,"999.99")
+COL03_HEADER:=Banca
+COL03_DATA  :=TRAN(oCursor:INT_BANCA,"999.99")
+COL04_HEADER:=Préstamos
+COL04_DATA  :=TRAN(oCursor:INT_PRESTA,"999.99")
+COL05_HEADER:=Otros
+COL05_DATA  :=TRAN(oCursor:INT_OTRO ,"999.99")
+BTN02_ACTION:=SCRRUN("NMTASASINT",2,IIF(oCursor:Eof(),NIL,oCursor:INT_TASA))

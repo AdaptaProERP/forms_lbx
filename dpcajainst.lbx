@@ -1,0 +1,206 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :={oDp:DPCAJAINST}
+TABLE     :=DPCAJAINST
+SELECT    :=ICJ_CODIGO,ICJ_NOMBRE,CIC_CUENTA,ICJ_CODMON,ICJ_TRAMAIF,ICJ_CALITF,ICJ_PORITF,ICJ_MONEDA,ICJ_INGRES,ICJ_EGRESO,ICJ_ACTIVO
+INNER     :="LEFT JOIN DPCAJAINST_CTA ON ICJ_CODIGO=CIC_CODIGO AND CIC_CTAMOD"+GetWhere("=",oDp:cCtaMod)
+WHERE     :=
+ORDER BY  :=ICJ_CODIGO
+GROUP BY  :=
+WIDTH :=913
+HEIGHT:=920
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+LFULLHIGHT:=.T.
+
+FILTER_LOG :=DPCAJAINST.ICJ_ACTIVO
+FILTER_TEXT:=Activos
+
+STYLE     :=0
+COLORPANE1:=16774120
+COLORPANE2:=16771797
+FREEZE    :=0
+
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPCAJAINST",1,IIF(oCursor:Eof(),NIL,oCursor:ICJ_CODIGO))
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=SCRRUN("DPCAJINSCON",NIL,oCursor:ICJ_CODIGO)
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPCAJAINST",3,oCursor:ICJ_CODIGO)
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+BTN05_BMP    :=OPTIONS.BMP
+BTN05_ACTION :=EJECUTAR("LBXSETOPTIONS",oDpLbx)
+BTN05_WHEN   :=.T.
+BTN05_TOOLTIP:=Opciones de Contenidos Comunes
+BTN05_MESSAGE:=Opciones de Contenidos Comunes
+BTN05_TYPE   :=OTHER
+
+
+// Comisiones
+BTN06_BMP    :=RETISLR.bmp
+BTN06_ACTION :=EJECUTAR("DPBANCOPORDIR",oCursor:ICJ_CODIGO)
+BTN06_WHEN   :=!oCursor:Eof()
+BTN06_TOOLTIP:=% por Banco
+BTN06_MESSAGE:=% por Banco
+BTN06_TYPE   :=OTHER
+
+
+// Comisiones
+BTN07_BMP    :=MARCASFN.bmp
+
+BTN07_ACTION :=EJECUTAR("DPCAJAINSTXMAR",oCursor:ICJ_CODIGO,oCursor:ICJ_NOMBRE)
+BTN07_WHEN   :=!oCursor:Eof()
+BTN07_TOOLTIP:=Marcas Financieras Asociadas
+BTN07_MESSAGE:=Marcas Financieras Asociadas
+
+BTN07_TYPE   :=OTHER
+
+// Buscar
+BTN08_BMP    :=xFIND.BMP
+BTN08_ACTION :=oDpLbx:Find()
+BTN08_WHEN   :=.T.
+BTN08_TOOLTIP:=Buscar Registro
+BTN08_MESSAGE:=Buscar Registro
+BTN08_TYPE   :=FIND
+
+// Modelo de Implantacion
+BTN09_BMP    :=variacion.bmp
+BTN09_ACTION :=scrrun("MODIMPINTCAJ",oCursor:ICJ_CODIGO)
+BTN09_WHEN   :=.T.
+BTN09_TOOLTIP:=Modelo de Implantación
+BTN09_MESSAGE:=Modelo de Implantación
+BTN09_TYPE   :=MODIMP
+
+// Ejecutar Query
+BTN10_BMP    :=xPRINT.BMP
+BTN10_ACTION :=REPORTE("DPCAJAINST")
+BTN10_WHEN   :=!oCursor:Eof()
+BTN10_TOOLTIP:=Ejecutar de Reporte
+BTN10_MESSAGE:=Ejecutar de Reporte
+BTN10_TYPE   :=QUERY
+
+//filtro
+BTN11_BMP    :=FILTRAR.BMP
+BTN11_ACTION :=EJECUTAR("LBXSETFILTER",oDpLbx)
+BTN11_WHEN   :=!oCursor:Eof()
+BTN11_TOOLTIP:=Filtrar Registros
+BTN11_MESSAGE:=Filtrar Registros
+BTN11_TYPE   :=OTHER
+
+// Ir Final final del Archivo
+BTN12_BMP    :=xTOP.BMP
+BTN12_ACTION :=oBrw:GoTop()
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Primer Registro
+BTN12_TYPE   :=TOP
+
+// Avance de Pagina
+BTN13_BMP    :=xSIG.BMP
+BTN13_ACTION :=oBrw:PageDown()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Avance de Página
+BTN13_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN14_BMP    :=xANT.BMP
+BTN14_ACTION :=oBrw:PageUp()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Avance de Página
+BTN14_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN15_BMP    :=xFIN.BMP
+BTN15_ACTION :=oBrw:GoBottom()
+BTN15_WHEN   :=!oCursor:Eof()
+BTN15_TOOLTIP:=Ultimo Registro
+BTN15_TYPE   :=BOTTOM
+
+//
+BTN16_BMP    :=xSALIR.BMP
+BTN16_ACTION :=oWnd:End()
+BTN16_WHEN   :=.T.
+BTN16_TOOLTIP:=Cerrar
+BTN16_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Código
+COL02_HEADER:=Nombre
+COL03_HEADER:=Cuenta;Contable (Activo)
+COL04_HEADER:=Código;Moneda
+COL04_WIDTH :=60
+
+COL05_VIEW  :=4
+
+COL05_HEADER:=TRAMA;IF-TFHK
+
+COL06_VIEW  :=4
+
+COL06_HEADER:=Aplica;ITF/IGTF
+COL06_EDIT  :=.T.
+
+COL07_HEADER:=%;IGTF
+COL07_DATA  :=TRAN(oCursor:ICJ_PORITF,"999.99")
+COL07_EDIT  :=.T.
+
+COL08_VIEW  :=4
+
+COL08_HEADER:=Moneda
+COL08_EDIT  :=.T.
+
+COL09_HEADER:=Recibo;Ingreso
+COL09_VIEW  :=4
+
+COL09_WIDTH :=60
+COL09_EDIT  :=.T.
+
+COL10_HEADER:=Cbte.;Pago
+COL10_VIEW  :=4
+
+COL10_WIDTH :=60
+COL10_EDIT  :=.T.
+
+COL11_HEADER:=Activo
+COL11_VIEW  :=4
+
+COL11_WIDTH :=50
+COL11_EDIT  :=.T.

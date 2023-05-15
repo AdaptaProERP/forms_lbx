@@ -1,0 +1,187 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :=Edificios
+TABLE     :=DPCENCOS
+SELECT    :=CEN_CODIGO,CEN_DESCRI,CEN_CODSUC,SUC_DESCRI,SUM(IF(CRC_CODIGO IS NOT NULL,1,0)) AS CANTID,CEN_ACTIVO
+INNER     :=LEFT JOIN DPSUCURSAL ON CEN_CODSUC=SUC_CODIGO LEFT JOIN DPCLIENTESREC ON CEN_CODSUC=CRC_CODSUC AND CEN_CODIGO=CRC_CENCOS
+WHERE     :=
+ORDER BY  :=CEN_CODIGO
+GROUP BY  :=CEN_CODIGO
+WIDTH :=862
+HEIGHT:=920
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+lFullHight:=.T.
+FILTER_LOG :=DPCENCOS.CEN_ACTIVO
+FILTER_TEXT:=Activos
+
+STYLE     :=0
+COLORPANE1:=16775408
+COLORPANE2:=16771797
+FREEZE    :=0
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPCENCOS",1,IIF(oCursor:Eof(),NIL,oCursor:CEN_CODIGO))
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=SCRRUN("DPCENCOSCON",NIL,oCursor:CEN_CODIGO,oCursor:CEN_DESCRI)
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPCENCOS",3,oCursor:CEN_CODIGO)
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+// Propiterios
+BTN05_BMP    :=CLIENTE.BMP
+BTN05_ACTION :=EJECUTAR("BRCNDPROXEDIF","CRC_CENCOS"+GetWhere("=",oCursor:CEN_CODIGO))
+BTN05_WHEN   :=!oCursor:Eof()
+BTN05_TOOLTIP:=Propietarios/Inquilinos por Edificio
+BTN05_MESSAGE:=Propietarios/Inquilinos por Edificio
+BTN05_TYPE   :=OTHER
+
+// Meu
+BTN06_BMP    :=MENU.BMP
+BTN06_ACTION :=EJECUTAR("DPCENCOSMNU",oCursor:CEN_CODIGO)
+BTN06_WHEN   :=!oCursor:Eof()
+BTN06_TOOLTIP:=Menú de Opciones
+BTN06_MESSAGE:=Menú de Opciones
+BTN06_TYPE   :=OTHER
+
+
+// Buscar
+BTN07_BMP    :=xFIND.BMP
+BTN07_ACTION :=oDpLbx:Find()
+BTN07_WHEN   :=.T.
+BTN07_TOOLTIP:=Buscar Registro
+BTN07_MESSAGE:=Buscar Registro
+BTN07_TYPE   :=FIND
+
+// Ejecutar Query
+BTN08_BMP    :=QUERY.BMP
+BTN08_ACTION :=oDpLbx:Query()
+BTN08_WHEN   :=.T.
+BTN08_TOOLTIP:=Ejecutar Query de Búsqueda
+BTN08_MESSAGE:=Ejecutar Query de Búsqueda
+BTN08_TYPE   :=QUERY
+
+// Ejecutar Query
+BTN09_BMP    :=xPRINT.BMP
+BTN09_ACTION :=REPORTE("DPCENCOS")
+BTN09_WHEN   :=!oCursor:Eof()
+BTN09_TOOLTIP:=Ejecutar de Reporte
+BTN09_MESSAGE:=Ejecutar de Reporte
+BTN09_TYPE   :=QUERY
+
+
+// Acceso
+BTN10_BMP    :=xunlock.BMP
+BTN10_ACTION :=EJECUTAR("DPTABXUSU",oCursor:CEN_CODIGO,oCursor:CEN_DESCRI,"DPCENCOS","Usuarios por "+GetFromVar("DPCENCOS"))
+BTN10_WHEN   :=oDp:lPermisos
+BTN10_TOOLTIP:=Usuarios Autorizados
+BTN10_MESSAGE:=Usuarios Autorizados
+BTN10_TYPE   :=OTHER  
+
+//filtro
+BTN11_BMP    :=FILTRAR.BMP
+BTN11_ACTION :=EJECUTAR("LBXSETFILTER",oDpLbx)
+BTN11_WHEN   :=!oCursor:Eof()
+BTN11_TOOLTIP:=Filtrar Registros
+BTN11_MESSAGE:=Filtrar Registros
+BTN11_TYPE   :=OTHER
+
+// Ir Final final del Archivo
+BTN12_BMP    :=xTOP.BMP
+BTN12_ACTION :=oBrw:GoTop()
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Primer Registro
+BTN12_TYPE   :=TOP
+
+// Avance de Pagina
+BTN13_BMP    :=xSIG.BMP
+BTN13_ACTION :=oBrw:PageDown()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Avance de Página
+BTN13_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN14_BMP    :=xANT.BMP
+BTN14_ACTION :=oBrw:PageUp()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Avance de Página
+BTN14_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN15_BMP    :=xFIN.BMP
+BTN15_ACTION :=oBrw:GoBottom()
+BTN15_WHEN   :=!oCursor:Eof()
+BTN15_TOOLTIP:=Ultimo Registro
+BTN15_TYPE   :=BOTTOM
+
+//
+BTN16_BMP    :=xSALIR.BMP
+BTN16_ACTION :=oWnd:End()
+BTN16_WHEN   :=.T.
+BTN16_TOOLTIP:=Cerrar
+BTN16_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Código
+COL02_HEADER:=Descripción
+COL02_WIDTH :=400
+
+COL03_HEADER:=Desde
+COL03_WIDTH :=70
+
+COL04_HEADER:=Hasta
+COL04_WIDTH :=70
+
+COL05_HEADER:=Color;Gráficas
+COL05_WIDTH :=80
+
+COL06_HEADER:=Titulo;Columna
+COL06_WIDTH :=80
+
+COL07_HEADER:=Produc;tivo
+COL07_VIEW  :=4
+COL07_WIDTH :=60
+
+COL08_HEADER:=Activo
+COL08_VIEW  :=4
+COL08_WIDTH :=45
+
+

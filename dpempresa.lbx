@@ -1,0 +1,232 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :=Definición de {oDp:DPEMPRESA}
+TABLE     :=DPEMPRESA
+SELECT    :=EMP_CODIGO,EMP_NOMBRE,EMP_FECHAI,EMP_FECHAF,EMP_BD,EMP_TIPFCH,EMP_FCHULT,EMP_RIF,EMP_EM_AFI,EMP_EMGTIP,EMP_ACTIVA 
+WHERE     :=
+ORDER BY  :=EMP_CODIGO
+GROUP BY  :=
+WIDTH :=1093
+HEIGHT:=683
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+
+STYLE     :=0
+COLORPANE1:=16774378
+COLORPANE2:=16768959
+FREEZE    :=0
+
+LEXCLUYE  :=.F.
+
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPEMPRESA",1,IIF(oCursor:Eof(),NIL,oCursor:EMP_CODIGO))
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=SCRRUN("DPEMPRESA",2,IIF(oCursor:Eof(),NIL,oCursor:EMP_CODIGO))
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPEMPRESA",3,oCursor:EMP_CODIGO)
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+
+// Seleccionar
+BTN06_BMP    :=xunlock.BMP
+BTN06_ACTION :=EJECUTAR("DPUSUXEMP",oCursor:EMP_CODIGO,oCursor:EMP_NOMBRE,"DPEMPRESA","Usuarios por Empresa")
+BTN06_WHEN   :=!oCursor:Eof()
+BTN06_TOOLTIP:=Usuarios Autorizados
+BTN06_MESSAGE:=Usuarios Autorizados
+BTN06_TYPE   :=OTHER  
+
+
+// Buscar
+BTN08_BMP    :=xFIND.BMP
+BTN08_ACTION :=oDpLbx:Find()
+BTN08_WHEN   :=.T.
+BTN08_TOOLTIP:=Buscar Registro
+BTN08_MESSAGE:=Buscar Registro
+BTN08_TYPE   :=FIND
+
+
+// Buscar
+BTN09_BMP    :=IMPORTAR.BMP
+BTN09_ACTION :=EJECUTAR("IMPORTVERANT")
+BTN09_WHEN   :=.T.
+BTN09_TOOLTIP:=Importar Desde Versión Anterior
+BTN09_MESSAGE:=Importar Desde Versión Anterior
+BTN09_TYPE   :=OTHER
+
+// Buscar
+BTN10_BMP    :=EXPORTS.BMP
+BTN10_ACTION :=EJECUTAR("DEPREG_CLONAREMP",NIL,oCursor:EMP_CODIGO)
+BTN10_WHEN   :=.T.
+BTN10_TOOLTIP:=Exportar hacia una nueva base de datos según Rango de Fecha
+BTN10_MESSAGE:=Exportar hacia una nueva base de datos según Rango de Fecha
+BTN10_TYPE   :=OTHER
+
+
+
+
+// Ejecutar Query
+BTN11_BMP    :=DATABASE.BMP
+BTN11_ACTION :=EJECUTAR("MYSQLDSN",oCursor:EMP_BD,.T.,oCursor:EMP_CODIGO)
+BTN11_WHEN   :=.T.
+BTN11_TOOLTIP:=Crear DSN para la Base de Datos
+BTN11_MESSAGE:=Crear DSN para la Base de Datos
+BTN11_TYPE   :=OTHER
+
+// Ejecutar Query
+BTN12_BMP    :=xPRINT.BMP
+BTN12_ACTION :=Reporte("DPEMPRESA")
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Ejecutar de Reporte
+BTN12_MESSAGE:=Ejecutar de Reporte
+BTN12_TYPE   :=QUERY
+
+
+// Adjuntar Archivos
+BTN13_BMP    :=adjuntar.BMP
+BTN13_ACTION :=EJECUTAR("EMPRESAADJ",oCursor:EMP_CODIGO)
+BTN13_WHEN   :=oDp:nVersion>=5
+BTN13_TOOLTIP:=Adjuntar Archivos
+BTN13_MESSAGE:=Adjuntar Archivos
+BTN13_TYPE   :=OTHER
+
+// Adjuntar Archivos
+BTN14_BMP    :=trabajador.BMP
+BTN14_ACTION :=EJECUTAR("DPEMPRESAPER",oCursor:EMP_CODIGO)
+BTN14_WHEN   :=oDp:nVersion>=5.1
+BTN14_TOOLTIP:=Personal de la Empresa
+BTN14_MESSAGE:=Personal de la Empresa
+BTN14_TYPE   :=OTHER
+
+// Adjuntar Archivos
+BTN15_BMP    :=emanager.BMP
+//BTN15_ACTION :=EJECUTAR("EMANAGER",oCursor:EMP_CODIGO,NIL,.T.)
+BTN15_ACTION :=EJECUTAR("DPEMMENU",oCursor:EMP_CODIGO)
+BTN15_WHEN   :=oDp:nVersion>=5.1
+BTN15_TOOLTIP:=Afiliar eManager
+BTN15_MESSAGE:=Afiliar eManager
+BTN15_TYPE   :=OTHER
+
+
+// Clonar Empresa
+// lConfig,lEmpty,lNew
+BTN17_BMP    :=paste.BMP
+BTN17_ACTION :=EJECUTAR("DPEMPRESA",1,oCursor:EMP_CODIGO,NIL,oCursor:EMP_BD,NIL)
+BTN17_WHEN   :=oDp:nVersion>=5.1
+BTN17_TOOLTIP:=Clonar Empresa
+BTN17_MESSAGE:=Clonar Empresa
+BTN17_TYPE   :=OTHER
+
+BTN19_BMP    :=cut.BMP
+BTN19_ACTION :=EJECUTAR("DEPREG_CLONAREMP",NIL,oCursor:EMP_CODIGO)
+BTN19_WHEN   :=oDp:nVersion>=5.1
+BTN19_TOOLTIP:=Clonar Empresa con Transacciones por Rango de Fecha
+BTN19_MESSAGE:=Clonar Empresa con Transacciones por Rango de Fecha
+BTN19_TYPE   :=OTHER
+
+//filtro
+BTN20_BMP    :=FILTRAR.BMP
+BTN20_ACTION :=EJECUTAR("LBXSETFILTER",oDpLbx)
+BTN20_WHEN   :=!oCursor:Eof()
+BTN20_TOOLTIP:=Filtrar Registros
+BTN20_MESSAGE:=Filtrar Registros
+BTN20_TYPE   :=OTHER
+
+// Ir Final final del Archivo
+BTN21_BMP    :=xTOP.BMP
+BTN21_ACTION :=oBrw:GoTop()
+BTN21_WHEN   :=!oCursor:Eof()
+BTN21_TOOLTIP:=Primer Registro
+BTN21_TYPE   :=TOP
+
+// Avance de Pagina
+BTN22_BMP    :=xSIG.BMP
+BTN22_ACTION :=oBrw:PageDown()
+BTN22_WHEN   :=!oCursor:Eof()
+BTN22_TOOLTIP:=Siguiente
+BTN22_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN23_BMP    :=xANT.BMP
+BTN23_ACTION :=oBrw:PageUp()
+BTN23_WHEN   :=!oCursor:Eof()
+BTN23_TOOLTIP:=Anterior 
+BTN23_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN24_BMP    :=xFIN.BMP
+BTN24_ACTION :=oBrw:GoBottom()
+BTN24_WHEN   :=!oCursor:Eof()
+BTN24_TOOLTIP:=Ultimo Registro
+BTN24_TYPE   :=BOTTOM
+
+//
+BTN25_BMP    :=xSALIR.BMP
+BTN25_ACTION :=oWnd:End()
+BTN25_WHEN   :=.T.
+BTN25_TOOLTIP:=Cerrar
+BTN25_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Cód.
+COL01_WIDTH :=40
+COL02_HEADER:=Nombre
+COL02_WIDTH :=320
+COL03_HEADER:=Inicio
+COL03_WIDTH :=79
+COL04_HEADER:=Fin
+COL04_WIDTH :=79
+COL05_HEADER:=Base;Datos
+COL05_WIDTH :=130
+COL06_HEADER:=Tipo;Fecha
+COL06_WIDTH :=60
+COL07_HEADER:=Ult.;Fecha
+COL07_WIDTH :=78
+COL08_HEADER:=RIF
+COL08_WIDTH :=85
+COL09_HEADER:=ID;EM
+COL09_WIDTH :=30
+COL10_HEADER:=Afiliación;Emnager
+COL10_WIDTH :=120
+
+COL11_HEADER:=Activa
+COL11_WIDTH :=60
+COL11_VIEW  :=4

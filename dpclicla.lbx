@@ -1,0 +1,185 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :={oDp:DPCLICLA}
+TABLE     :=DPCLICLA
+SELECT    :=CLC_CODIGO,CLC_DESCRI,CLC_TIPO,CLC_CLRGRA,IF(CLI_CODCLA<>'' AND CLI_SITUAC<>"I",COUNT(*),0) AS CUANTOS,CLC_ACTIVO
+INNER     :=LEFT JOIN DPCLIENTES ON CLC_CODIGO=CLI_CODCLA OR CLI_CODCLA IS NULL
+GROUP BY  :=CLC_CODIGO,CLC_DESCRI
+WHERE     :=
+ORDER BY  :=CLC_CODIGO
+GROUP BY  :=
+WIDTH :=627
+HEIGHT:=360
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+
+STYLE     :=0
+COLORPANE1:=16775408
+COLORPANE2:=16771797
+FREEZE    :=0
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPCLICLA",1,IIF(oCursor:Eof(),NIL,oCursor:CLC_CODIGO))
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+//BTN02_ACTION :=SCRRUN("DPCLICLA",2,IIF(oCursor:Eof(),NIL,oCursor:CLC_CODIGO))
+BTN02_ACTION :=EJECUTAR("DPCLICLACON",NIL,oCursor:CLC_CODIGO)
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPCLICLA",3,oCursor:CLC_CODIGO)
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+
+// UNIR
+BTN05_BMP    :=xUnir.BMP
+BTN05_ACTION :=SCRRUN("DPCHANGECOD","DPCLICLA","CLC_CODIGO","CLC_DESCRI",oCursor:CLC_CODIGO)
+BTN05_WHEN   :=!oCursor:Eof()
+BTN05_TOOLTIP:=Unir Clasificación
+BTN05_MESSAGE:=Unir Clasificación
+BTN05_TYPE   :=OTHER
+
+
+
+// Buscar
+BTN06_BMP    :=xFIND.BMP
+BTN06_ACTION :=oDpLbx:Find()
+BTN06_WHEN   :=.T.
+BTN06_TOOLTIP:=Buscar Registro
+BTN06_MESSAGE:=Buscar Registro
+BTN06_TYPE   :=FIND
+
+// Ejecutar Query
+//BTN07_BMP    :=QUERY.BMP
+//BTN07_ACTION :=oDpLbx:Query()
+//BTN07_WHEN   :=.T.
+//BTN07_TOOLTIP:=Ejecutar Query de Búsqueda
+//BTN07_MESSAGE:=Ejecutar Query de Búsqueda
+//BTN07_TYPE   :=QUERY
+
+// Ejecutar Query
+BTN08_BMP    :=xPRINT.BMP
+BTN08_ACTION :=REPORTE("DPCLICLA")
+BTN08_WHEN   :=!oCursor:Eof()
+BTN08_TOOLTIP:=Ejecutar de Reporte
+BTN08_MESSAGE:=Ejecutar de Reporte
+BTN08_TYPE   :=QUERY
+
+// Acceso
+BTN09_BMP    :=xunlock.BMP
+BTN09_ACTION :=EJECUTAR("DPTABXUSU",oCursor:CLC_CODIGO,oCursor:CLC_DESCRI,"DPCLICLA","Usuarios por "+GetFromVar("DPCLICLA"))
+BTN09_WHEN   :=oDp:lPermisos
+BTN09_TOOLTIP:=Usuarios Autorizados
+BTN09_MESSAGE:=Usuarios Autorizados
+BTN09_TYPE   :=OTHER 
+
+//filtro
+BTN10_BMP    :=FILTRAR.BMP
+BTN10_ACTION :=EJECUTAR("LBXSETFILTER",oDpLbx)
+BTN10_WHEN   :=!oCursor:Eof()
+BTN10_TOOLTIP:=Filtrar Registros
+BTN10_MESSAGE:=Filtrar Registros
+BTN10_TYPE   :=OTHER 
+
+
+// Clientes Asociados
+BTN11_BMP    :=XBROWSE.BMP 
+BTN11_ACTION :=DPLBX("DPCLIENT_CLA.LBX",oDp:DPCLIENTES+","+oDp:xDPCLICLA+":"+oCursor:CLC_CODIGO+" "+ALLTRIM(oCursor:CLC_DESCRI),"CLI_CODCLA"+GetWhere("=",oCursor:CLC_CODIGO),NIL,NIL,NIL,oCursor:CLC_CODIGO)
+BTN11_WHEN   :=.T.
+BTN11_TOOLTIP:=Clientes
+BTN11_MESSAGE:=Clientes
+BTN11_TYPE   :=OTHER
+
+
+// Ir Final final del Archivo
+BTN12_BMP    :=xTOP.BMP
+BTN12_ACTION :=oBrw:GoTop()
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Primer Registro
+BTN12_TYPE   :=TOP
+
+// Avance de Pagina
+BTN13_BMP    :=xSIG.BMP
+BTN13_ACTION :=oBrw:PageDown()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Avance de Página
+BTN13_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN14_BMP    :=xANT.BMP
+BTN14_ACTION :=oBrw:PageUp()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Avance de Página
+BTN14_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN15_BMP    :=xFIN.BMP
+BTN15_ACTION :=oBrw:GoBottom()
+BTN15_WHEN   :=!oCursor:Eof()
+BTN15_TOOLTIP:=Ultimo Registro
+BTN15_TYPE   :=BOTTOM
+
+//
+BTN16_BMP    :=xSALIR.BMP
+BTN16_ACTION :=oWnd:End()
+BTN16_WHEN   :=.T.
+BTN16_TOOLTIP:=Cerrar
+BTN16_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Código
+COL01_WIDTH :=60
+
+COL02_HEADER:=Nombre
+COL02_WIDTH :=350
+
+COL03_HEADER:=Tipo
+COL03_WIDTH :=120
+
+COL04_HEADER:=Color;Gráficas
+COL04_WIDTH :=120
+COL04_COLOR :=CLC_CLRGRA
+
+COL05_HEADER:=Clientes
+COL05_WIDTH :=110
+COL05_DATA  :=TRAN(oCursor:CUANTOS,"999999")
+COL05_ALING :=1
+
+COL06_HEADER:=Activo
+COL06_VIEW  :=4
+

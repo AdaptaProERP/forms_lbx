@@ -1,0 +1,181 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :={oDp:DPPCLOG}
+TABLE     :=DPPCLOG
+SELECT    :=PC_NOMBRE,PC_IP,PC_FECHAI,PC_HORAI,PC_HORAA,PC_FECHAE,PC_HORAE,PC_ACTBD,PC_FECHAA,PC_HORAACT,PC_USUARIO,PC_ISDICD,PC_FCHDIC,PC_SHD,PC_ACTSRV,PC_ACTIVO
+WHERE     :=
+ORDER BY  :=PC_NOMBRE     
+GROUP BY  :=
+WIDTH :=1399
+HEIGHT:=601
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+
+STYLE     :=0
+COLORPANE1:=16774120
+COLORPANE2:=16770250
+FREEZE    :=0
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=EJECUTAR("DPPCLOGCON",oCursor:PC_NOMBRE)
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Consultar
+BTN03_BMP    :=XEDIT.BMP
+BTN03_ACTION :=EJECUTAR("DPPCLOG",3,oCursor:PC_NOMBRE)
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Activar o Desactivar PC
+BTN03_MESSAGE:=Activar o Desactivar PC
+BTN03_TYPE   :=EDIT
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+
+// Seleccionar
+BTN06_BMP    :=xunlock.BMP
+BTN06_ACTION :=EJECUTAR("DPUSUXEMP",oCursor:PC_IP ,oCursor:PC_NOMBRE ,"DPPCLOG","Usuarios por PC")
+BTN06_WHEN   :=!oCursor:Eof()
+BTN06_TOOLTIP:=Usuarios Autorizados
+BTN06_MESSAGE:=Usuarios Autorizados
+BTN06_TYPE   :=OTHER  
+
+
+
+// Buscar
+BTN07_BMP    :=xFIND.BMP
+BTN07_ACTION :=oDpLbx:Find()
+BTN07_WHEN   :=.T.
+BTN07_TOOLTIP:=Buscar Registro
+BTN07_MESSAGE:=Buscar Registro
+BTN07_TYPE   :=FIND
+
+// Ejecutar Query
+BTN08_BMP    :=QUERY.BMP
+BTN08_ACTION :=oDpLbx:Query()
+BTN08_WHEN   :=.T.
+BTN08_TOOLTIP:=Ejecutar Query de Búsqueda
+BTN08_MESSAGE:=Ejecutar Query de Búsqueda
+BTN08_TYPE   :=QUERY
+
+// Ejecutar Query
+BTN09_BMP    :=xPRINT.BMP
+BTN09_ACTION :=REPORTE("DPPCLOG")
+BTN09_WHEN   :=!oCursor:Eof()
+BTN09_TOOLTIP:=Ejecutar de Reporte
+BTN09_MESSAGE:=Ejecutar de Reporte
+BTN09_TYPE   :=QUERY
+
+//filtro
+BTN11_BMP    :=FILTRAR.BMP
+BTN11_ACTION :=EJECUTAR("LBXSETFILTER",oDpLbx)
+BTN11_WHEN   :=!oCursor:Eof()
+BTN11_TOOLTIP:=Filtrar Registros
+BTN11_MESSAGE:=Filtrar Registros
+BTN11_TYPE   :=OTHER
+
+// Ir Final final del Archivo
+BTN12_BMP    :=xTOP.BMP
+BTN12_ACTION :=oBrw:GoTop()
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Primer Registro
+BTN12_TYPE   :=TOP
+
+// Avance de Pagina
+BTN13_BMP    :=xSIG.BMP
+BTN13_ACTION :=oBrw:PageDown()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Avance de Página
+BTN13_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN14_BMP    :=xANT.BMP
+BTN14_ACTION :=oBrw:PageUp()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Avance de Página
+BTN14_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN15_BMP    :=xFIN.BMP
+BTN15_ACTION :=oBrw:GoBottom()
+BTN15_WHEN   :=!oCursor:Eof()
+BTN15_TOOLTIP:=Ultimo Registro
+BTN15_TYPE   :=BOTTOM
+
+//
+BTN16_BMP    :=xSALIR.BMP
+BTN16_ACTION :=oWnd:End()
+BTN16_WHEN   :=.T.
+BTN16_TOOLTIP:=Cerrar
+BTN16_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Nombre del PC
+COL02_HEADER:=Dirección IP
+COL02_WIDTH :=120
+COL03_HEADER:=Fecha;Ingreso
+COL03_WIDTH :=80
+COL04_HEADER:=Hora;Ingreso
+COL04_WIDTH :=70
+COL05_HEADER:=Hora;Activa
+COL05_WIDTH :=70
+COL06_HEADER:=Fecha;Salida
+COL06_WIDTH :=80
+COL07_HEADER:=Hora;Salida
+COL07_WIDTH :=70
+COL08_HEADER:=Act;BD
+COL08_VIEW  :=4
+COL09_HEADER:=Fecha;Binario
+COL09_WIDTH :=80
+
+COL10_HEADER:=Hora;Binario
+
+COL10_WIDTH :=70
+COL11_HEADER:=Usuario
+
+COL12_HEADER:=Dicc;Datos;Local
+COL12_WIDTH :=55
+COL12_VIEW  :=4
+
+COL13_HEADER:=Fecha;Dicc
+COL13_WIDTH :=70
+
+COL14_HEADER:=Serial;Disco Duro
+COL14_WIDTH :=80
+
+COL15_HEADER:=Act;Remota
+COL15_WIDTH :=55
+
+COL16_HEADER:=Activo
+COL16_WIDTH :=55
+
+COL15_VIEW  :=4
+COL16_VIEW  :=4
+
+
+
+

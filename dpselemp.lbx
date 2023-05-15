@@ -1,0 +1,186 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :=Seleccionar {oDp:xDPEMPRESA}
+TABLE     :=DPEMPRESA
+SELECT    :=EMP_CODIGO,EMP_NOMBRE,EMP_RIF,EMP_FECHAI,EMP_FECHAF,EMP_BD,DATEDIFF(NOW(),EMP_FCHULT) AS DIAS,EMP_FCHULT,IF(INT_BD<>'',COUNT(*),0) AS CUANTOS,EMP_FCHRES, IF(INT_BD<>'',COUNT(*),0)=0 AS LOGICO,EMP_ACTIVA   
+INNER     :=LEFT JOIN DPINTREF ON INT_BD=EMP_BD OR INT_BD IS NULL
+WHERE     :=EMP_ACTIVA=1
+ORDER BY  :=EMP_CODIGO
+GROUP BY  :=EMP_CODIGO
+WIDTH :=1050
+HEIGHT:=920
+APLICACION:=
+TOPIC     :=00M45
+LFULLHIGHT:=.T.    // Abarca todo el Alto Disponible
+
+// Mensaje 
+MESSAGE  :=&oDp:cCodEmp+":"+oDp:cEmpresa
+
+NITEMLEN1:=200
+ITEM1:=&oDp:cFchChkFch
+
+ITEM2:=&oDp:cBdVersion
+NITEMLEN2:=120
+
+
+STYLE     :=0
+COLORPANE1:=16775408
+COLORPANE2:=16771797
+FREEZE    :=0
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=RUN.BMP
+BTN01_ACTION :=SCRRUN("DPRUNEMPNEW",oCursor:EMP_CODIGO,.T.,.T.,.F.,oDpLbx,.F.,.F.)
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Seleccionar
+BTN01_MESSAGE:=Seleccionar Empresa
+BTN01_TYPE   :=OTHER
+
+BTN02_BMP    :=xNEW.BMP
+BTN02_ACTION :=SCRRUN("DPEMPRESA",1,IIF(oCursor:Eof(),NIL,oCursor:EMP_CODIGO),NIL,NIL,NIL,.T.,oDpLbx)
+BTN02_WHEN   :=ISTABMOD("DPEMPRESA")
+BTN02_TOOLTIP:=Incluir
+BTN02_MESSAGE:=Incluir
+BTN02_TYPE   :=NEW
+
+//BTN03_BMP    :=XRUN.BMP
+//BTN03_ACTION :=SCRRUN("DPRUNEMPNEW",oCursor:EMP_CODIGO,.T.,.T.,.T.)
+//BTN03_WHEN   :=
+//BTN03_TOOLTIP:=Revisar Estructura de Datos
+//BTN03_MESSAGE:=Revisar Estructura de Datos
+//BTN03_TYPE   :=OTHER
+
+;BTN04_BMP    :=MENU.BMP
+;BTN04_ACTION :=EJECUTAR("DPEMPRESAMNU",oCursor:EMP_CODIGO)
+;BTN04_WHEN   :=
+;BTN04_TOOLTIP:=Menú de Opciones
+;BTN04_MESSAGE:=Menú de Opciones
+;BTN04_TYPE   :=MENU
+
+BTN03_BMP    :=BUG.BMP
+BTN03_ACTION :=EJECUTAR("DPEMPRUNCHK",.T.,oCursor:EMP_BD)
+BTN03_WHEN   :=FILE("DATADBF\DPTABLAS.DBF")
+BTN03_TOOLTIP:=Revisar Estructura de Datos
+BTN03_MESSAGE:=Revisar Estructura de Datos
+BTN03_TYPE   :=OTHER
+
+
+BTN04_BMP    :=AUDITORIAXCAMPO.BMP
+BTN04_ACTION :=SCRRUN("DPRUNEMPNEW",oCursor:EMP_CODIGO,.T.,.T.,.F.,oDpLbx,.T.)
+BTN04_WHEN   :=
+BTN04_TOOLTIP:=Ejecutar con Traza Ejecución
+BTN04_MESSAGE:=Ejecutar con Traza Ejecución
+BTN04_TYPE   :=OTHER
+
+BTN05_BMP    :=PROCESOS.BMP
+BTN05_ACTION :=(EJECUTAR("DPRUNEMPNEW",oCursor:EMP_CODIGO,.T.,.T.,.F.,oDpLbx,.F.,.F.),EJECUTAR("ADDFIELDS_RELEASE",.T.,.T.,.T.))
+BTN05_WHEN   :=
+BTN05_TOOLTIP:=Ejecutar Actualización del Release
+BTN05_MESSAGE:=Ejecutar Actualización del Release
+BTN05_TYPE   :=OTHER
+
+// Buscar
+BTN07_BMP    :=xFIND.BMP
+BTN07_ACTION :=oDpLbx:Find()
+BTN07_WHEN   :=.T.
+BTN07_TOOLTIP:=Buscar Registro
+BTN07_MESSAGE:=Buscar Registro
+BTN07_TYPE   :=FIND
+
+//filtro
+BTN08_BMP    :=FILTRAR.BMP
+BTN08_ACTION :=EJECUTAR("LBXSETFILTER",oDpLbx)
+BTN08_WHEN   :=!oCursor:Eof()
+BTN08_TOOLTIP:=Filtrar Registros
+BTN08_MESSAGE:=Filtrar Registros
+BTN08_TYPE   :=OTHER
+
+
+// Ir Final final del Archivo
+BTN12_BMP    :=xTOP.BMP
+BTN12_ACTION :=oBrw:GoTop()
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Primer Registro
+BTN12_TYPE   :=TOP
+
+// Pagina Previa
+BTN13_BMP    :=xANT.BMP
+BTN13_ACTION :=oBrw:PageUp()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Avance de Página
+BTN13_TYPE   :=REWIND
+
+// Avance de Pagina
+BTN14_BMP    :=xSIG.BMP
+BTN14_ACTION :=oBrw:PageDown()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Avance de Página
+BTN14_TYPE   :=FORWARD
+
+// Ir Final final del Archivo
+BTN15_BMP    :=xFIN.BMP
+BTN15_ACTION :=oBrw:GoBottom()
+BTN15_WHEN   :=!oCursor:Eof()
+BTN15_TOOLTIP:=Ultimo Registro
+BTN15_TYPE   :=BOTTOM
+
+//
+BTN16_BMP    :=xSALIR.BMP
+BTN16_ACTION :=oWnd:End()
+BTN16_WHEN   :=.T.
+BTN16_TOOLTIP:=Cerrar
+BTN16_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Número
+COL02_HEADER:=Nombre
+COL02_WIDTH :=400
+
+COL03_HEADER:=RIF
+
+COL04_HEADER:=Inicio
+COL05_HEADER:=Cierre
+
+COL06_HEADER:=DSN de Datos
+COL06_WIDTH :=120
+
+COL07_HEADER:=Días
+COL07_WIDTH :=055
+COL07_DATA  :=TRAN(oCursor:DIAS,"9999")
+COL07_ALING :=1
+
+COL08_HEADER:=Ultimo;Ingreso
+COL08_WIDTH :=80
+
+COL09_HEADER:=Inci-;dencias
+COL09_WIDTH :=055
+COL09_DATA  :=TRAN(oCursor:CUANTOS,"999999")
+COL09_ALING :=1
+
+COL10_HEADER:=Fecha;Respaldo
+COL10_WIDTH :=070
+COL10_DATA  :=oCursor:EMP_FCHRES
+COL10_ALING :=1
+
+COL11_HEADER:=BD;OK
+COL11_WIDTH :=035
+COL11_VIEW  :=4
+
+COL12_HEADER:=Activa
+COL12_WIDTH :=055
+COL12_VIEW  :=4
+
+
+

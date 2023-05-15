@@ -1,0 +1,206 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE    :=Programas Fuentes DpXbase   
+TABLE    :=&oDp:cDpProgra 
+SELECT   :=PRG_CODIGO,PRG_DESCRI,PRG_FCHACT,PRG_HORA,PRG_APLICA,PRG_ALTER,LENGTH(PRG_TEXTO),PRG_CODADD
+ORDER BY :=PRG_CODIGO
+//CONCAT(PRG_FECHA,PRG_HORA) DESC
+GROUP BY :=
+PRIMARYKEY:=PRG_CODIGO
+WIDTH :=932
+HEIGHT:=521
+COLORPANE1:=16774636
+COLORPANE2:=16771797
+STYLE     :=0
+FREEZE    :=1
+LFULLHIGHT:=.T.
+
+
+// Tamaño de los Botones
+BTNHEIGHT :=42
+BTNWITH   :=42
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=DPXBASEEDIT(1,oCursor:PRG_CODIGO)
+// SCRRUN("DPPROGRA",1,oCursor:PRG_CODIGO)
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+// BTN02_ACTION :=
+BTN02_ACTION :=DPXBASEEDIT(2,oCursor:PRG_CODIGO)
+BTN02_WHEN   :=.T.
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=DPXBASEEDIT(3,oCursor:PRG_CODIGO)
+BTN03_WHEN   :=.T.
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+BTN04_BMP    :=OPTIONS.BMP
+BTN04_ACTION :=EJECUTAR("LBXSETOPTIONS",oDpLbx)
+BTN04_WHEN   :=.T.
+BTN04_TOOLTIP:=Cpciones de Contenidos Comunes
+BTN04_MESSAGE:=Opciones de Contenidos Comunes
+BTN04_TYPE   :=OTHER
+
+// Eliminar
+BTN05_BMP    :=xDELETE.BMP
+BTN05_ACTION :=EJECUTAR("SCRDELETE",oDpLbx,oCursor:PRG_CODIGO)
+BTN05_WHEN   :=.T.
+BTN05_TOOLTIP:=Eliminar
+
+// Buscar
+BTN06_BMP    :=xFIND.BMP
+BTN06_ACTION :=oDpLbx:Find()
+BTN06_WHEN   :=.T.
+BTN06_TOOLTIP:=Buscar Registro
+BTN06_MESSAGE:=Buscar Registro
+BTN06_TYPE   :=FIND
+
+
+// Ejecutar Query
+BTN07_BMP    :=QUERY.BMP
+BTN07_ACTION :=oDpLbx:Query()
+BTN07_WHEN   :=.T.
+BTN07_TOOLTIP:=Ejecutar Query de Búsqueda
+BTN07_MESSAGE:=Ejecutar Query de Búsqueda
+
+
+// Ejecutar Query
+BTN08_BMP    :=xPRINT.BMP
+BTN08_ACTION :=Reporte("DPPROGRA")
+BTN08_WHEN   :=.T.
+BTN08_TOOLTIP:=Ejecutar de Reporte
+BTN08_MESSAGE:=Ejecutar de Reporte
+
+// Ejecutar Programa
+BTN09_BMP    :=RUN.BMP
+BTN09_ACTION :=EJECUTAR(ALLTRIM(oCursor:PRG_CODIGO))
+BTN09_WHEN   :=.T.
+BTN09_TOOLTIP:=Ejecutar Programa
+BTN09_MESSAGE:=Ejecutar Programa
+
+// Filtrar
+BTN10_BMP    :=VSCODE.BMP
+BTN10_ACTION :=EJECUTAR("RUNVSCODE",ALLTRIM(oCursor:PRG_CODIGO))
+BTN10_WHEN   :=!oCursor:Eof()
+BTN10_TOOLTIP:=Abrir con VSCODE
+BTN10_MESSAGE:=Abrir con VSCODE
+BTN10_TYPE   :=OTHER
+
+// Ejecutar Programa
+BTN11_BMP    :=PROGRAMA.BMP
+BTN11_ACTION :=EJECUTAR("DPPRGFIND",oCursor:PRG_CODIGO)
+BTN11_WHEN   :=.T.
+BTN11_TOOLTIP:=Buscar en Programas
+BTN11_MESSAGE:=Buscar en Programas
+
+// Filtrar
+BTN12_BMP    :=FILTRAR.BMP
+BTN12_ACTION :=EJECUTAR("LBXSETFILTER",oDpLbx)
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Filtrar Registros
+BTN12_MESSAGE:=Filtrar Registros
+BTN12_TYPE   :=OTHER
+
+// Filtrar
+BTN13_BMP    :=LINK.BMP
+BTN13_ACTION :=EJECUTAR("DPPROGRALNK",oCursor:PRG_CODIGO)
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Enlace con Otros Programas
+BTN13_MESSAGE:=Enlace con Otros Programas
+BTN13_TYPE   :=OTHER
+
+// Exportar
+BTN14_BMP    :=EXPORTS.BMP
+BTN14_ACTION :=EJECUTAR("LBXPRGEXPORT",oDpLbx)
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Exportar Programas Fuentes
+BTN14_MESSAGE:=Exportar Programas Fuentes
+BTN14_TYPE   :=OTHER
+
+// Filtrar
+BTN15_BMP    :=PASTE.BMP
+BTN15_ACTION :=EJECUTAR("DPPROGRARECOVER",oCursor:PRG_CODIGO)
+BTN15_WHEN   :=!oCursor:Eof()
+BTN15_TOOLTIP:=Recuperar desde Auditoria
+BTN15_MESSAGE:=Recuperar desde Auditoria
+BTN15_TYPE   :=OTHER
+
+
+// Ir Final final del Archivo
+BTN17_BMP    :=xTOP.BMP
+BTN17_ACTION :=oBrw:GoTop()
+BTN17_WHEN   :=.T.
+BTN17_TOOLTIP:=Primer Registro
+BTN17_TYPE   :=OTHER
+
+// Avance de Pagina
+BTN18_BMP    :=xSIG.BMP
+BTN18_ACTION :=oBrw:PageDown()
+BTN18_WHEN   :=.T.
+BTN18_TOOLTIP:=Avance de Página
+BTN18_TYPE   :=OTHER
+
+// Pagina Previa
+BTN19_BMP    :=xANT.BMP
+BTN19_ACTION :=oBrw:PageUp()
+BTN19_WHEN   :=.T.
+BTN19_TOOLTIP:=Avance de Página
+BTN19_TYPE   :=OTHER
+
+// Ir Final final del Archivo
+BTN20_BMP    :=xFIN.BMP
+BTN20_ACTION :=oBrw:GoBottom()
+BTN20_WHEN   :=.T.
+BTN20_TOOLTIP:=Ultimo Registro
+BTN20_TYPE   :=OTHER
+//
+BTN21_BMP    :=xSALIR.BMP
+BTN21_ACTION :=oWnd:End()
+BTN21_WHEN   :=.T.
+BTN21_TOOLTIP:=Cerrar
+BTN21_TYPE   :=OTHER
+
+// Particularidades de las Columnas
+
+
+[COLUMNAS]
+COL01_HEADER:=Código 
+COL01_WIDTH :=170 
+COL02_HEADER:=Descripción 
+COL02_WIDTH :=380 
+COL03_HEADER:=Fecha;Actualiz.
+COL03_WIDTH :=80 
+COL04_HEADER:=Hora
+COL04_WIDTH :=45 
+COL05_HEADER:=Aplica;ción
+COL05_WIDTH :=45 
+COL06_HEADER:=Persona;lizado
+COL06_VIEW  :=4
+COL06_WIDTH :=54 
+COL07_WIDTH :=54 
+COL07_HEADER:=Longi;tud
+COL08_WIDTH :=60 
+COL08_HEADER:=Cod;Add.
+
+
+
+

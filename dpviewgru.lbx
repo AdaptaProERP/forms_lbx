@@ -1,0 +1,178 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :={oDp:DPVIEWGRU}
+TABLE     :=DPVIEWGRU
+// SELECT    :=VIG_CODIGO,VIG_DESCRI,VIG_TABLA,VIG_INCFRM,VIG_ACTIVO
+SELECT    :=VIG_CODIGO,VIG_DESCRI,VIG_TABLA,TAB_DESCRI,VIG_INCFRM,SUM(IF(VIG_CODIGO=VIR_CODIGO,1,0)) AS CUANTOS,VIG_ACTIVO
+INNER     :=LEFT JOIN DPVIEWGRURUN ON VIG_CODIGO=VIR_CODIGO LEFT JOIN DPTABLAS ON VIG_TABLA=TAB_NOMBRE 
+ORDER BY  :=VIG_CODIGO
+GROUP BY  :=VIG_CODIGO
+WIDTH     :=710
+HEIGHT    :=320
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+
+STYLE     :=0
+COLORPANE1:=16775408
+COLORPANE2:=16771797
+FREEZE    :=1
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPVIEWGRU",1,IIF(oCursor:Eof(),NIL,oCursor:VIG_CODIGO          ))
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=EJECUTAR("DPVIEWGRUCON",oCursor:VIG_CODIGO          )
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPVIEWGRU",3,oCursor:VIG_CODIGO          )
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+BTN05_BMP    :=XBROWSE.BMP
+BTN05_ACTION :=EJECUTAR("DPVIEWGRURUNLBX",oCursor:VIG_CODIGO ,oCursor:VIG_DESCRI)
+BTN05_WHEN   :=
+BTN05_TOOLTIP:=Definir Procesos
+BTN05_MESSAGE:=Definir Procesos
+BTN05_TYPE   :=BRW
+
+
+// Menu
+BTN06_BMP    :=MENU.BMP
+BTN06_ACTION :=EJECUTAR("DPVIEWGRUMNU",oCursor:VIG_CODIGO          )
+BTN06_WHEN   :=!oCursor:Eof()
+BTN06_TOOLTIP:=Menú de Opciones
+BTN06_MESSAGE:=Menú de Opciones
+BTN06_TYPE   :=MENU
+
+// Buscar
+BTN07_BMP    :=xFIND.BMP
+BTN07_ACTION :=oDpLbx:Find()
+BTN07_WHEN   :=.T.
+BTN07_TOOLTIP:=Buscar Registro
+BTN07_MESSAGE:=Buscar Registro
+BTN07_TYPE   :=FIND
+
+// Ejecutar Query
+BTN08_BMP    :=QUERY.BMP
+BTN08_ACTION :=oDpLbx:Query()
+BTN08_WHEN   :=.T.
+BTN08_TOOLTIP:=Ejecutar Query de Búsqueda
+BTN08_MESSAGE:=Ejecutar Query de Búsqueda
+BTN08_TYPE   :=QUERY
+
+// Ejecutar Print
+BTN09_BMP    :=xPRINT.BMP
+BTN09_ACTION :=oDpLbx:PRINT()
+BTN09_WHEN   :=!oCursor:Eof()
+BTN09_TOOLTIP:=Ejecutar de Reporte
+BTN09_MESSAGE:=Ejecutar de Reporte
+BTN09_TYPE   :=QUERY
+
+// Ejecutar Print
+BTN10_BMP    :=Preview.BMP
+BTN10_ACTION :=oDpLbx:Preview()
+BTN10_WHEN   :=!oCursor:Eof()
+BTN10_TOOLTIP:=Previsualizar
+BTN10_MESSAGE:=Previsualizar
+BTN10_TYPE   :=PREVIEW
+
+// Options
+BTN11_BMP    :=OPTIONS.BMP
+BTN11_ACTION :=EJECUTAR("LBXSETOPTIONS",oDpLbx)
+BTN11_WHEN   :=.T.
+BTN11_TOOLTIP:=Opciones de Contenidos Comunes
+BTN11_MESSAGE:=Opciones de Contenidos Comunes
+BTN11_TYPE   :=OTHER
+
+// Filtros
+BTN12_BMP    :=FILTRAR.BMP
+BTN12_ACTION :=EJECUTAR("LBXSETFILTER",oDpLbx)
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Filtrar Registros
+BTN12_MESSAGE:=Filtrar Registros
+BTN12_TYPE   :=OTHER
+
+
+
+// Ir Final final del Archivo
+BTN17_BMP    :=xTOP.BMP
+BTN17_ACTION :=oBrw:GoTop()
+BTN17_WHEN   :=!oCursor:Eof()
+BTN17_TOOLTIP:=Primer Registro
+BTN17_TYPE   :=TOP
+
+// Avance de Pagina
+BTN18_BMP    :=xSIG.BMP
+BTN18_ACTION :=oBrw:PageDown()
+BTN18_WHEN   :=!oCursor:Eof()
+BTN18_TOOLTIP:=Avance de Página
+BTN18_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN19_BMP    :=xANT.BMP
+BTN19_ACTION :=oBrw:PageUp()
+BTN19_WHEN   :=!oCursor:Eof()
+BTN19_TOOLTIP:=Avance de Página
+BTN19_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN20_BMP    :=xFIN.BMP
+BTN20_ACTION :=oBrw:GoBottom()
+BTN20_WHEN   :=!oCursor:Eof()
+BTN20_TOOLTIP:=Ultimo Registro
+BTN20_TYPE   :=BOTTOM
+
+//
+BTN21_BMP    :=xSALIR.BMP
+BTN21_ACTION :=oWnd:End()
+BTN21_WHEN   :=.T.
+BTN21_TOOLTIP:=Cerrar
+BTN21_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL05_VIEW:=4
+COL07_VIEW:=4
+COL01_HEADER:=Código
+COL02_HEADER:=Descripción
+COL02_WIDTH :=200
+COL03_HEADER:=Tabla
+COL04_HEADER:=Nombre de la Tabla
+COL04_WIDTH :=200
+COL05_HEADER:=Incluido;Formulario
+COL06_HEADER:=Cant.;Reg.
+COL07_HEADER:=Activo

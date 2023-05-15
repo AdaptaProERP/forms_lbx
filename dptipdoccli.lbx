@@ -1,0 +1,260 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :={oDp:DPTIPDOCCLI}
+TABLE     :=DPTIPDOCCLI
+SELECT    :=TDC_TIPO  ,TDC_DESCRI,TDC_PRODUC,TDC_INVCON,TDC_INVFIS,TDC_INVLOG,TDC_IVA ,TDC_LIBVTA ,TDC_MNUOTR,TDC_GUIATR,TDC_REQAPR,TDC_DIFPAG,TDC_PRECIO,TDC_CROSSD,TDC_ACTIVO,TDC_CXC,TDC_EXIVAL,CIC_CUENTA,CTA_DESCRI,TDC_DOCDES,TDC_ABREVI,TDC_CLRGRA
+WHERE     :=
+INNER     :=LEFT JOIN DPTIPDOCCLI_CTA ON CIC_CODIGO=TDC_TIPO LEFT JOIN DPCTA ON CIC_CTAMOD=CTA_CODMOD AND CIC_CUENTA=CTA_CODIGO
+ORDER BY  :=TDC_TIPO  
+GROUP BY  :=TDC_TIPO
+WIDTH :=1002
+HEIGHT:=723
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+COLFIND   :=2      // Indica el Numero de Columna de B?squeda,
+LFULLHIGHT:=.T.    // Abarca todo el Alto Disponible
+LHSCROLL  :=.T.
+//TYPEFIND  :=FILTER // Indica el boton de busqueda o FIND
+
+
+STYLE     :=0
+COLORPANE2:=16771022
+COLORPANE1:=16773345
+FREEZE    :=0
+
+
+// Tama?o de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPTIPDOCCLI",1,IIF(oCursor:Eof(),NIL,oCursor:TDC_TIPO))
+BTN01_WHEN   :=(oDp:cIdApl="9")
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=SCRRUN("DPTIPDOCCLICON",NIL,oCursor:TDC_TIPO)
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPTIPDOCCLI",3,oCursor:TDC_TIPO)
+BTN03_WHEN   :=
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+// Eliminar
+BTN05_BMP    :=RUN.BMP
+BTN05_ACTION :=EJECUTAR("CXCFIX",oCursor:TDC_TIPO )
+BTN05_WHEN   :=!oCursor:Eof()
+BTN05_TOOLTIP:=Replantear CxC e Inventario
+BTN05_MESSAGE:=Replantear CxC e Inventario
+BTN05_TYPE   :=OTHER
+
+
+// Buscar
+BTN06_BMP    :=xFIND.BMP
+BTN06_ACTION :=oDpLbx:Find()
+BTN06_WHEN   :=.T.
+BTN06_TOOLTIP:=Buscar Registro
+BTN06_MESSAGE:=Buscar Registro
+BTN06_TYPE   :=FIND
+
+// Ejecutar Query
+//BTN07_BMP    :=variacion.bmp
+//BTN07_ACTION :=scrrun("MODIMPCXC",oCursor:TDC_TIPO)
+//BTN07_WHEN   :=.T.
+//BTN07_TOOLTIP:=Modelo de Implantaci?n
+//BTN07_MESSAGE:=Modelo de Implantaci?n
+//BTN07_TYPE   :=MODIMP
+
+// Ejecutar Query
+BTN07_BMP    :=FIELDS.bmp
+BTN07_ACTION :=EJECUTAR("BRTIPDOCCLICOL",NIL,NIL,NIL,NIL,NIL,NIL,oCursor:TDC_TIPO)
+BTN07_WHEN   :=.T.
+BTN07_TOOLTIP:=Personalizar Columnas
+BTN07_MESSAGE:=Personalizar Columnas
+BTN07_TYPE   :=OTHER
+
+// Ejecutar Query
+BTN09_BMP    :=xPRINT.BMP
+BTN09_ACTION :=REPORTE("DPTIPDOCCLI")
+BTN09_WHEN   :=!oCursor:Eof()
+BTN09_TOOLTIP:=Ejecutar de Reporte
+BTN09_MESSAGE:=Ejecutar de Reporte
+BTN09_TYPE   :=QUERY
+
+// Importar
+BTN10_BMP    :=IMPORTAR.BMP
+BTN10_ACTION :=EJECUTAR("DPTIPDOCCLIIMP",oCursor:TDC_TIPO,oCursor:TDC_DESCRI )
+BTN10_WHEN   :=!oCursor:Eof()
+BTN10_TOOLTIP:=Definir Importaci?n
+BTN10_MESSAGE:=Definir Importaci?n
+BTN10_TYPE   :=OTHER
+
+
+// Importar
+BTN11_BMP    :=FILTRAR.BMP
+BTN11_ACTION :=EJECUTAR("LBXSETFILTER",oDpLbx)
+BTN11_WHEN   :=!oCursor:Eof()
+BTN11_TOOLTIP:=Filtrar Registros
+BTN11_MESSAGE:=Filtrar Registros
+BTN11_TYPE   :=OTHER
+
+// Importar
+BTN12_BMP    :=MENU.BMP
+BTN12_ACTION :=EJECUTAR("DPTIPDOCCLIMNU",oCursor:TDC_TIPO )
+BTN12_WHEN   :=!oCursor:Eof() .AND. oDp:nVersion>=5
+BTN12_TOOLTIP:=Men? de Opciones
+BTN12_MESSAGE:=Men? de Opciones
+BTN12_TYPE   :=OTHER
+
+
+// Ir Final final del Archivo
+BTN13_BMP    :=xTOP.BMP
+BTN13_ACTION :=oBrw:GoTop()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Primer Registro
+BTN13_TYPE   :=TOP
+
+// Avance de Pagina
+BTN14_BMP    :=xSIG.BMP
+BTN14_ACTION :=oBrw:PageDown()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Avance de P?gina
+BTN14_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN15_BMP    :=xANT.BMP
+BTN15_ACTION :=oBrw:PageUp()
+BTN15_WHEN   :=!oCursor:Eof()
+BTN15_TOOLTIP:=Avance de P?gina
+BTN15_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN16_BMP    :=xFIN.BMP
+BTN16_ACTION :=oBrw:GoBottom()
+BTN16_WHEN   :=!oCursor:Eof()
+BTN16_TOOLTIP:=Ultimo Registro
+BTN16_TYPE   :=BOTTOM
+
+//
+BTN18_BMP    :=xSALIR.BMP
+BTN18_ACTION :=oWnd:End()
+BTN18_WHEN   :=.T.
+BTN18_TOOLTIP:=Cerrar
+BTN18_TYPE   :=EXIT
+
+
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL03_VIEW:=4
+COL04_VIEW:=4
+COL05_VIEW:=4
+COL06_VIEW:=4
+COL07_VIEW:=4
+COL01_HEADER:=Tipo
+COL01_WIDTH :=40
+
+COL02_HEADER:=Descripción
+COL02_COLOR :=TDC_CLRGRA
+COL02_WIDTH :=240
+
+COL03_HEADER:=Productos
+COL03_WIDTH :=50
+COL03_VIEW  :=4
+
+COL04_HEADER:=Conta;ble
+COL04_WIDTH :=50
+COL04_VIEW  :=4
+
+COL05_HEADER:=Físico
+COL05_WIDTH :=50
+COL05_VIEW  :=4
+
+COL06_HEADER:=Lógico 
+COL06_WIDTH :=50
+COL06_VIEW  :=4
+
+COL07_HEADER:=IVA
+COL07_WIDTH :=50
+COL07_VIEW  :=4
+COL08_HEADER:=Libro;Venta
+COL08_WIDTH :=50
+COL08_VIEW  :=4
+
+COL09_HEADER:=Menú;Definible
+COL09_WIDTH :=70
+COL09_VIEW  :=4
+
+COL10_HEADER:=Guia;Carga
+COL10_WIDTH :=70
+COL10_VIEW  :=4
+
+COL11_HEADER:=Req;Aprob.
+COL11_WIDTH :=70
+COL11_VIEW  :=4
+
+COL12_HEADER:=Dif de;Pago.
+COL12_WIDTH :=70
+COL12_VIEW  :=4
+
+COL13_HEADER:=Precio;Dinámico
+COL13_WIDTH :=70
+COL13_VIEW  :=4
+
+COL14_HEADER:=Cross;Docking
+COL14_WIDTH :=70
+COL14_VIEW  :=4
+
+COL15_HEADER:=Activo
+COL15_WIDTH :=50
+COL15_VIEW  :=4
+
+COL16_HEADER:=Cuenta;Cobrar
+COL16_WIDTH :=60
+
+COL17_HEADER:=Valida;Exist. 
+COL17_WIDTH :=60
+
+COL18_HEADER:=Cuenta;Contable
+COL18_WIDTH :=120
+
+COL19_HEADER:=Descripción;Contable
+COL19_WIDTH :=120
+
+COL20_HEADER:=Doc.;Dest
+COL20_WIDTH :=40
+
+COL21_HEADER:=Abreviatura
+COL21_WIDTH :=150
+
+COL22_HEADER:=Color;Gráficas
+COL22_WIDTH :=90
+COL22_COLOR :=TDC_CLRGRA
