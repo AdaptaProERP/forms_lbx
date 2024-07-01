@@ -217,7 +217,7 @@ COL09_WIDTH  :=120
 FUNCTION VAL_INV_DESCRI(cDescri,oCol,oLbx,oCursor)
   LOCAL cWhere:="INV_CODIGO"+GetWhere("=",oCursor:INV_CODIGO)
 
-  SQLUPDATE("DPINV","INV_DESCRI",cDescri,cWhere)
+  SQLUPDATE("DPINV","INV_DESCRI",cDescri,cWhere)
 
 RETURN .T.
 
