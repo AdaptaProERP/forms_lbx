@@ -1,0 +1,171 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :={oDp:DPVEHICULOS}
+TABLE     :=DPVEHICULOS
+SELECT    :=VEH_PLACA ,VEH_TIPO,VEH_PESO,VEH_VOLUME,VEH_CODTRA,TRA_DESCRI,VEH_PESTAR,VEH_PESFCH,VEH_PESHOR,VEH_CODINV,VEH_INGRES,VEH_ACTIVO
+ORDER BY  :=VEH_PLACA 
+INNER     :=LEFT JOIN DPTRANSP ON TRA_CODIGO=VEH_CODTRA
+GROUP BY  :=
+
+WIDTH :=852
+HEIGHT:=320
+HEADERLINES:=3
+COLORPANE1:=16774120
+COLORPANE2:=16770764
+FREEZE    :=0
+STYLE     :=0
+GOBOTTOM  :=.F.
+
+
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPVEHICULOS",1,IIF(oCursor:Eof(),NIL,oCursor:VEH_PLACA ),oDpLbx:cCargo )
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=SCRRUN("DPVEHICULOS",2,IIF(oCursor:Eof(),NIL,oCursor:VEH_PLACA ),oDpLbx:cCargo  )
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPVEHICULOS",3,oCursor:VEH_PLACA ,oDpLbx:cCargo  )
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+// Buscar
+BTN06_BMP    :=xFIND.BMP
+BTN06_ACTION :=oDpLbx:Find()
+BTN06_WHEN   :=.T.
+BTN06_TOOLTIP:=Buscar Registro
+BTN06_MESSAGE:=Buscar Registro
+BTN06_TYPE   :=FIND
+
+// Ejecutar Query
+BTN07_BMP    :=QUERY.BMP
+BTN07_ACTION :=oDpLbx:Query()
+BTN07_WHEN   :=.T.
+BTN07_TOOLTIP:=Ejecutar Query de Búsqueda
+BTN07_MESSAGE:=Ejecutar Query de Búsqueda
+BTN07_TYPE   :=QUERY
+
+// Ejecutar Query
+BTN08_BMP    :=xPRINT.BMP
+BTN08_ACTION :=REPORTE("DPVEHICULOS")
+BTN08_WHEN   :=!oCursor:Eof()
+BTN08_TOOLTIP:=Ejecutar de Reporte
+BTN08_MESSAGE:=Ejecutar de Reporte
+BTN08_TYPE   :=QUERY
+
+//filtro
+BTN10_BMP    :=FILTRAR.BMP
+BTN10_ACTION :=EJECUTAR("LBXSETFILTER",oDpLbx)
+BTN10_WHEN   :=!oCursor:Eof()
+BTN10_TOOLTIP:=Filtrar Registros
+BTN10_MESSAGE:=Filtrar Registros
+BTN10_TYPE   :=OTHER
+
+// Ir Final final del Archivo
+BTN11_BMP    :=xTOP.BMP
+BTN11_ACTION :=oBrw:GoTop()
+BTN11_WHEN   :=!oCursor:Eof()
+BTN11_TOOLTIP:=Primer Registro
+BTN11_TYPE   :=TOP
+
+// Avance de Pagina
+BTN12_BMP    :=xSIG.BMP
+BTN12_ACTION :=oBrw:PageDown()
+BTN12_WHEN   :=!oCursor:Eof()
+BTN12_TOOLTIP:=Avance de Página
+BTN12_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN13_BMP    :=xANT.BMP
+BTN13_ACTION :=oBrw:PageUp()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Avance de Página
+BTN13_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN14_BMP    :=xFIN.BMP
+BTN14_ACTION :=oBrw:GoBottom()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Ultimo Registro
+BTN14_TYPE   :=BOTTOM
+
+//
+BTN15_BMP    :=xSALIR.BMP
+BTN15_ACTION :=oWnd:End()
+BTN15_WHEN   :=.T.
+BTN15_TOOLTIP:=Cerrar
+BTN15_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER:=Placa
+COL02_HEADER:=Tipo de Vehiculo
+COL02_DATA  :=oCursor:VEH_TIPO 
+COL03_HEADER:=Capacidad;Toneladas
+COL03_PICTURE:="999,999,999"
+
+COL04_HEADER:=Capacidad;M Cúbicos
+COL05_WIDTH :=60
+
+
+COL05_HEADER:=Cód.;Transp
+COL05_WIDTH :=40
+
+COL06_HEADER:=Nombre del Transportista
+COL06_WIDTH :=200
+
+COL07_HEADER :=Peso (KG);Transporte;Tara
+COL07_WIDTH  :=200
+COL07_PICTURE:="999,999,999"
+
+COL08_HEADER:=Fecha;Peso;Tara
+COL08_WIDTH :=70
+
+COL09_HEADER:=Hora;Peso;Tara
+COL09_WIDTH :=70
+
+COL10_HEADER:=Código;Producto
+COL10_WIDTH :=70
+
+COL11_HEADER:=Ingresado
+COL11_WIDTH :=60
+COL11_VIEW  :=4
+
+COL12_HEADER:=Activo
+COL12_WIDTH :=60
+COL12_VIEW  :=4
+
+
+

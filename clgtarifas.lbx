@@ -1,0 +1,268 @@
+//
+// TABLAS DE DATAOS
+//
+TITLE     :=Tarifas
+TABLE     :=DPINV
+SELECT    :=INV_CODIGO,INV_DESCRI,IME_UNDMED,PRE_LISTA,PRE_CODMON,PRE_PRECIO,PRE_MONNAC,INV_COSADQ,GRU_DESCRI
+INNER     :=LEFT JOIN DPGRU ON INV_GRUPO=GRU_CODIGO LEFT JOIN VIEW_UNDMEDXINV ON INV_CODIGO=IME_CODIGO LEFT JOIN VIEW_DPINVPRECIOS ON DPINV.INV_CODIGO=PRE_CODIGO 
+INNER     :=
+WHERE     :=INV_UTILIZ="Afiliación"
+ORDER BY  :=INV_CODIGO
+GROUP BY  :=
+WIDTH :=1033
+HEIGHT:=609
+APLICACION:=
+TOPIC     :=
+FILECHM   :=
+INIGET    :=EJECUTAR("LBXINIGET","DPINV","INV_DESCRI")
+
+
+COLORPANE1:=16775408
+COLORPANE2:=16771797
+STYLE     :=0
+FREEZE    :=2
+ 
+// Tamaño de los Botones
+BTNHEIGHT :=50
+BTNWITH   :=40
+
+// Color de los Botones
+BTNCLRPANE:=0
+BTNCLRTEXT:=0
+
+// Antes de Borrar
+[BOTONES]
+BTN01_BMP    :=xNEW.BMP
+BTN01_ACTION :=SCRRUN("DPINV",1,IIF(oCursor:Eof(),NIL,oCursor:INV_CODIGO),"Afiliación","CLGAFILIACION.SCG")
+BTN01_WHEN   :=
+BTN01_TOOLTIP:=Incluir
+BTN01_MESSAGE:=Incluir
+BTN01_TYPE   :=NEW
+
+// Consultar
+BTN02_BMP    :=VIEW.BMP
+BTN02_ACTION :=SCRRUN("DPINVCON",NIL,oCursor:INV_CODIGO,"Afiliación","CLGAFILIACION.SCG")
+BTN02_WHEN   :=!oCursor:Eof()
+BTN02_TOOLTIP:=Consultar
+BTN02_MESSAGE:=Consultar
+BTN02_TYPE   :=VIEW
+
+// Modificar
+BTN03_BMP    :=xEDIT.BMP
+BTN03_ACTION :=SCRRUN("DPINV",3,oCursor:INV_CODIGO,"Afiliación","CLGAFILIACION.SCG")
+BTN03_WHEN   :=!oCursor:Eof()
+BTN03_TOOLTIP:=Modificar
+BTN03_MESSAGE:=Modificar
+BTN03_TYPE   :=OPEN
+
+
+// Eliminar
+BTN04_BMP    :=xDELETE.BMP
+BTN04_ACTION :=oDpLbx:Delete()
+BTN04_WHEN   :=!oCursor:Eof()
+BTN04_TOOLTIP:=Eliminar
+BTN04_MESSAGE:=Eliminar Registro
+BTN04_TYPE   :=DELETE
+
+// Eliminar
+BTN05_BMP    :=MENU.BMP
+BTN05_ACTION :=EJECUTAR("DPINVMENU",oCursor:INV_CODIGO,oCursor:INV_DESCRI)
+
+BTN05_WHEN   :=ISTABMOD("DPINV")
+BTN05_TOOLTIP:=Menú de Opciones
+BTN05_MESSAGE:=Menú de Opciones
+BTN05_TYPE   :=DELETE
+
+
+
+
+// Buscar
+BTN06_BMP    :=xFIND.BMP
+BTN06_ACTION :=oDpLbx:Find()
+BTN06_WHEN   :=.T.
+BTN06_TOOLTIP:=Buscar Registro
+BTN06_MESSAGE:=Buscar Registro
+BTN06_TYPE   :=FIND
+
+// Ejecutar Query
+BTN07_BMP    :=QUERY.BMP
+BTN07_ACTION :=oDpLbx:Query()
+BTN07_WHEN   :=.T.
+BTN07_TOOLTIP:=Ejecutar Query de Búsqueda
+BTN07_MESSAGE:=Ejecutar Query de Búsqueda
+BTN07_TYPE   :=QUERY
+
+// Ejecutar Query
+BTN08_BMP    :=xPRINT.BMP
+BTN08_ACTION :=REPORTE("DPINV")
+BTN08_WHEN   :=!oCursor:Eof()
+BTN08_TOOLTIP:=Ejecutar de Reporte
+BTN08_MESSAGE:=Ejecutar de Reporte
+BTN08_TYPE   :=QUERY
+
+BTN09_BMP    :=OPTIONS.BMP
+BTN09_ACTION :=EJECUTAR("LBXSETOPTIONS",oDpLbx)
+BTN09_WHEN   :=.T.
+BTN09_TOOLTIP:=Opciones de Contenidos Comunes
+BTN09_MESSAGE:=Opciones de Contenidos Comunes
+BTN09_TYPE   :=OTHER
+
+
+//filtro
+BTN10_BMP    :=FILTRAR.BMP
+BTN10_ACTION :=EJECUTAR("LBXSETFILTER",oDpLbx)
+BTN10_WHEN   :=!oCursor:Eof()
+BTN10_TOOLTIP:=Filtrar Registros
+BTN10_MESSAGE:=Filtrar Registros
+BTN10_TYPE   :=OTHER
+
+//filtro
+// BTN11_BMP    :=GRUPOS.BMP
+// BTN11_ACTION :=EJECUTAR("BRGRUSELINV",oDpLbx)
+// BTN11_WHEN   :=!oCursor:Eof()
+// BTN11_TOOLTIP:=Filtrar Registros por Grupos
+// BTN11_MESSAGE:=Filtrar Registros por Grupos
+// BTN11_TYPE   :=OTHER
+
+//filtro
+// BTN12_BMP    :=MARCA2.BMP
+// BTN12_ACTION :=EJECUTAR("BRMARSELINV",oDpLbx)
+// BTN12_WHEN   :=!oCursor:Eof()
+// BTN12_TOOLTIP:=Filtrar Registros por Marcas
+// BTN12_MESSAGE:=Filtrar Registros por Marcas
+// BTN12_TYPE   :=OTHER
+
+
+
+
+// Ir Final final del Archivo
+BTN13_BMP    :=xTOP.BMP
+BTN13_ACTION :=oBrw:GoTop()
+BTN13_WHEN   :=!oCursor:Eof()
+BTN13_TOOLTIP:=Primer Registro
+BTN13_TYPE   :=TOP
+
+// Avance de Pagina
+BTN14_BMP    :=xSIG.BMP
+BTN14_ACTION :=oBrw:PageDown()
+BTN14_WHEN   :=!oCursor:Eof()
+BTN14_TOOLTIP:=Avance de Página
+BTN14_TYPE   :=FORWARD
+
+// Pagina Previa
+BTN15_BMP    :=xANT.BMP
+BTN15_ACTION :=oBrw:PageUp()
+BTN15_WHEN   :=!oCursor:Eof()
+BTN15_TOOLTIP:=Avance de Página
+BTN15_TYPE   :=REWIND
+
+// Ir Final final del Archivo
+BTN16_BMP    :=xFIN.BMP
+BTN16_ACTION :=oBrw:GoBottom()
+BTN16_WHEN   :=!oCursor:Eof()
+BTN16_TOOLTIP:=Ultimo Registro
+BTN16_TYPE   :=BOTTOM
+
+//
+BTN17_BMP    :=xSALIR.BMP
+BTN17_ACTION :=oWnd:End()
+BTN17_WHEN   :=.T.
+BTN17_TOOLTIP:=Cerrar
+BTN17_TYPE   :=EXIT
+
+// Particularidades de las Columnas
+
+[COLUMNAS]
+COL01_HEADER :=Código 
+COL01_WIDTH  :=100
+
+COL02_HEADER :=Descripción
+COL02_WIDTH  :=300
+
+COL03_HEADER :=Medida
+COL03_WIDTH  :=50
+
+COL04_HEADER :=Tarifa
+COL04_WIDTH  :=50
+
+COL05_HEADER :=Divisa
+COL05_WIDTH  :=50
+
+COL06_HEADER :=Monto;Divisa
+COL06_PICTURE:=999,999,999,999.99
+COL06_WIDTH  :=50
+COL06_VALID   :=VAL_PRE_PRECIO
+COL06_EDITTYPE:=1
+
+COL07_HEADER  :=Monto;Bs.
+COL07_PICTURE :=999,999,999,999.99
+COL07_WIDTH   :=50
+COL07_VALID   :=VAL_PRE_MONNAC
+COL07_EDITTYPE:=1
+
+COL08_HEADER :=Inscripción;En Divisa
+COL08_PICTURE:=999,999,999,999.99
+COL08_WIDTH  :=50
+
+COL09_HEADER :=Grupo
+COL09_WIDTH  :=120
+
+/*
+// Validar Precio de Venta
+*/
+FUNCTION VAL_PRE_PRECIO(nPrecio,oCol,oLbx,oCursor)
+  LOCAL cWhere,nValCam,nPrecioBs
+
+  cWhere:="PRE_CODIGO"+GetWhere("=",oCursor:INV_CODIGO )+ " AND "+;
+          "PRE_UNDMED"+GetWhere("=",oCursor:IME_UNDMED )+ " AND "+;
+          "PRE_LISTA" +GetWhere("=",oCursor:PRE_LISTA  )+ " AND "+;
+          "PRE_CODMON"+GetWhere("=",oCursor:PRE_CODMON )
+
+  IF ISSQLFIND("DPPRECIOS",cWhere)
+     SQLUPDATE("DPPRECIOS","PRE_PRECIO",nPrecio,cWhere)
+  ELSE
+     EJECUTAR("DPINVPRECIOCREA",oCursor:INV_CODIGO ,oCursor:PRE_LISTA,oCursor:IME_UNDMED,oCursor:PRE_CODMON,nPrecio)
+  ENDIF
+
+  nValCam  :=SQLGET("VIEW_DPINVPRECIOS","PRE_DIVISA",cWhere)
+  nPrecioBs:=ROUND(nPrecio*nValCam,2)
+
+  // Refresca Columna Bs
+  oLbx:Replace("PRE_MONNAC",nPrecioBs)
+
+RETURN .T.
+
+/*
+// PRECIO NACIONAL
+*/
+FUNCTION VAL_PRE_MONNAC(nPrecio,oCol,oLbx,oCursor)
+  LOCAL cWhere,nValCam,nPrecioD:=0
+
+  cWhere:="PRE_CODIGO"+GetWhere("=",oCursor:INV_CODIGO )+ " AND "+;
+          "PRE_UNDMED"+GetWhere("=",oCursor:IME_UNDMED )+ " AND "+;
+          "PRE_LISTA" +GetWhere("=",oCursor:PRE_LISTA  )+ " AND "+;
+          "PRE_CODMON"+GetWhere("=",oCursor:PRE_CODMON )
+
+  nValCam  :=SQLGET("VIEW_DPINVPRECIOS","PRE_DIVISA",cWhere)
+  nPrecioD :=ROUND(nPrecio/nValCam,3)
+
+  IF ISSQLFIND("DPPRECIOS",cWhere)
+     SQLUPDATE("DPPRECIOS","PRE_PRECIO",nPrecioD,cWhere)
+  ELSE
+     EJECUTAR("DPINVPRECIOCREA",oCursor:INV_CODIGO ,oCursor:PRE_LISTA,oCursor:IME_UNDMED,oCursor:PRE_CODMON,nPrecioD)
+  ENDIF
+
+  // Refresca Columna $
+  oLbx:Replace("PRE_PRECIO",nPrecioD) 
+
+RETURN .T.
+
+/*
+// Ejecuta en Cada bChange de oLbx:oBrw
+*/
+FUNCTION ONCHANGE()
+RETURN .T.
+// EOF
+
+
+
