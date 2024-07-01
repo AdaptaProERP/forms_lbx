@@ -219,7 +219,7 @@ FUNCTION VAL_INV_DESCRI(cDescri,oCol,oLbx,oCursor)
 
   SQLUPDATE("DPINV","INV_DESCRI",cDescri,cWhere)
 
-RETURN .T.
+RETURN .T.
 
 /*
 // Validar Precio de Venta
@@ -277,7 +277,7 @@ RETURN .T.
 FUNCTION VAL_INV_COSADQ(nPrecio,oCol,oLbx,oCursor)
   LOCAL cWhere:="INV_CODIGO"+GetWhere("=",oCursor:INV_CODIGO)
 
-  SQLUPDATE("DPINV","INV_COSADQ",nPrecio,cWhere)
+  SQLUPDATE("DPINV","INV_COSADQ",nPrecio,cWhere)
 
 RETURN .T.
 
