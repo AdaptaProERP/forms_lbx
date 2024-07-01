@@ -178,6 +178,8 @@ COL01_WIDTH  :=100
 
 COL02_HEADER :=Descripción
 COL02_WIDTH  :=300
+COL02_VALID  :=VAL_INV_DESCRI
+COL02_LENGTH :=120
 
 COL03_HEADER :=Medida
 COL03_WIDTH  :=50
@@ -203,9 +205,21 @@ COL07_EDITTYPE:=1
 COL08_HEADER :=Inscripción;En Divisa
 COL08_PICTURE:=999,999,999,999.99
 COL08_WIDTH  :=50
+COL08_VALID  :=VAL_INV_COSADQ
 
 COL09_HEADER :=Grupo
-COL09_WIDTH  :=120
+COL09_WIDTH  :=120
+
+
+/*
+// PRECIO INSCRIPCION
+*/
+FUNCTION VAL_INV_DESCRI(cDescri,oCol,oLbx,oCursor)
+  LOCAL cWhere:="INV_CODIGO"+GetWhere("=",oCursor:INV_CODIGO)
+
+  SQLUPDATE("DPINV","INV_DESCRI",cDescri,cWhere)
+
+RETURN .T.
 
 /*
 // Validar Precio de Venta
@@ -258,11 +272,18 @@ FUNCTION VAL_PRE_MONNAC(nPrecio,oCol,oLbx,oCursor)
 RETURN .T.
 
 /*
+// PRECIO INSCRIPCION
+*/
+FUNCTION VAL_INV_COSADQ(nPrecio,oCol,oLbx,oCursor)
+  LOCAL cWhere:="INV_CODIGO"+GetWhere("=",oCursor:INV_CODIGO)
+
+  SQLUPDATE("DPINV","INV_COSADQ",nPrecio,cWhere)
+
+RETURN .T.
+
+/*
 // Ejecuta en Cada bChange de oLbx:oBrw
 */
 FUNCTION ONCHANGE()
 RETURN .T.
-// EOF
-
-
-
+// EOF
